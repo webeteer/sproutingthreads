@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Greenacorn_Greenmodule>
+            <active>false</active>
+            <codePool>local</codePool>
+        </Greenacorn_Greenmodule>
+    </modules>
+</config>

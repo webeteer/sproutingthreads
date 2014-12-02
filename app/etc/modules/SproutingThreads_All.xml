@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <sproutingthreads_stadminmodule>
+            <active>true</active>
+            <codePool>local</codePool>
+        </sproutingthreads_stadminmodule>
+    </modules>
+</config>

@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<config>
+    <menu>
+        <sproutingthreads translate="title" module="sproutingthreads_stadminmodule">
+            <title>Sprouting Threads</title>
+            <sort_order>9999</sort_order>
+            <action>stadminmodule/index/index</action>
+        </sproutingthreads>
+    </menu>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<sproutingthreads translate="title" module="sproutingthreads_stadminmodule">
+						<title>Top Level Sprouting Threads Menu Item</title>
+						<sort_order>1</sort_order>
+					</sproutingthreads>
+				</children>
+			</admin>
+		</resources>
+	</acl>	
+</config>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <sproutingthreads_stadminmodule>
+            <version>1.0.0</version>
+            <depends>
+                <!-- no dependencies -->
+            </depends>
+        </sproutingthreads_stadminmodule>
+    </modules>
+    <global>
+        <models />
+        <blocks />
+        <resources />
+        <extraconfig />
+        <helpers>
+            <stadminmodule>
+                <class>SproutingThreads_STAdminModule_Helper</class>
+            </stadminmodule>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <sproutingthreads_stadminmodule>
+                <use>admin</use>
+                <args>
+                    <module>sproutingthreads_stadminmodule</module>
+                    <frontName>stadminmodule</frontName>
+                </args>
+            </sproutingthreads_stadminmodule>
+        </routers>
+    </admin>
+</config>

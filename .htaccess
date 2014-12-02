@@ -1,3 +1,9 @@
+AuthType Basic
+AuthName "Restricted Access"
+AuthUserFile /var/www/vhosts/sproutingthreads.com/passwords
+Require user tester
+
+
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /

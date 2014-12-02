@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <greenacorn_greenmodule>
+            <version>1.0.0</version>
+            <depends>
+                <!-- no dependencies -->
+            </depends>
+        </greenacorn_greenmodule>
+    </modules>
+    <global>
+        <models />
+        <blocks />
+        <resources />
+        <extraconfig />
+        <helpers>
+            <greenmodule>
+                <class>Greenacorn_Greenmodule_Helper</class>
+            </greenmodule>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <greenacorn_greenmodule>
+                <use>admin</use>
+                <args>
+                    <module>Greenacorn_Greenmodule</module>
+                    <frontName>greenmodule</frontName>
+                </args>
+            </greenacorn_greenmodule>
+        </routers>
+    </admin>
+</config>
