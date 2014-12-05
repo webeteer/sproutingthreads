@@ -27,7 +27,23 @@
     <link rel="stylesheet" href="css/animate.min.css" media="all">
     <link rel="stylesheet" href="css/style.css" media="all">
     <link rel="stylesheet" href="css/color.css" media="all">
-    <!-- Favicons
+    <!-- Forms CSS & JS
+    ================================================== -->
+    <link rel="stylesheet" href="css/sky-forms.css">
+	<link rel="stylesheet" href="css/sky-forms-green.css">
+		<!--[if lt IE 9]>
+			<link rel="stylesheet" href="css/sky-forms-ie8.css">
+		<![endif]-->
+		
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<!--[if lt IE 10]>
+			<script src="js/jquery.placeholder.min.js"></script>
+		<![endif]-->		
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+			<script src="js/sky-forms-ie8.js"></script>
+		<![endif]-->
     ================================================== -->
     <link rel="shortcut icon" href="images/elements/favicon.ico">
     <link rel="apple-touch-icon" href="images/elements/apple-touch-icon.png">
@@ -39,7 +55,6 @@
 	<link rel="stylesheet" type="text/css" href="css/MyFontsWebfontsKit.css">
     <!-- Load Main jQuery Files
     ================================================== -->
-    <script src="js/jquery.min.js"></script>
     <script src="js/SmoothScroll.js"></script>
     <script src="js/modernizr.js"></script>
     <script src="js/device.min.js"></script>
@@ -55,7 +70,6 @@
     <script src="js/wow.min.js"></script>
     <script src="js/retina.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&amp;sensor=false"></script>
-    <script src="js/custom.js"></script>
 
 
     <!--[if lt IE 9]>
@@ -294,8 +308,186 @@
                           </div>
                         </div>
                     </div>
-                    <div class="alignright column eight">
-                    <p align="right"><img src="images/elements/profile.png" alt="sizing-chart" /></p>
+                    <div class="alignright column seven">
+                    	<!-- Start Details Form -->
+                            <form action="" id="sky-form" class="sky-form">
+					
+                    <fieldset>
+                    <div class="row">
+						<label class="label col col-4">birthday</label>
+						<section class="col col-5">
+                        <label class="input">
+							<i class="icon-append fa fa-calendar"></i>
+							<input type="text" name="date" id="date">
+						</label>
+						</section>
+                    </div>		
+                    <div class="row">
+                    	<label class="label col col-4">current height</label>
+						<section class="col col-5">
+							<label class="select">
+								<select name="country">
+									<option value="0" selected="" disabled="">32" (2'-8")</option>
+									<option value="1">xx" (x'-x")</option>
+									<option value="2">xx" (x'-x")</option>
+									<option value="3">xx" (x'-x")</option>
+									<option value="4">xx" (x'-x")</option>
+									<option value="5">xx" (x'-x")</option>
+									<option value="6">xx" (x'-x")</option>
+									<option value="7">xx" (x'-x")</option>
+									<option value="8">xx" (x'-x")</option>
+									<option value="9">xx" (x'-x")</option>
+									<option value="10">xx" (x'-x")</option>
+									<option value="11">xx" (x'-x")</option>
+									<option value="12">xx" (x'-x")</option>
+									<option value="13">xx" (x'-x")</option>
+									<option value="14">xx" (x'-x")</option>
+									<option value="15">xx" (x'-x")</option>
+									<option value="16">xx" (x'-x")</option>
+									<option value="17">xx" (x'-x")</option>
+									<option value="18">xx" (x'-x")</option>
+									<option value="19">xx" (x'-x")</option>
+									<option value="20">xx" (x'-x")</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+					</div>
+                    <div class="row">
+                    	<label class="label col col-4">current weight</label>
+						<section class="col col-5">
+							<label class="input">
+								<input type="text" name="weight" placeholder="weight">
+							</label>
+						</section>
+					</div>
+                    <div class="row">
+                    	<label class="label col col-4">current top size</label>
+						<section class="col col-5">
+							<label class="select">
+								<select name="country">
+									<option value="0" selected="" disabled="">tops</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+                        </div>
+                    	<div class="row">
+                        <label class="label col col-4">current bottom size</label>
+                        <section class="col col-5">
+							<label class="select">
+								<select name="country">
+									<option value="0" selected="" disabled="">bottoms</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+                        </div>
+                    	<div class="row">
+                        <label class="label col col-4">current dress size</label>
+                        <section class="col col-5">
+							<label class="select">
+								<select name="country">
+									<option value="0" selected="" disabled="">dresses</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+                        </div>
+					</div>
+					</fieldset>
+			</form>
+		</div>
+		
+		<script type="text/javascript">
+			$(function()
+			{
+				// Regular datepicker
+				$('#date').datepicker({
+					dateFormat: 'dd.mm.yy',
+					prevText: '<i class="fa fa-chevron-left"></i>',
+					nextText: '<i class="fa fa-chevron-right"></i>'
+				});
+				
+				// Date range
+				$('#start').datepicker({
+					dateFormat: 'dd.mm.yy',
+					prevText: '<i class="fa fa-chevron-left"></i>',
+					nextText: '<i class="fa fa-chevron-right"></i>',
+					onSelect: function( selectedDate )
+					{
+						$('#finish').datepicker('option', 'minDate', selectedDate);
+					}
+				});
+				$('#finish').datepicker({
+					dateFormat: 'dd.mm.yy',
+					prevText: '<i class="fa fa-chevron-left"></i>',
+					nextText: '<i class="fa fa-chevron-right"></i>',
+					onSelect: function( selectedDate )
+					{
+						$('#start').datepicker('option', 'maxDate', selectedDate);
+					}
+				});
+				
+				// Inline datepicker
+				$('#inline').datepicker({
+					dateFormat: 'dd.mm.yy',
+					prevText: '<i class="fa fa-chevron-left"></i>',
+					nextText: '<i class="fa fa-chevron-right"></i>'
+				});
+				
+				// Inline date range
+				$('#inline-start').datepicker({
+					dateFormat: 'dd.mm.yy',
+					prevText: '<i class="fa fa-chevron-left"></i>',
+					nextText: '<i class="fa fa-chevron-right"></i>',
+					onSelect: function( selectedDate )
+					{
+						$('#inline-finish').datepicker('option', 'minDate', selectedDate);
+					}
+				});
+				$('#inline-finish').datepicker({
+					dateFormat: 'dd.mm.yy',
+					prevText: '<i class="fa fa-chevron-left"></i>',
+					nextText: '<i class="fa fa-chevron-right"></i>',
+					onSelect: function( selectedDate )
+					{
+						$('#inline-start').datepicker('option', 'maxDate', selectedDate);
+					}
+				});
+			});			
+		</script>
+        <!-- End Details Form -->
                     </div>
         		</div>
         </div>

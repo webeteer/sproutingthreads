@@ -223,7 +223,7 @@ section {
     padding: 115px 0 0 0;
 }
 section section {
-    background-color: #fff;
+    background: none;
 }
 .post .column {
     margin-bottom: 25px;
