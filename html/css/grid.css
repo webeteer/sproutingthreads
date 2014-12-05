@@ -103,6 +103,9 @@ li.widget {list-style: none;}
 .left {
 	text-align: right;
 }
+.center {
+	margin: auto;
+}
 
 /* Forms
 ================================================== */

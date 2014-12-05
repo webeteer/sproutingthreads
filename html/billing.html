@@ -27,6 +27,24 @@
     <link rel="stylesheet" href="css/animate.min.css" media="all">
     <link rel="stylesheet" href="css/style.css" media="all">
     <link rel="stylesheet" href="css/color.css" media="all">
+    <!-- Forms CSS & JS
+    ================================================== -->
+    <link rel="stylesheet" href="css/sky-forms.css">
+	<link rel="stylesheet" href="css/sky-forms-green.css">
+    <!--[if lt IE 9]>
+			<link rel="stylesheet" href="css/sky-forms-ie8.css">
+		<![endif]-->
+		
+		<script src="js/jquery.validate.min.js"></script>
+		<script src="js/jquery.maskedinput.min.js"></script>
+		<!--[if lt IE 10]>
+			<script src="js/jquery.placeholder.min.js"></script>
+		<![endif]-->		
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+			<script src="js/sky-forms-ie8.js"></script>
+		<![endif]-->
+        
     <!-- Favicons
     ================================================== -->
     <link rel="shortcut icon" href="images/elements/favicon.ico">
@@ -129,11 +147,374 @@
                             <div class="space"></div>
 						</div>
 						<div class="row">
-                        	<div class="column twelve">
+                        	<div class="form-section">
                             <h1>shipping details</h1>
-                            <div class="space"></div>
-                            <img src="images/elements/billing-placeholder.png" alt="billing">
-                            <a href="#" class="lm-button lb fill">go!</a>
+                            <!-- Start Billing Form -->
+                            <form action="" id="sky-form" class="sky-form">				
+				<fieldset>					
+					<div class="row">
+						<section class="col col-6">
+							<label class="input">
+								<input type="text" name="fname" placeholder="first name">
+							</label>
+						</section>
+						<section class="col col-6">
+							<label class="input">
+								<input type="text" name="lname" placeholder="last name">
+							</label>
+						</section>
+					</div>
+					
+					<div class="row">
+						<section class="col col-6">
+							<label class="input">
+								<input type="email" name="email" placeholder="email">
+							</label>
+						</section>
+						<section class="col col-6">
+							<label class="input">
+								<input type="tel" name="phone" placeholder="phone">
+							</label>
+						</section>
+					</div>
+				</fieldset>
+				
+				<fieldset>
+                	<section>
+                            <label for="file" class="input">
+                                <input type="text" name="address" placeholder="address">
+                            </label>
+					</section>
+					<div class="row">
+                    	<section class="col col-5">
+							<label class="input">
+								<input type="text" name="city" placeholder="city">
+							</label>
+						</section>
+						<section class="col col-4">
+							<label class="select">
+								<select name="state">
+									<option value="0" selected disabled>State</option>
+									<option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                
+                                    <option value="DC">Dist of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+								<select>
+								<i></i>
+							</label>
+						</section>
+												
+						<section class="col col-3">
+							<label class="input">
+								<input type="text" name="code" placeholder="zip">
+							</label>
+						</section>
+					</div>
+					
+					<section>
+						<label class="textarea">
+							<textarea rows="3" name="info" placeholder="additional info"></textarea>
+						</label>
+					</section>
+				</fieldset>
+                <div class="space"></div>
+				<h1>billing details</h1>
+				<fieldset>
+					<section>
+						<div class="inline-group">
+							<label class="radio"><input type="radio" name="radio-inline" checked><i></i>Visa</label>
+							<label class="radio"><input type="radio" name="radio-inline"><i></i>MasterCard</label>
+							<label class="radio"><input type="radio" name="radio-inline"><i></i>American Express</label>
+						</div>
+					</section>					
+					
+					<section>
+						<label class="input">
+							<input type="text" name="name" placeholder="name on card">
+						</label>
+					</section>
+                    
+                    <section>
+						<label class="input">
+							<input type="text" name="card" id="card" placeholder="credit card number">
+						</label>
+                    </section>
+					
+					<div class="row">
+						<section class="col col-4">
+							<label class="select">
+								<select name="month">
+									<option value="0" selected disabled>exp. mo.</option>
+									<option value="1">January</option>
+									<option value="1">February</option>
+									<option value="3">March</option>
+									<option value="4">April</option>
+									<option value="5">May</option>
+									<option value="6">June</option>
+									<option value="7">July</option>
+									<option value="8">August</option>
+									<option value="9">September</option>
+									<option value="10">October</option>
+									<option value="11">November</option>
+									<option value="12">December</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+						<section class="col col-4">
+							<label class="select">
+								<select name="year">
+									<option value="0" selected disabled>exp. year</option>
+									<option value="1">2014</option>
+									<option value="1">2015</option>
+									<option value="3">2016</option>
+									<option value="4">2017</option>
+									<option value="5">2018</option>
+									<option value="6">2019</option>
+									<option value="7">2020</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+						<section class="col col-4">
+							<label class="input">
+								<input type="text" name="cvv" id="cvv" placeholder="cvv">
+							</label>
+						</section>
+					</div>
+                    <section>
+						<label class="input">
+							<input type="text" name="promo" placeholder="promo code">
+						</label>
+					</section>
+                    <section>
+						<div class="row">
+							<div class="col col-2"></div>
+							<div class="col col-10">
+								<label class="checkbox"><input type="checkbox" name="terms" checked><i></i>I‘ve read & accept the <a href="#" class="blue-link">terms & conditions</a></label>
+							</div>
+						</div>
+					</section>
+				</fieldset>
+				
+				<footer>
+					<button type="submit" class="button">go</button>
+				</footer>
+			</form>			
+		</div>
+		
+		<script type="text/javascript">
+			$(function()
+			{
+				// Masking
+				$('#cvv').mask('999', {placeholder:'X'});
+				$('#card').mask('9999-9999-9999-9999', {placeholder:'X'});
+				$('#year').mask('2099', {placeholder:'X'});
+				
+				// Add validation method
+				$.validator.addMethod("creditcard", function(value, element, param)
+				{
+					if( /[^0-9\-]+/.test(value) )
+					{
+						return false;
+					}
+				},
+				$.validator.format('Please enter a valid credit card number.'));
+				
+				// Validation
+				$('#sky-form').validate(
+				{					
+					// Rules for form validation
+					rules:
+					{
+						fname:
+						{
+							required: true
+						},
+						lname:
+						{
+							required: true
+						},
+						email:
+						{
+							required: true,
+							email: true
+						},
+						phone:
+						{
+							required: true
+						},
+						country:
+						{
+							required: true
+						},
+						city:
+						{
+							required: true
+						},
+						code:
+						{
+							required: true,
+							digits: true
+						},
+						address:
+						{
+							required: true
+						},
+						name:
+						{
+							required: true
+						},
+						card:
+						{
+							required: true,
+							creditcard: true
+						},
+						cvv:
+						{
+							required: true,
+							digits: true
+						},
+						month:
+						{
+							required: true
+						},
+						year:
+						{
+							required: true,
+							digits: true
+						}
+					},
+										
+					// Messages for form validation
+					messages:
+					{
+						fname:
+						{
+							required: 'Please enter your first name'
+						},
+						lname:
+						{
+							required: 'Please enter your last name'
+						},
+						email:
+						{
+							required: 'Please enter your email address',
+							email: 'Please enter a VALID email address'
+						},
+						phone:
+						{
+							required: 'Please enter your phone number'
+						},
+						country:
+						{
+							required: 'Please select your country'
+						},
+						city:
+						{
+							required: 'Please enter your city'
+						},
+						code:
+						{
+							required: 'Please enter code',
+							digits: 'Digits only please'
+						},
+						address:
+						{
+							required: 'Please enter your full address'
+						},
+						name:
+						{
+							required: 'Please enter name on your card'
+						},
+						card:
+						{
+							required: 'Please enter your card number'
+						},
+						cvv:
+						{
+							required: 'Enter CVV2',
+							digits: 'Digits only'
+						},
+						month:
+						{
+							required: 'Select month'
+						},
+						year:
+						{
+							required: 'Enter year',
+							digits: 'Digits only please'
+						}
+					},					
+					
+					// Do not change code below
+					errorPlacement: function(error, element)
+					{
+						error.insertAfter(element.parent());
+					}
+				});
+			});			
+		</script>
+        <!-- End Billing Form -->
                         	</div>
                     </div>
         </div>

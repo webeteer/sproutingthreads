@@ -1709,6 +1709,10 @@ ul.social li a:hover {
     max-width: 475px;
 	text-align: left;
 }
+.form-section {
+	margin: auto;
+    max-width: 525px;
+}
 .main-section-billing h1 {
 	text-align: center;
 }
