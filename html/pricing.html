@@ -27,6 +27,23 @@
     <link rel="stylesheet" href="css/animate.min.css" media="all">
     <link rel="stylesheet" href="css/style.css" media="all">
     <link rel="stylesheet" href="css/color.css" media="all">
+    <!-- Forms CSS & JS
+    ================================================== -->
+    <link rel="stylesheet" href="css/sky-forms.css">
+	<link rel="stylesheet" href="css/sky-forms-green.css">
+    <!--[if lt IE 9]>
+			<link rel="stylesheet" href="css/sky-forms-ie8.css">
+		<![endif]-->
+		
+		<script src="js/jquery.validate.min.js"></script>
+		<script src="js/jquery.maskedinput.min.js"></script>
+		<!--[if lt IE 10]>
+			<script src="js/jquery.placeholder.min.js"></script>
+		<![endif]-->		
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+			<script src="js/sky-forms-ie8.js"></script>
+		<![endif]-->
     <!-- Favicons
     ================================================== -->
     <link rel="shortcut icon" href="images/elements/favicon.ico">
@@ -138,20 +155,111 @@
     <section class="section-3-billing">
         <div class="container">
                     	<div class="row">
-                        	<div class="column twelve">
-                        		<h1>johnny’s threads</h1><br>
-                                <img src="images/elements/pricing.png" alt="pricing"><br>
-                                <p>Note:</p>
-                                <div class="list-section">
-                                    <ul class="arrow">
-                                        <li>Piece counts are approximate, we may provide an extra-special piece or more pieces if we find a great deal for you</li>
-                                        <li>Pause your subscription at any time. Free returns if something isn’t right</li>
-                                        <li>Clothes can be <a href="rethread.html" class="blue-link">reThread</a> for credit of 20% of value.</li>
+                        	<div class="pricing-container">
+                        		<h1>johnny’s threads</h1>
+                                <div class="row">
+                            <div class="column four">
+                                <div class="table quantity">
+                                    <ul class="list-box">
+                                    <li>
+                                        <h1 class="title-box-pink">quantity</h1>
+                                        <div class="list-box-container pink-border">
+                                            <div class="list-box-content">
+                                                <ul>
+                                                    <li class="pink-border-bottom">4 pieces</li>
+                                                    <li class="pink-border-bottom">6 pieces</li>
+                                                    <li class="pink-border-bottom">10 pieces</li>
+                                                    <li class="pink-border-bottom">12 pieces</li>
+                                                    <li class="pink-border-bottom">18 pieces</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
                                     </ul>
-								</div>
+                                </div>
+                            </div>
+                            <div class="column four">
+                                <div class="table assortment">
+                                    <ul class="list-box">
+                                    <li>
+                                        <h1 class="title-box">all new</h1>
+                                        <div class="list-box-container">
+                                            <div class="list-box-content">
+                                                <ul>
+                                                    <li class="green-border-bottom">$130 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$180 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$290 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$340 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$500 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="column four">
+                                <div class="table frequency">
+                                    <ul class="list-box">
+                                    <li>
+                                        <h1 class="title-box">50/50 blend</h1>
+                                        <div class="list-box-container">
+                                            <div class="list-box-content">
+                                                <ul>
+                                                    <li class="green-border-bottom">$90 &nbsp;&nbsp;&nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$130 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$210 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$250 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                    <li class="green-border-bottom">$360 &nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>
+                            <div class="column twelve">
+                                <div class="table-frequency">
+                                    <ul class="list-box">
+                                    <li>
+                                        <h1 class="title-box-blue">frequency</h1>
+                                        <div class="list-box-container blue-border">
+                                            <div class="list-box-content ">
+                                                <ul>
+                                                    <li>monthly &nbsp;&nbsp;&nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h1 class="title-box-blue">frequency</h1>
+                                        <div class="list-box-container blue-border">
+                                            <div class="list-box-content">
+                                                <ul>
+                                                    <li>seasonal &nbsp;&nbsp;&nbsp;<form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>
+                            </div>
                         	</div>
-                    </div>
-        </div>
+                                <div class="row">
+                                    <div class="column twelve">
+                                        <div class="list-section">
+                                        	<br>
+                                            <p>Note:</p>
+                                            <ul class="arrow">
+                                                <li>Piece counts are approximate, we may provide an extra-special piece or more pieces if we find a great deal for you</li>
+                                                <li>Pause your subscription at any time. Free returns if something isn’t right</li>
+                                                <li>Clothes can be <a href="rethread.html" class="blue-link">reThread</a> for credit of 20% of value.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+        						</div>
+				</div>
     </section>
 	<!-- section-2 table area -->
     <section class="main-section-pricing">
@@ -165,8 +273,23 @@
                             <br>
                             <p>for <strong>seasonal orders</strong>, please indicate below if you would
 like to start immediately or for next season</p>
-                            <img src="images/elements/start-options.png" alt="pricing">
+							<div class="column six">
+                                <div class="table">
+                                    <form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form>
+                                    <span class="table-title">start right away</span>
+                                    <span class="table-title bold">ships 00/00/00</span>
+                                </div>
+                            </div>
+                            <div class="column six">
+                                <div class="table">
+                                    <form action="" id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="terms" checked><i></i></label></form>
+                                    <span class="table-title">start right away</span>
+                                    <span class="table-title bold">ships 00/00/00</span>
+                                </div>
+                            </div> 
+                            <div class="column twelve">                           
                             <a href="billing.html" class="lm-button lb fill">billing</a><br><br><br>
+                            </div>
                             </div>
 						</div>
         </div>
@@ -197,6 +320,158 @@ like to start immediately or for next season</p>
 
     </section>
 
-
+<script type="text/javascript">
+			$(function()
+			{
+				// Masking
+				$('#cvv').mask('999', {placeholder:'X'});
+				$('#card').mask('9999-9999-9999-9999', {placeholder:'X'});
+				$('#year').mask('2099', {placeholder:'X'});
+				
+				// Add validation method
+				$.validator.addMethod("creditcard", function(value, element, param)
+				{
+					if( /[^0-9\-]+/.test(value) )
+					{
+						return false;
+					}
+				},
+				$.validator.format('Please enter a valid credit card number.'));
+				
+				// Validation
+				$('#sky-form').validate(
+				{					
+					// Rules for form validation
+					rules:
+					{
+						fname:
+						{
+							required: true
+						},
+						lname:
+						{
+							required: true
+						},
+						email:
+						{
+							required: true,
+							email: true
+						},
+						phone:
+						{
+							required: true
+						},
+						country:
+						{
+							required: true
+						},
+						city:
+						{
+							required: true
+						},
+						code:
+						{
+							required: true,
+							digits: true
+						},
+						address:
+						{
+							required: true
+						},
+						name:
+						{
+							required: true
+						},
+						card:
+						{
+							required: true,
+							creditcard: true
+						},
+						cvv:
+						{
+							required: true,
+							digits: true
+						},
+						month:
+						{
+							required: true
+						},
+						year:
+						{
+							required: true,
+							digits: true
+						}
+					},
+										
+					// Messages for form validation
+					messages:
+					{
+						fname:
+						{
+							required: 'Please enter your first name'
+						},
+						lname:
+						{
+							required: 'Please enter your last name'
+						},
+						email:
+						{
+							required: 'Please enter your email address',
+							email: 'Please enter a VALID email address'
+						},
+						phone:
+						{
+							required: 'Please enter your phone number'
+						},
+						country:
+						{
+							required: 'Please select your country'
+						},
+						city:
+						{
+							required: 'Please enter your city'
+						},
+						code:
+						{
+							required: 'Please enter code',
+							digits: 'Digits only please'
+						},
+						address:
+						{
+							required: 'Please enter your full address'
+						},
+						name:
+						{
+							required: 'Please enter name on your card'
+						},
+						card:
+						{
+							required: 'Please enter your card number'
+						},
+						cvv:
+						{
+							required: 'Enter CVV2',
+							digits: 'Digits only'
+						},
+						month:
+						{
+							required: 'Select month'
+						},
+						year:
+						{
+							required: 'Enter year',
+							digits: 'Digits only please'
+						}
+					},					
+					
+					// Do not change code below
+					errorPlacement: function(error, element)
+					{
+						error.insertAfter(element.parent());
+					}
+				});
+			});			
+		</script>
+        <!-- End Billing Form -->
 </body>
 </html>

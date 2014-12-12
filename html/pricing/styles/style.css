@@ -1,0 +1,91 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* PRICING BOX */
+.pricing-container {
+	width: 60%; margin: 0 auto; background-color:#CCC ;
+}
+ul.list-box{margin:0; padding:0; list-style-type:none; list-style-position:outside;}
+ul.list-box li{ margin-top:15px;}
+ul.list-box > li{
+	background: none;
+	float:left;
+	width:233px;
+	text-align:center;
+	padding:0 5px;
+	margin:0;
+	position:relative;
+	z-index:2
+ }
+ul.list-box li.noborder{border:0;}
+ul.list-box li.current{border:0; z-index:4}
+ul.list-box .title-box{margin-bottom:0; padding-top:10px; font:27px 'AvantGardeGothicITCW02Md', sans-serif; font-weight: normal; color:#fff; background:#a5bf3a; border: none;}
+ul.list-box li.current .title-box{background-color:#102c32;}
+ul.list-box li.last{margin-right:0;}
+ul.list-box .currency{font-size:22px; margin-top:12px; display:inline-block; vertical-align:top;}
+ul.list-box .price-text{
+	margin:0; color:#2a2e31; padding:13px 0; vertical-align:top;
+	background:#cdcfd0 url(../images/price-box.gif) repeat-x;
+}
+ul.list-box .price{font-size:52px; font-weight:normal; line-height:54px; padding:0; margin:0}
+ul.list-box .price span{ font-size:18px; font-weight:normal; margin:0 0 0 -8px; padding:0}
+ul.list-box li.current{
+	margin-top:-10px;
+	-moz-box-shadow: 0px 0px 18px #000;
+	-webkit-box-shadow: 0px 0px 18px #000;
+	box-shadow: 0px 0px 18px #000;
+	padding-bottom:20px
+}
+
+.list-box-container{
+	padding:0;
+	margin-top:0;
+	border: 5px solid #a5bf3a;
+}
+.list-box-container .button{ margin-left:0px; font-size:12px; padding:0; line-height:20px}
+.list-box-content{ margin:0; padding:0 }
+.list-box-content ul{margin:0px auto;  padding:0; list-style-type:none;}
+.list-box-content ul li{margin:0; padding:10px 10px 10px 60px; color: #898585; font:27px 'AvantGardeGothicITCW02Md', sans-serif; font-weight: normal; list-style-type:none; text-align:left; background-image:url(../images/arrow-sidebar.png); background-repeat:no-repeat; background-position:30px 10px; border-bottom: 5px solid #a5bf3a; border-top:1px solid #ffffff}
+.list-box-content ul li:last-child{border:0; margin-bottom: 0}
+.list-box-content ul li:first-child{border-top:0px;}
+
+/* Pricing Table */
+.table-box-container{ width:940px;}
+.table-box-container ul{ margin:0px; padding:0;float:left; }
+.table-box-container ul li{ float:left; list-style-type:none; padding:0; margin:0; color:#707070 !important; width:230px;  border-left:1px solid #fff;  }
+.table-box-container ul li h4{ margin:0px; font-size:13px;}
+.table-box-container ul li.one{ padding-left:20px; width:225px}
+.table-box-container ul li.two{text-align:center}
+.table-box-container ul li.three{text-align:center;}
+.table-box-container ul li.four{text-align:center;}
+ul.table_header li.one{width:245px; padding-left:0}
+
+.table-box-container .arr{
+	background-image:url(../images/arrow-sidebar.png); background-repeat:no-repeat; background-position:0px 0px; display:block; line-height:20px; padding:0 0 0 30px;
+}
+
+ul.tbl-odd{ background-color:#f8f8f8; float:left; border-bottom:solid 1px #dedede; border-top:1px solid #fff; }
+ul.tbl-odd li{width:230px; padding:12px 0; border-left:1px solid #dedede;  min-height:20px}
+ul.tbl-even{ background-color:#f8f8f8; float:left; border-bottom:solid 1px #dedede; border-top:1px solid #fff;  }
+ul.tbl-even li{width:230px; padding:12px 0; border-left:1px solid #dedede; min-height:20px }
+ul.tbl-even.noborder{ border-bottom:0px;}
+ul.tbl-price{ border:0px; font-size:18px;}
+ul.tbl-price a, ul.tbl-price a:visited{ color:#707070; text-decoration:underline; font-size:12px;}
+ul.tbl-price a:hover{ text-decoration:none;}
+
+ul.tbl-odd li.one, ul.tbl-even li.one{border-left:solid 1px #fff} 
+
+.table-box-container .title-box{margin-bottom:0; padding:8px 0 8px 0px; font-size:17px; color:#fdfdfd; background:#303437 url(../images/title-box.gif) repeat-x}
+.table-box-container li.one .title-box{padding:8px 0 8px 20px;}
+.table-box-container .currency{font-size:22px; margin-top:12px; display:inline-block; vertical-align:top;}
+.table-box-container .price-text{
+	margin:0; color:#2a2e31; padding:13px 0; vertical-align:top;
+	background:#cdcfd0 url(../images/price-box.gif) repeat-x;
+	 height:60px
+}
+.table-box-container .price{font-size:52px; font-weight:normal; line-height:54px; padding:0; margin:0;}
+.table-box-container .price span{ font-size:18px; font-weight:normal; margin:0 0 0 -8px; padding:0}
+.table-box-container .button{ margin-left:0px; font-size:12px; padding:5px 20px 8px 20px; line-height:20px}
+
+
+

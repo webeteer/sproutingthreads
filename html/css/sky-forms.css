@@ -15,6 +15,12 @@
 	border: none;
 	background: none;
 }
+.sky-form fieldset no-pad {
+	display: inline;	
+	padding: 0;
+	border: none;
+	background: none;
+}
 .sky-form fieldset + fieldset {
 	border: none;
 }
@@ -55,12 +61,16 @@
 .sky-form .select,
 .sky-form .textarea,
 .sky-form .radio,
-.sky-form .checkbox,
 .sky-form .toggle,
 .sky-form .button {
 	position: relative;
 	display: block;
 }
+.sky-form .checkbox {
+	position: relative;
+	display: inline-block;
+}
+
 .sky-form .input input,
 .sky-form .select select,
 .sky-form .textarea textarea {
@@ -191,8 +201,7 @@
 	cursor: pointer;
 }
 .sky-form .checkbox {
-	margin-bottom: 4px;
-	padding: 5px 0 10px 0;
+	padding: 0 0 22px 10px;
 	font-size: 15px;
 	line-height: 27px;
 	color: #444444;
@@ -219,10 +228,8 @@
 	border-style: solid;
 	background: #fff;
 }
-
 .sky-form .checkbox i {
 	position: absolute;
-	top: 5px;
 	left: 0;
 	display: block;
 	width: 19px;
