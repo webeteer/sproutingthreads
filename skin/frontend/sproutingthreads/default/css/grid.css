@@ -103,6 +103,9 @@ li.widget {list-style: none;}
 .left {
 	text-align: right;
 }
+.center {
+	margin: auto;
+}
 
 /* Forms
 ================================================== */
@@ -186,7 +189,7 @@ button, input[type="button"], input[type="reset"], input[type="submit"] {
 .container {
   margin: 0 auto;
   max-width: 1140px; /* Change per design */
-  width: 90%; /* For responsive, 5% left and right of mobile phone screen. */
+  width: 100%; /* For responsive, 5% left and right of mobile phone screen. */
 }
 
 .column { margin-bottom: 1.5em; }
