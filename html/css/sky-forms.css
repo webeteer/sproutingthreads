@@ -49,6 +49,7 @@
 .sky-form .label.col {
 	margin: 0;
 	padding-top: 10px;
+	font-size: 22px;
 }
 .sky-form .note {
 	margin-top: 6px;
@@ -85,7 +86,7 @@
 	border-style: solid;
 	border-radius: 0;
 	background: #f7f7f7;
-	font: 20px 'AvantGardeGothicITCW02XLt', sans-serif;
+	font: 18px 'AvantGardeGothicITCW02XLt', sans-serif;
 	color: #444444;
 	appearance: normal;
 	-moz-appearance: none;
@@ -147,8 +148,7 @@
 	right: 14px;
 	width: 5px;
 	height: 11px;
-	background: #fff;
-	box-shadow: 0 0 0 12px #fff;
+	background: #f7f7f7;
 }
 .sky-form .select i:after,
 .sky-form .select i:before {
@@ -1049,4 +1049,64 @@
 .sky-form .radio + .radio,
 .sky-form .checkbox + .checkbox {
   margin-top: 0;
+}
+
+/**/
+/* girl-boy check */
+/**/
+.girl {
+	height: 228px;
+	width: 70px;
+	display: inline;
+}
+.boy {
+	height: 228px;
+	width: 70px;
+	display: inline;
+	margin-top: 20px;
+}
+
+.girl input[type=checkbox] {
+display:none;
+}
+ 
+.girl input[type=checkbox] + label
+{
+background: url("../images/elements/girl-unchecked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+.girl input[type=checkbox]:checked + label
+{
+background: url("../images/elements/girl-checked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+.boy input[type=checkbox] {
+display:none;
+}
+ 
+.boy input[type=checkbox] + label
+{
+background: url("../images/elements/boy-unchecked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+.boy input[type=checkbox]:checked + label
+{
+background: url("../images/elements/boy-checked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
 }

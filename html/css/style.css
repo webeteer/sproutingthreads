@@ -1979,7 +1979,7 @@ ul.social li a:hover {
     margin-top: 115px;
     background-color: #fff;
     height: 450px;
-    padding: 60px 0;
+    padding: 0;
 }
 .top-section-start h1 {
 	color: #fff;
@@ -2239,7 +2239,14 @@ ul.social li a:hover {
 /* Tablet Landscape */
 
 @media screen and (max-width: 1024px) {
-
+	.container {
+	 margin: 0 auto;
+	 max-width: 1140px; /* Change per design */
+	 width: 95%; /* For responsive, 5% left and right of mobile phone screen. */
+}
+	.home-image {
+	background: url('../images/bg/home-1-tablet.jpg');
+}
 
     .leftalign .section-header {
         width: 100%;
