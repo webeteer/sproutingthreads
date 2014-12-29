@@ -55,6 +55,7 @@
 
                 <!-- Add vendor dependencies -->
                 <action method="addItem"><type>skin_js</type><name>js/jquery.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery-ui.min.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/SmoothScroll.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/modernizr.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/device.min.js</name></action>				
@@ -70,7 +71,8 @@
 					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&amp;sensor=false"></script>
                 <action method="addItem"><type>skin_js</type><name>js/.js</name></action>
 				-->
-                <action method="addItem"><type>skin_js</type><name>js/js/custom.js</name></action>
+
+                <action method="addItem"><type>skin_js</type><name>js/custom.js</name></action>
 
 				
 				
@@ -81,6 +83,8 @@
                 <action method="addItem"><type>skin_css</type><name>css/animate.min.css</name></action>
                 <action method="addItem"><type>skin_css</type><name>css/style.css</name></action>
                 <action method="addItem"><type>skin_css</type><name>css/color.css</name></action>
+                <action method="addItem"><type>skin_css</type><name>css/sky-forms.css</name></action>
+				<action method="addItem"><type>skin_css</type><name>css/main.css</name></action>
 
                 <!-- Sets viewport meta tag using text block -->
                 <block type="core/text" name="head.viewport">
