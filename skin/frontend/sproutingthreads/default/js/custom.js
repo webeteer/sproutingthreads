@@ -10,8 +10,6 @@ if (!Array.prototype.indexOf) {
 
 (function($){
     
-    "use strict";
-
         $(document).ready(function(){
 
         /* Loader - Remove it to disable loader

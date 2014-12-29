@@ -1,0 +1,9 @@
+/** Integration CSS **/
+
+.picky-copy a {
+	display: inline-block;
+}
+
+.picky-copy textarea {
+	margin-bottom: 0px;
+}
