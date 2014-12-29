@@ -36,18 +36,18 @@
 						<img src="<?php echo $this->getSkinUrl('images/elements/logo.png'); ?>" alt="Sprouting Threads">
 					</a>
 			</div>
-			<nav id="navigation" class="column nine hide-on-mobile">
+			<nav role="custom-dropdown">
+				<input type="checkbox" id="button">
+				<label for="button" onclick></label>
 				<ul>
 					<li><a href="/styles">styles</a></li>
 					<li><a href="/about">about</a></li>
 					<li><a href="/rethreads">reThreads</a></li>
 					<li><a href="/faq">faq</a></li>
-					<li><a href="/customer/account">myAccount</a></li>
+					<li><a href="/child-subscription.html" class="lm-button ls fill">go</a></li>
+                    <li><a href="/customer/account" class="lm-button-grey ls fill">log in</a></li>
 				</ul>
 			</nav>
-			<a href="#" id="menu-toggle-wrapper">
-				<div id="menu-toggle"></div>
-			</a>
 		</div>
 		<!-- close .ha-header-perspective -->
 	</div>

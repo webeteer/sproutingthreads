@@ -90,7 +90,7 @@
                     <li>
                     <label class="collapse-vintage-btn" for="collapse-1"><h1 class="white">vintage</h1><h1 class="white right">+</h1></label>
                     <input class="collapse-vintage-open" type="checkbox" id="collapse-1" aria-hidden="true" hidden />
-                        <div class="collapse-vintage-painel">
+                        <div class="collapse-vintage-panel">
                             <div class="collapse-vintage-inner">
                                 <div class="container">
                                     <div class="row">
@@ -102,7 +102,7 @@
                                         <div class="alignright column eight">
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
-                                                <img src="images/select/select.jpg" alt="select">
+                                                <img src="<?php echo $this->getSkinUrl('images/select/select.jpg'); ?>" alt="select">
                                                 <p>1 of 3</p>
                                             </div>
                                             <div class="select-options">
@@ -121,7 +121,7 @@
                     <li>
                     <label class="collapse-classic-btn" for="collapse-2"><h1 class="white">classic</h1><h1 class="white right">+</h1></label>
                     <input class="collapse-classic-open" type="checkbox" id="collapse-2" aria-hidden="true" hidden />
-                        <div class="collapse-classic-painel">
+                        <div class="collapse-classic-panel">
                             <div class="collapse-classic-inner">
                                 <div class="container">
                                     <div class="row">
@@ -133,7 +133,7 @@
                                         <div class="alignright column eight">
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
-                                                <img src="images/select/select-classic.jpg" alt="select">
+                                                <img src="<?php echo $this->getSkinUrl('images/select/select-classic.jpg'); ?>" alt="select">
                                                 <p>1 of 3</p>
                                             </div>
                                             <div class="select-options">
@@ -152,7 +152,7 @@
                     <li>
                     <label class="collapse-sporty-btn" for="collapse-3"><h1 class="white">sporty</h1><h1 class="white right">+</h1></label>
                     <input class="collapse-sporty-open" type="checkbox" id="collapse-3" aria-hidden="true" hidden />
-                        <div class="collapse-sporty-painel">
+                        <div class="collapse-sporty-panel">
                             <div class="collapse-sporty-inner">
                                 <div class="container">
                                     <div class="row">
@@ -164,7 +164,7 @@
                                         <div class="alignright column eight">
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
-                                                <img src="images/select/select-sporty.jpg" alt="select">
+                                                <img src="<?php echo $this->getSkinUrl('images/select/select-sporty.jpg'); ?>" alt="select">
                                                 <p>1 of 3</p>
                                             </div>
                                             <div class="select-options">
@@ -183,7 +183,7 @@
                     <li>
                     <label class="collapse-funky-btn" for="collapse-4"><h1 class="white">funky</h1><h1 class="white right">+</h1></label>
                     <input class="collapse-funky-open" type="checkbox" id="collapse-4" aria-hidden="true" hidden />
-                        <div class="collapse-funky-painel">
+                        <div class="collapse-funky-panel">
                             <div class="collapse-funky-inner">
                                 <div class="container">
                                     <div class="row">
@@ -195,7 +195,7 @@
                                         <div class="alignright column eight">
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
-                                                <img src="images/select/select-funky.jpg" alt="select">
+                                                <img src="<?php echo $this->getSkinUrl('images/select/select-funky.jpg'); ?>" alt="select">
                                                 <p>1 of 3</p>
                                             </div>
                                             <div class="select-options">
@@ -228,7 +228,7 @@
                             <label class="modal__close" for="modal-1"></label>
                             <h1 class="white">sizing chart</h1>
                             <h4 class="white">All brands have slightly different sizing.<br>We take this intoconsideration when selecting your clothes.</h4>
-                            <img src="images/elements/sizing-chart.png" alt="sizing-chart" />
+                            <img src="<?php echo $this->getSkinUrl('images/elements/sizing-chart.png'); ?>" alt="sizing-chart" />
                           </div>
                         </div>
                     </div>
@@ -413,12 +413,12 @@
     <section class="start-section-4">
         <div class="container">
         		<div class="row">
-                	<div class="alignleft column six"><img src="<?php echo $this->getSkinUrl('images/bg/picky.jpg'); ?>" alt="picky"></div>
-                    <div class="alignright column six right top-30">
+                	<div class="alignleft column six top-30"><img src="<?php echo $this->getSkinUrl('images/bg/picky.jpg'); ?>" alt="picky"></div>
+                    <div class="picky-copy">
                     <h5>anything you’re picky about?!</h5><br>
-                    <p style="padding-left:35px;">any preferred colors or patterns? does your child like his or her clothes extra loose or extra tight? is your child allergic to any specific materials? feel free to add any extra comments below.</p><br>
-					<textarea style="float:right; margin-bottom:35px;" name="message" id="message" cols="30" rows="3"></textarea>
-                    <a href="#" class="lm-button lb fill">add child</a><span style="padding-left:73px;"></span><a href="/checkout/cart/" class="lm-button lb fill">next</a>
+                    <p>any preferred colors or patterns? does your child like his or her clothes extra loose or extra tight? is your child allergic to any specific materials? feel free to add any extra comments below.</p><br>
+					<textarea name="message" id="message" cols="30" rows="3"></textarea>
+                    <a href="#" class="lm-button lb fill">add child</a><a href="pricing.html" class="lm-button lb fill">next</a>
                     </div>
         		</div>
         </div>
