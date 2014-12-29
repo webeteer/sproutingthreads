@@ -31,4 +31,14 @@
  
   
 @font-face {font-family: 'AvantGardeGothicITCW02Md';src: url('../fonts/webfonts/2C6F81_1_0.eot');src: url('../fonts/webfonts/2C6F81_1_0.eot?#iefix') format('embedded-opentype'),url('../fonts/webfonts/2C6F81_1_0.woff2') format('woff2'),url('../fonts/webfonts/2C6F81_1_0.woff') format('woff'),url('../fonts/webfonts/2C6F81_1_0.ttf') format('truetype');}
+
+
+/* ITC Avant Garde Book */
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/2cbe94");
+
+  
+@font-face {font-family: 'ITCAvantGardeW04-Book';src: url('../fonts/webfonts/2CBE94_0_0.eot');src: url('../fonts/webfonts/2CBE94_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/webfonts/2CBE94_0_0.woff2') format('woff2'),url('../fonts/webfonts/2CBE94_0_0.woff') format('woff'),url('../fonts/webfonts/2CBE94_0_0.ttf') format('truetype');}
  
