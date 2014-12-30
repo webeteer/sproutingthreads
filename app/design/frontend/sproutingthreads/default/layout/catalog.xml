@@ -195,7 +195,8 @@ Product view
             <action method="addJs"><script>varien/product.js</script></action>
             <action method="addJs"><script>varien/configurable.js</script></action>
             <action method="addItem"><type>skin_js</type><script>js/lib/elevatezoom/jquery.elevateZoom-3.0.8.min.js</script></action>
-
+			<action method="addItem"><type>skin_js</type><name>js/product.js</name></action>
+			
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
@@ -295,9 +296,12 @@ Additional block dependant on product type
             <block type="catalog/product_view_type_simple" name="product.info.availability" as="product_type_availability" template="catalog/product/view/type/availability/default.phtml" />
         </reference>
     </PRODUCT_TYPE_simple>
+	
     <PRODUCT_TYPE_configurable translate="label" module="catalog">
         <label>Catalog Product View (Configurable)</label>
+		
         <reference name="product.info">
+
             <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/default.phtml">
                 <block type="core/text_list" name="product.info.configurable.extra" as="product_type_data_extra" translate="label">
                     <label>Product Extra Info</label>
@@ -312,6 +316,8 @@ Additional block dependant on product type
             </block>
         </reference>
     </PRODUCT_TYPE_configurable>
+
+	
     <PRODUCT_TYPE_grouped translate="label" module="catalog">
         <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">

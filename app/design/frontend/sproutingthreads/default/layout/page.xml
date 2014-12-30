@@ -71,9 +71,10 @@
 					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&amp;sensor=false"></script>
                 <action method="addItem"><type>skin_js</type><name>js/.js</name></action>
 				-->
-
+				
+				<!--
                 <action method="addItem"><type>skin_js</type><name>js/custom.js</name></action>
-
+				-->
 				
 				
                 <action method="addLinkRel"><rel>stylesheet</rel><href>//fonts.googleapis.com/css?family=Raleway:300,400,500,700,600</href></action>

@@ -7,3 +7,116 @@
 .picky-copy textarea {
 	margin-bottom: 0px;
 }
+
+html {
+	height: 100% !important;
+}
+
+/** Product Detail Page **/
+
+.girl input[type=radio] {
+display:none;
+}
+ 
+.girl input[type=radio] + label
+{
+background: url("../images/elements/girl-unchecked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+.girl input[type=radio]:checked + label
+{
+background: url("../images/elements/girl-checked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+.boy input[type=radio] {
+display:none;
+}
+ 
+.boy input[type=radio] + label
+{
+background: url("../images/elements/boy-unchecked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+.boy input[type=radio]:checked + label
+{
+background: url("../images/elements/boy-checked.png");
+height: 208px;
+width: 70px;
+display:inline-block;
+margin-top: 20px;
+padding: 0 0 0 0px;
+}
+
+input[type=radio].error + label {
+	border: 3px solid #f00;
+}
+
+#productSub #name {
+	margin: 95px 0 0 20px;
+}
+
+#productSub .error {
+	border-color: #f00;
+}
+
+.birthdayRow section {
+	padding-right: 0px !important;
+}
+
+.birthdayRow .col-1 {
+	width: 80px;
+}	
+
+.home-image {
+	
+}
+
+#productSub .product-view {
+	display: none;
+}
+
+
+
+/** Cart / Pricing **/
+
+#cart input[type=checkbox] {
+	top: 0px;
+	left: 0px;
+}
+
+.optionSet a {
+	color: #ccc;
+	outline: none;
+}
+
+.optionSet .textLabel {
+	color: #ccc;
+}
+
+.optionSet .active .textLabel {
+	color: #898585;
+}
+
+.optionSet a.active {
+	color: #898585;
+}
+
+.SELECTED {
+	border: 1px solid #f00;
+}
+
+.textLabel {
+	font-size: 27px;
+}
