@@ -14,7 +14,8 @@ if (!Array.prototype.indexOf) {
 
         /* Loader - Remove it to disable loader
         ================================================== */
-        jQuery("body").queryLoader2({
+        /*
+		jQuery("body").queryLoader2({
             onComplete: function() {
                 $(".ut-loader-overlay").fadeOut(600, "easeInOutExpo", function() {
                     $(this).remove();
@@ -28,8 +29,7 @@ if (!Array.prototype.indexOf) {
                     $(".herovideo").addClass('no-video');
                 }
                 
-                /* Typed
-                ================================================== */
+                
                 $(".element").each(function(){
                     var $this = $(this);
                     $this.typed({
@@ -51,6 +51,7 @@ if (!Array.prototype.indexOf) {
             completeAnimation: "fade",
             minimumTime: 500  
         });
+		*/
 
 
         /* Header Menu - Show Hide Animation
