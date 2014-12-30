@@ -120,3 +120,7 @@ input[type=radio].error + label {
 .textLabel {
 	font-size: 27px;
 }
+
+.cart {
+	display: none;
+}
