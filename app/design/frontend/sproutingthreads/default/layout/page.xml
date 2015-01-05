@@ -79,6 +79,7 @@
 				
                 <action method="addLinkRel"><rel>stylesheet</rel><href>//fonts.googleapis.com/css?family=Raleway:300,400,500,700,600</href></action>
                 <action method="addItem"><type>skin_css</type><name>css/MyFontsWebfontsKit.css</name></action>
+                <action method="addItem"><type>skin_css</type><name>css/AmericanTypwrter.css</name></action>
                 <action method="addItem"><type>skin_css</type><name>css/grid.css</name></action>
                 <action method="addItem"><type>skin_css</type><name>css/font-awesome.min.css</name></action>
                 <action method="addItem"><type>skin_css</type><name>css/animate.min.css</name></action>

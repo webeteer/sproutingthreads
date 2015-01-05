@@ -124,3 +124,14 @@ input[type=radio].error + label {
 .cart {
 	display: none;
 }
+
+/** Home Page Tweaks **/
+
+h6 {
+	margin-bottom: 5px;
+}
+
+.sky-form .select i {
+	width: 1px;
+	pointer-events: none;
+}
