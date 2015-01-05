@@ -523,7 +523,7 @@ h2.section-title {
 	margin-left: auto;
 }
 
-.list-box {margin: 0 auto; text-align: left; ; 
+.list-box {margin: 0; text-align: left; ; 
 }
 ul.list-box{margin:0; float: left; padding:0; list-style-type:none; list-style-position:outside;}
 ul.list-box li{ margin-top:15px;}
@@ -831,8 +831,9 @@ nav[role="custom-dropdown"] ul > li:hover {
 nav[role="custom-dropdown"] ul > li:hover > a {
 	color: #a5bf3a;
 }
+
 /* =========================================================== 
-    4. Navigation
+    4. Header
 ============================================================ */
 
 #header-section {
@@ -1906,7 +1907,7 @@ ul.social li a:hover {
 	font-size: 72px;
 	text-align: left;
 	line-height: 78px;
-	padding-top: 140px;
+	padding-top: 240px;
 }
 .start-image {
 	background-image: url('../images/bg/start-bg.jpg');
@@ -2698,6 +2699,18 @@ ul.social li a:hover {
     text-align: left;
 	padding: 1em;
   }
+ .logo {
+	margin: 0 auto;
+	min-height: 80px;
+	text-align: center;
+}
+ .logo a {
+	margin: 0 auto;
+	text-align: center;
+	border: none;
+	height: 180px;
+	width: 180px;
+}
 /* =========================================================== 
     Home Page
 ============================================================ */
@@ -2764,7 +2777,7 @@ ul.social li a:hover {
     margin: 0;
     background-color: #ddd2c5;
     height: 414px;
-    padding: 0;
+    padding-left: 10px;
 }
 .home-section-2 h1{
 	font-size: 32px;
@@ -2785,26 +2798,25 @@ ul.social li a:hover {
     margin: 0;
     background-color: #f9f8f2;
     height: 414px;
-    padding: 0;
+    padding-right: 20px;
 }
 .home-section-3 h1{
 	font-size: 29px;
 	color: #444;
 	background: none;
-	padding-right: 10px;
+	margin: 130px 0 0 0;
 	padding-top: 10px;
-	background: rgba(255, 255, 255, 0.75);
+	background: rgba(249, 248, 242, 0.85);
 }
 .home-section-3 h2{
 	color: #444;
-	padding-right: 10px;
-	background: rgba(255, 255, 255, 0.75);
+	background: rgba(249, 248, 242, 0.85);
 }
 /* ===== Home Section 4 ===== */
 .section-4 {
-	background-image: url('../images/bg/4.jpg');
+	background-image: url('../images/bg/4-phone.jpg');
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: center;
 	vertical-align: bottom;
 	height: 414px;
 	width: 100%;
@@ -2814,15 +2826,19 @@ ul.social li a:hover {
     background-color: #e2dcb2;
     height: 414px;
 	z-index: 1;
+	padding-left: 10px;
 }
 .home-section-4 h1{
 	font-size: 32px;
 	color: #fff;
 	background: none;
-    padding-left: 10px;
+    margin: 100px 0 0 10px;
+	padding-top: 10px;
+	background: rgba(226, 220, 178, 0.85);
 }
 .home-section-4 h2{
     padding-left: 10px;
+	background: rgba(226, 220, 178, 0.85);
 }
 /* =========================================================== 
     Styles Page
@@ -2834,6 +2850,11 @@ ul.social li a:hover {
 	font-size: 68px;
 	}
 .styles-1-image {
+	background-image: url('../images/bg/styles-1-phone.jpg');
+    background-repeat: no-repeat;
+    background-position: right;
+	vertical-align: bottom;
+	height: 470px;
 	width: 100%;
 }
 .styles-1-image h6 {
@@ -2851,6 +2872,11 @@ ul.social li a:hover {
 	background: rgba(214, 203, 190, 0.7);
 	}
 .styles-2-image {
+	background-image: url('../images/bg/styles-2-phone.jpg');
+    background-repeat: no-repeat;
+    background-position: left;
+	vertical-align: bottom;
+	height: 470px;
 	width: 100%;
 }
 .styles-2-image h6 {
@@ -2868,6 +2894,11 @@ ul.social li a:hover {
 	background: rgba(255, 255, 255, 0.7);
 	}
 .styles-3-image {
+	background-image: url('../images/bg/styles-3-phone.jpg');
+    background-repeat: no-repeat;
+    background-position: right;
+	vertical-align: bottom;
+	height: 470px;
 	width: 100%;
 }
 .styles-3-image h6 {
@@ -2885,6 +2916,11 @@ ul.social li a:hover {
 	background: rgba(99, 179, 188, 0.7);
 	}
 .styles-4-image {
+	background-image: url('../images/bg/styles-4-phone.jpg');
+    background-repeat: no-repeat;
+    background-position: left;
+	vertical-align: bottom;
+	height: 470px;
 	width: 100%;
 }
 .styles-4-image h6 {
