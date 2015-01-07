@@ -1,4 +1,4 @@
-var imgPath = "/skin/frontend/sproutingthreads/default/images/rating/";
+var imgPath = "/skin/frontend/sproutingthreads/default/images/select/";
 
 var arFields = {
 	"name": 1,
@@ -22,54 +22,54 @@ var arFields = {
 var arSelectors = {
 	"boy": {
 		"classic": [
-			"classic boy (1).jpg",
-			"classic boy (3).jpg",
-			"classic boy (4).jpg",
-			"classic boy (5).jpg"
+			"classic-boy-1.jpg",
+			"classic-boy-2.jpg",
+			"classic-boy-3.jpg",
+			"classic-boy-4.jpg"
 		],
 		"funky": [
-			"funky boy.jpg",
-			"funky boy (2).jpg",
-			"funky boy (3).jpg",
-			"funky boy.png"
+			"funky-boy-1.jpg",
+			"funky-boy-2.jpg",
+			"funky-boy-3.jpg",
+			"funky-boy-4.jpg"
 		],
 		"sporty": [
-			"sporty boy.jpg",
-			"sporty boy (1).jpg",
-			"sporty boy (2).jpg",
-			"sporty boy (3).jpg"
+			"sporty-boy-1.jpg",
+			"sporty-boy-2.jpg",
+			"sporty-boy-3.jpg",
+			"sporty-boy-4.jpg"
 		],
 		"vintage": [
-			"vintage boy.jpg",
-			"vintage boy (2).jpg",
-			"vintage boy 8.png",
-			"vintage boy.png"
+			"vintage-boy-1.jpg",
+			"vintage-boy-2.jpg",
+			"vintage-boy-3.jpg",
+			"vintage-boy-4.jpg"
 		]
 	},
 	"girl": {
 		"classic": [
-			"classicgirl.jpg",
-			"classic girl (1).jpg",
-			"classic girl (3).jpg",
-			"classic girl (4).jpg"
+			"classic-girl-1.jpg",
+			"classic-girl-2.jpg",
+			"classic-girl-3.jpg",
+			"classic-girl-4.jpg"
 		],
 		"funky": [
-			"funky girl (1).jpg",
-			"funky girl (2).jpg",
-			"funky girl (5).jpg",
-			"funky girl (1).png"
+			"funky-girl-1.jpg",
+			"funky-girl-2.jpg",
+			"funky-girl-3.jpg",
+			"funky-girl-4.jpg"
 		],
 		"sporty": [
-			"sporty girl (1).jpg",
-			"sporty girl (2).jpg",
-			"sporty girl (3).jpg",
-			"sporty girl (5).jpg"
+			"sporty-girl-1.jpg",
+			"sporty-girl-2.jpg",
+			"sporty-girl-3.jpg",
+			"sporty-girl-4.jpg"
 		],
 		"vintage": [
-			"vintage girl.jpg",
-			"vintage girl (1).jpg",
-			"vintage girl (2).jpg",
-			"vintage girl (4).jpg"
+			"vintage-girl-1.jpg",
+			"vintage-girl-2.jpg",
+			"vintage-girl-3.jpg",
+			"vintage-girl-4.jpg"
 		]
 	}
 };
