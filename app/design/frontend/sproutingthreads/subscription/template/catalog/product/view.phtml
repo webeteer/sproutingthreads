@@ -91,7 +91,7 @@
                         <div class="collapse-vintage-panel">
                             <div class="collapse-vintage-inner">
                                 <div class="container">
-                                    <div class="row">
+                                    <div class="row imageSelector" data-type="vintage">
                                         <div class="alignleft left column four start-banners">
                                         <h1>vintage threads</h1><br>
                                         <p><strong>Effortlessly Cool Look<strong></p>
@@ -101,18 +101,18 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select.jpg'); ?>" alt="select">
-                                                <p>1 of 3</p>
+                                                <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button">yes, please</a>
-                                            <a href="#" class="select-button">maybe</a>
-                                            <a href="#" class="select-button">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="1">yes, please</a>
+                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
 											
 											<input type="hidden" name="vintage" id="vintage" value="13" />
                                             </div>
                                         </div>
                                     </div>
-                            </div>
+								</div>
                             </div>
                         </div>
                     </li>
@@ -124,7 +124,7 @@
                         <div class="collapse-classic-panel">
                             <div class="collapse-classic-inner">
                                 <div class="container">
-                                    <div class="row">
+                                    <div class="row imageSelector" data-type="classic">
                                         <div class="alignleft left column four start-banners">
                                         <h1>classic threads</h1><br>
                                         <p><strong>Buttoned Up Class</strong></p>
@@ -134,7 +134,7 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select-classic.jpg'); ?>" alt="select">
-                                                <p>1 of 3</p>
+                                                <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button">yes, please</a>
@@ -157,7 +157,7 @@
                         <div class="collapse-sporty-panel">
                             <div class="collapse-sporty-inner">
                                 <div class="container">
-                                    <div class="row">
+                                    <div class="row imageSelector" data-type="sporty">
                                         <div class="alignleft left column four start-banners">
                                         <h1>sporty threads</h1><br>
                                         <p><strong>Casual Adventure Wear</strong></p>
@@ -167,7 +167,7 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select-sporty.jpg'); ?>" alt="select">
-                                                <p>1 of 3</p>
+                                                <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button">yes, please</a>
@@ -190,7 +190,7 @@
                         <div class="collapse-funky-panel">
                             <div class="collapse-funky-inner">
                                 <div class="container">
-                                    <div class="row">
+                                    <div class="row imageSelector" data-type="funky">
                                         <div class="alignleft left column four start-banners">
                                         <h1>funky threads</h1><br>
                                         <p><strong>Unique, Mix-Matched Fashion</strong></p>
@@ -200,7 +200,7 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select-funky.jpg'); ?>" alt="select">
-                                                <p>1 of 3</p>
+                                                <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button">yes, please</a>
@@ -398,10 +398,12 @@
                     <h5>anything you're picky about?!</h5><br>
                     <p>any preferred colors or patterns? does your child like his or her clothes extra loose or extra tight? is your child allergic to any specific materials? feel free to add any extra comments below.</p><br>
 					<textarea name="picky" id="picky" cols="30" rows="3"></textarea>
-                    <a href="#" id="childAdd" class="lm-button lb fill">add child</a><a id="childNext" href="pricing.html" class="lm-button lb fill">next</a>
+                    <!--<a href="#" id="childAdd" class="lm-button lb fill">add child</a>-->
+					<a id="childNext" href="pricing.html" class="lm-button lb fill">next</a>
                     </div>
         		</div>
         </div>
+		
     </section>
 	
 </form>

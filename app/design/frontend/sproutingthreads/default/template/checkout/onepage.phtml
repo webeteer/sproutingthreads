@@ -24,9 +24,35 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="page-title">
-    <h1><?php echo $this->__('Checkout') ?></h1>
-</div>
+
+    <section class="top-section-billing">
+        <div class="container">
+                    	<div class="row">
+                        	<div class="column twelve">
+                        		<h1>shipping & billing</h1>
+                                <h3>sprouting threads is provided as a subscription service for parents’ convenience</h3><br>
+                        	</div>
+                    </div>
+        </div>
+    </section>
+
+    <section class="main-section-billing checkout">
+        <div class="container">	
+			<div class="row">
+				<div class="list-section">
+				<ul class="checked">
+				<li>We will send you an order confirmation via email when box ships</li>
+				<li>We will automatically charge your card on file on the 1st of the month</li>
+				<li>You may pause or cancel subscription at any time</li>
+				<li><a href="/rethreads" class="blue-link" target="_blank">reThreads</a> will be credited to your sprouting threads account</li>
+				<li>Credits will be automatically applied to future shipments</li>
+				</ul>
+				</div>
+				<div class="space"></div>
+			</div>		
+	
+			<div class="row sky-form">
+			
 <script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout_rwd.js') ?>"></script>
@@ -59,3 +85,6 @@
     );
 //]]>
 </script>
+			</div>
+		</div>
+	</section>

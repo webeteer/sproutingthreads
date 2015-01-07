@@ -1,3 +1,5 @@
+var imgPath = "/skin/frontend/sproutingthreads/default/images/rating/";
+
 var arFields = {
 	"name": 1,
 	"gender": 1,
@@ -17,6 +19,64 @@ var arFields = {
 	"funky": 1
 };
 
+var arSelectors = {
+	"boy": {
+		"classic": [
+			"classic boy (1).jpg",
+			"classic boy (3).jpg",
+			"classic boy (4).jpg",
+			"classic boy (5).jpg"
+		],
+		"funky": [
+			"funky boy.jpg",
+			"funky boy (2).jpg",
+			"funky boy (3).jpg",
+			"funky boy.png"
+		],
+		"sporty": [
+			"sporty boy.jpg",
+			"sporty boy (1).jpg",
+			"sporty boy (2).jpg",
+			"sporty boy (3).jpg"
+		],
+		"vintage": [
+			"vintage boy.jpg",
+			"vintage boy (2).jpg",
+			"vintage boy 8.png",
+			"vintage boy.png"
+		]
+	},
+	"girl": {
+		"classic": [
+			"classicgirl.jpg",
+			"classic girl (1).jpg",
+			"classic girl (3).jpg",
+			"classic girl (4).jpg"
+		],
+		"funky": [
+			"funky girl (1).jpg",
+			"funky girl (2).jpg",
+			"funky girl (5).jpg",
+			"funky girl (1).png"
+		],
+		"sporty": [
+			"sporty girl (1).jpg",
+			"sporty girl (2).jpg",
+			"sporty girl (3).jpg",
+			"sporty girl (5).jpg"
+		],
+		"vintage": [
+			"vintage girl.jpg",
+			"vintage girl (1).jpg",
+			"vintage girl (2).jpg",
+			"vintage girl (4).jpg"
+		]
+	}
+};
+
+console.log(arSelectors);
+
+// original
 var arTranslations = {
 	"name": "options[3]",
 	"gender": "options[4]",
@@ -36,7 +96,35 @@ var arTranslations = {
 	"funky": "options[6]",
 };
 
+var arTranslations = {
+	"name": "options[16]",
+	"gender": "options[17]",
+	"birthdayMonth": "options[15][month]",
+	"birthdayDay": "options[15][day]",
+	"birthdayYear": "options[15][year]",
+	"height": "options[25]",
+	"weight": "options[14]",
+	"top": "options[24]",
+	"bottom": "options[23]",
+	"dress": "options[22]",
+	"picky": "options[26]",
+	
+	"vintage": "options[21]",
+	"classic": "options[20]",
+	"sporty": "options[18]",
+	"funky": "options[19]",
+};
+
 jQuery(document).ready(function(){
+	initSelectors();
+	setupSelectors();
+	
+	jQuery("input[name='gender']").click(function() {	
+		var obj = jQuery(this);
+		var val = obj.val();
+		initSelectors(val);
+	});
+
 	jQuery("#childAdd").click(function(e) {
 		e.preventDefault();
 		var arData = getFormData(arFields);
@@ -62,6 +150,82 @@ jQuery(document).ready(function(){
 		jQuery(this).toggleClass('error', false);
 	});
 });
+
+function getGender() {
+	console.log(arTranslations);
+	var field = arTranslations.gender;
+	var item = jQuery("input[name='gender']:checked");
+	console.log(item);
+	
+	var val = item.val();
+	
+	return val;
+	
+}
+function initSelectors(gender) {
+	jQuery(".imageSelector").each(function() {
+		var parent = jQuery(this);
+		parent.attr("data-count", 1);
+		var type = parent.attr("data-type");
+		var gender = getGender();
+		
+		var arBase = arSelectors[gender][type];
+		var total = arBase.length;
+		
+		var num = 1;
+		var src = arBase[num - 1];
+		
+		var img = parent.find(".selector img");
+		img.attr('src', imgPath + src);
+		
+		var objCount = parent.find(".count");
+		var strCount = num  + " of " + total;
+		objCount.html(strCount);
+				
+		
+	});
+
+}
+function setupSelectors() {
+	jQuery(".select-button").click(function(e) {
+		e.preventDefault();
+		
+		var obj = jQuery(this);
+		var parent = jQuery(this).closest(".imageSelector");
+		
+		
+		var num = parent.attr("data-count");
+		var type = parent.attr("data-type");
+		var gender = getGender();
+		
+		var arBase = arSelectors[gender][type];
+		var total = arBase.length;
+
+		parent.find(".selected").toggleClass("selected", false);
+		obj.toggleClass("selected", true);
+
+		
+		if (num < total) {
+			num++;
+			
+			var src = arBase[num - 1];
+			
+			var img = parent.find(".selector img");
+			img.attr('src', imgPath + src);
+			
+			var objCount = parent.find(".count");
+			var strCount = num  + " of " + total;
+			objCount.html(strCount);
+			
+			
+			parent.attr("data-count", num );
+			obj.toggleClass("selected", false);
+		}
+		
+		
+	});
+	
+}
 
 function validateForm(arFieldList, arData) {
 	var form = jQuery("#productSub");
@@ -122,6 +286,8 @@ function getFormData(arFieldList) {
 		}
 	}	
 	
+	console.log(arData);
+	
 	return arData;
 }
 
@@ -142,9 +308,9 @@ function addProduct(arData, arTranslations) {
 			switch(type) {
 				case "radio":
 					if (val == "boy") {
-						jQuery("#options_4_2").prop("checked", true);
+						jQuery("#options_17_2").prop("checked", true);
 					} else {
-						jQuery("#options_4_3").prop("checked", true);
+						jQuery("#options_17_3").prop("checked", true);
 					}
 					break;
 				default:

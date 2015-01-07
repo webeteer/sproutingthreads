@@ -1,4 +1,7 @@
 /** Integration CSS **/
+footer {
+	clear: both;
+}
 
 .picky-copy a {
 	display: inline-block;
@@ -86,7 +89,15 @@ input[type=radio].error + label {
 #productSub .product-view {
 	display: none;
 }
+.cart {
+	display: none;
+}
 
+
+.selector img {
+	max-width: 284px;
+	max-height: 284px;
+}
 
 
 /** Cart / Pricing **/
@@ -121,10 +132,6 @@ input[type=radio].error + label {
 	font-size: 27px;
 }
 
-.cart {
-	display: none;
-}
-
 /** Home Page Tweaks **/
 
 h6 {
@@ -134,4 +141,276 @@ h6 {
 .sky-form .select i {
 	width: 1px;
 	pointer-events: none;
+}
+
+.top-section-start {
+	margin-top: 95px;
+}
+
+.home-section-3 h2 {
+	width: 400px;
+	margin-left: 140px;
+}
+
+.contentWrapper {
+	margin: 200px auto;
+	max-width: 1140px;
+	width: 100%;
+}
+
+/** Checkout Process **/
+
+/*
+body select {
+	padding: 5px 5px 5px 5px;
+	height: 48px;
+}
+*/
+
+.checkout {
+	font-size: 15px;
+}
+
+.checkout .step-title h2 {
+	font-size: 36px;
+	line-height: 36px;
+	text-align: center;
+	text-transform: lowercase;
+	margin-bottom: 30px;
+}
+
+.checkout .allow .step-title h2 {
+	color: #a5bf3a;
+}
+
+.checkout .opc {
+	list-style: none;
+	margin: 0px auto;
+	max-width: 525px;
+}
+
+.checkout .number {
+	display: none;
+}
+
+.checkout .step-title a {
+	display: block;
+	float: right;
+	position: relative;
+	display: none;
+	top: -48px;
+	text-transform: lowercase;
+}
+
+.checkout .row {
+	text-align: left;
+}
+
+
+.checkout .sky-form input[type=text],
+.checkout .sky-form input[type=tel],
+.checkout .sky-form textarea {
+	display: block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	height: 39px;
+	padding: 8px 10px;
+	outline: none;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 0;
+	border-color: #f7f7f7;
+	background: #f7f7f7;
+	font: 18px 'AvantGardeGothicITCW02XLt', sans-serif;
+	color: #444444;
+	appearance: normal;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+
+}
+
+.checkout .sky-form select {
+	display: block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	height: 39px;
+	padding: 8px 10px;
+	outline: none;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 0;
+	border-color: #f7f7f7;
+	background: #f7f7f7;
+	font: 18px 'AvantGardeGothicITCW02XLt', sans-serif;
+	color: #444444;
+}
+
+.checkout .control {
+	margin: 5px auto;
+	width: 50%;
+}
+.checkout .sky-form .radio, .checkout .sky-form input[type=radio] {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+
+.checkout .buttons-set {
+	margin: 20px 0 20px 0;
+	text-align: center;
+	position: relative;
+}
+
+.checkout .buttons-set .button {
+	display: inline-block;
+}
+.checkout .back-link {
+	display: inline-block;
+	margin-right: 20px;
+}
+
+#checkout-shipping-method-load {
+	text-align: center;
+}
+
+.checkout .wide {
+	margin: 0 0 20px 0;
+}
+
+.checkout .step {
+
+	
+}
+
+.checkout .sky-form input:focus,
+.checkout .sky-form select:focus,
+.checkout .sky-form textarea:focus {
+	/*border-color: #2da5da;*/
+	border-color: #a5bf3a;
+}
+
+
+.checkout .section {
+	margin-bottom: 50px;
+}
+
+.checkout .allow .step-title a {
+	display: block;
+}
+
+.checkout .required {
+	padding: 0px 0 10px 0;
+}
+
+.checkout label {
+	font-size: 15px;
+}
+
+.checkout .field,
+.checkout .authnetcim_new {
+	margin: 0 0 10px 0;
+}
+.checkout .field label
+.checkout .authnetcim_new label {
+	margin: 0 0 5px 0;
+}
+
+.checkout .field .required em,
+.checkout .authnetcim_new .required em {
+	margin-right: 5px;
+}
+
+.checkout .sky-form .button {
+	background: #a5bf3a;
+}
+.checkout .sky-form .button:hover {
+	background: #fff;
+}
+
+.checkout .sky-form .validation-failed {
+	border-color: #f00 !important;
+}
+
+.checkout .month,
+.checkout .year {
+	display: inline-block !important;
+	width: 200px !important;
+}
+
+.checkout .v-fix {
+	display: inline-block;
+}
+
+.checkout .remember-me-popup {
+	display: none !important;
+}
+
+.checkout .please-wait {
+	position: absolute;
+	top: 15px;
+	right: -50px;
+	display: inline-block;
+	margin-left: 10px;
+	margin-top: 5px;
+	line-height: 24px;
+	height: 24px;
+	white-space: nowrap;
+}
+
+.checkout .please-wait img {
+	display: block;
+	float: left;
+	margin-right: 5px;
+	width: 24px;
+}
+
+.data-table {
+	width: 100%;
+}
+
+.data-table th,
+.data-table td {
+	padding: 4px 5px 4px 5px;
+}
+
+.data-table thead {
+	background: #f7f7f7;
+}
+
+/** Product select **/
+
+.select-button.selected {
+	color: #fff;
+	background: #444;
+}
+
+.customer-account .col-left {
+	display: inline-block;
+	float: left;
+	width: 200px;
+
+}
+
+.customer-account .manage-payment-method {
+	width: 700px;
+	float: left;
+}	
+
+.customer-account .my-account {
+	display: inline-block;
+	width: 700px;
+}
+
+.customer-account .col2-set,
+.customer-account .box-account,
+.customer-account .box-info {
+	clear: both;
+	margin: 20px 0 20px 0;
+}
+.customer-account .col2-set .col-1,
+.customer-account .col2-set .col-2 {
+	float: left;
+	width: 300px;
 }

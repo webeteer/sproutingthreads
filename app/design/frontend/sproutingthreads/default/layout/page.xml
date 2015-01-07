@@ -52,9 +52,12 @@
 
                 <!-- Remove items which the RWD package is not dependent upon -->
                 <action method="removeItem"><type>skin_js</type><name>js/ie6.js</name></action>
+				
+				
 
                 <!-- Add vendor dependencies -->
                 <action method="addItem"><type>skin_js</type><name>js/jquery.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/no-conflict.js</name></action>
 				<action method="addItem"><type>skin_js</type><name>js/jquery-ui.min.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/SmoothScroll.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/modernizr.js</name></action>
@@ -71,6 +74,20 @@
 					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&amp;sensor=false"></script>
                 <action method="addItem"><type>skin_js</type><name>js/.js</name></action>
 				-->
+				
+                <!-- Add RWD vendor dependencies -->
+                <action method="addItem"><type>skin_js</type><name>js/lib/modernizr.custom.min.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/selectivizr.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/matchMedia.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/matchMedia.addListener.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/enquire.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/app.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/jquery.cycle2.min.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/jquery.cycle2.swipe.min.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/slideshow.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/lib/imagesloaded.js</name></action>
+                <action method="addItem"><type>skin_js</type><name>js/minicart.js</name></action>
+				
 				
 				<!--
                 <action method="addItem"><type>skin_js</type><name>js/custom.js</name></action>
