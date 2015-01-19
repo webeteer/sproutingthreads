@@ -9,14 +9,25 @@
         </sproutingthreads_stadminmodule>
     </modules>
     <global>
+		<page>
+			<layouts>
+				<1_column_float translate="label">
+					<label>1 column float</label>
+					<template>page/1columnFloat.phtml</template>
+					<layout_handle>1_column_float</layout_handle>
+				</1_column_float>
+			</layouts>
+		</page>
         <models />
         <blocks />
         <resources />
         <extraconfig />
         <helpers>
-            <stadminmodule>
+            <!--
+			<stadminmodule>
                 <class>SproutingThreads_STAdminModule_Helper</class>
             </stadminmodule>
+			-->
         </helpers>
     </global>
     <admin>

@@ -1949,7 +1949,8 @@ ul.social li a:hover {
     padding: 25px 5px;
 	border: 3px solid #444;
 }
-.select-button:hover {
+
+.no-touch .select-button:hover {
 	color: #fff;
 	background-color: #444444;
 	border: 3px solid #444444;

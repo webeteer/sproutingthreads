@@ -74,119 +74,134 @@
     <!-- section-3 -->
     <section class="section-3-billing">
         <div class="container">
-                    	<div class="row">
-                        	<div class="pricing-container">
-                        		<h1> <?php foreach($this->getItems() as $_item): ?><?php
-		echo $_item->getData('name');
 		
-	?><?php endforeach; ?>’s threads</h1>
-                                <div class="row">
-                            <div class="column four">
-                                <div class="table quantity">
-                                    <ul class="list-box">
-                                    <li>
-                                        <h1 class="title-box-pink">quantity</h1>
-                                        <div class="list-box-container pink-border">
-                                            <div class="list-box-content">
-                                                <ul class="optionSet">
-                                                    <li class="pink-border-bottom"><a href="#" class="active">4 pieces</a></li>
-                                                    <li class="pink-border-bottom"><a href="#">6 pieces</a></li>
-                                                    <li class="pink-border-bottom"><a href="#">10 pieces</a></li>
-                                                    <li class="pink-border-bottom"><a href="#">12 pieces</a></li>
-                                                    <li class="pink-border-bottom"><a href="#">18 pieces</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    </ul>
-                                </div>
-                            </div>
-							<div class="optionSet">
-								
-								<div class="column four">
-									<div class="table assortment">
-										<ul class="list-box">
-										<li>
-											<h1 class="title-box">all new</h1>
-											<div class="list-box-container">
-												<div class="list-box-content">
-													<ul class="">
-														<li class="green-border-bottom active"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" type="checkbox" value="130" name="terms" checked><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" type="checkbox" value="180" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" type="checkbox" value="290" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" type="checkbox" value="340" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" type="checkbox" value="500" name="terms" ><i></i></label></div></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										</ul>
+<?php foreach($this->getItems() as $_item): ?>		
+            <div class="row">
+				<div class="pricing-container">
+					<h1> <?php echo $_item->getData('name');?>’s threads</h1>
+					<div class="row subSet">
+					
+						<div class="column four">
+							<div class="table quantity">
+								<ul class="list-box">
+								<li>
+									<h1 class="title-box-pink">quantity</h1>
+									<div class="list-box-container pink-border">
+										<div class="list-box-content">
+											<ul class="optionSet">
+												<li data-row="1" class="row1 rowActive pink-border-bottom"><a href="#">4 pieces</a></li>
+												<li data-row="2" class="row2 pink-border-bottom"><a href="#">6 pieces</a></li>
+												<li data-row="3" class="row3 pink-border-bottom"><a href="#">10 pieces</a></li>
+												<li data-row="4" class="row4 pink-border-bottom"><a href="#">12 pieces</a></li>
+												<li data-row="5" class="row5 pink-border-bottom"><a href="#">18 pieces</a></li>
+											</ul>
+										</div>
 									</div>
-								</div>
-								<div class="column four">
-									<div class="table frequency">
-										<ul class="list-box">
-										<li>
-											<h1 class="title-box">50/50 blend</h1>
-											<div class="list-box-container">
-												<div class="list-box-content">
-													<ul class="">
-														<li class="green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" type="checkbox" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" type="checkbox" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" type="checkbox" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" type="checkbox" name="terms" ><i></i></label></div></li>
-														<li class="green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" type="checkbox" name="terms" ><i></i></label></div></li>
-													</ul>
-												</div>
+								</li>
+								</ul>
+							</div>
+						</div>
+						
+						
+						<div class="optionSet">
+							
+							<div class="column four">
+								<div class="table assortment">
+									<ul class="list-box">
+									<li>
+										<h1 class="title-box">all new</h1>
+										<div class="list-box-container">
+											<div class="list-box-content">
+												<ul class="">
+													<li data-row="1" class="row1 rowActive green-border-bottom active"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" type="checkbox" value="130" name="terms" checked><i></i></label></div></li>
+													<li data-row="2" class="row2 green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" type="checkbox" value="180" name="terms" ><i></i></label></div></li>
+													<li data-row="3" class="row3 green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" type="checkbox" value="290" name="terms" ><i></i></label></div></li>
+													<li data-row="4" class="row4 green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" type="checkbox" value="340" name="terms" ><i></i></label></div></li>
+													<li data-row="5" class="row5 green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" type="checkbox" value="500" name="terms" ><i></i></label></div></li>
+												</ul>
 											</div>
-										</li>
+										</div>
+									</li>
 									</ul>
-									</div>
 								</div>
 							</div>
-                            <div class="column twelve optionSet">
-                                <div class="table-frequency">
-                                    <ul class="list-box">
-                                    <li>
-                                        <h1 class="title-box-blue">frequency</h1>
-                                        <div class="list-box-container blue-border">
-                                            <div class="list-box-content ">
-                                                <ul>
-                                                    <li class="active"><label class="textLabel" for="check11">monthly &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check11" type="checkbox" name="terms" checked><i></i></label></div></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <h1 class="title-box-blue">frequency</h1>
-                                        <div class="list-box-container blue-border">
-                                            <div class="list-box-content">
-                                                <ul>
-                                                    <li><label class="textLabel" for="check12">seasonal &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check12" type="checkbox" name="terms" ><i></i></label></div></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                </div>
-                            </div>
-                            </div>
-                        	</div>
-                                <div class="row">
-                                    <div class="column twelve">
-                                        <div class="list-section">
-                                        	<br>
-                                            <p>Note:</p>
-                                            <ul class="arrow">
-                                                <li>Piece counts are approximate, we may provide an extra-special piece or more pieces if we find a great deal for you</li>
-                                                <li>Pause your subscription at any time.</li>
-												<li>Free returns if something isn’t right</li>
-                                                <li>Clothes can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for credit of 20% of value.</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-        						</div>
+							<div class="column four">
+								<div class="table frequency">
+									<ul class="list-box">
+									<li>
+										<h1 class="title-box">50/50 blend</h1>
+										<div class="list-box-container">
+											<div class="list-box-content">
+												<ul class="">
+													<li data-row="1" class="row1 rowActive green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" type="checkbox" name="terms" ><i></i></label></div></li>
+													<li data-row="2" class="row2 green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" type="checkbox" name="terms" ><i></i></label></div></li>
+													<li data-row="3" class="row3 green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" type="checkbox" name="terms" ><i></i></label></div></li>
+													<li data-row="4" class="row4 green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" type="checkbox" name="terms" ><i></i></label></div></li>
+													<li data-row="5" class="row5 green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" type="checkbox" name="terms" ><i></i></label></div></li>
+												</ul>
+											</div>
+										</div>
+									</li>
+								</ul>
+								</div>
+							</div>
+						</div>
+						
+						
+						
+						
+						<div class="column twelve optionSet">
+							<div class="table-frequency">
+								<ul class="list-box">
+								<li>
+									<h1 class="title-box-blue">frequency</h1>
+									<div class="list-box-container blue-border">
+										<div class="list-box-content ">
+											<ul>
+												<li class="active"><label class="textLabel" for="check11">monthly &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check11" type="checkbox" name="terms" checked><i></i></label></div></li>
+											</ul>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h1 class="title-box-blue">frequency</h1>
+									<div class="list-box-container blue-border">
+										<div class="list-box-content">
+											<ul>
+												<li><label class="textLabel" for="check12">seasonal &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check12" type="checkbox" name="terms" ><i></i></label></div></li>
+											</ul>
+										</div>
+									</div>
+								</li>
+							</ul>
+							</div>
+						</div>
+				
+				
+				
+				
+					</div>
+			
+				</div>    
+			</div>
+<?php endforeach; ?>					
+						
+						
+			<div class="row">
+				<div class="column twelve">
+					<div class="list-section">
+						<br>
+						<p>Note:</p>
+						<ul class="arrow">
+							<li>Piece counts are approximate, we may provide an extra-special piece or more pieces if we find a great deal for you</li>
+							<li>Pause your subscription at any time.</li>
+							<li>Free returns if something isn’t right</li>
+							<li>Clothes can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for credit of 20% of value.</li>
+						</ul>
+					</div>
 				</div>
+			</div>
+		</div>
     </section>
 	<!-- section-2 table area -->
     <section class="main-section-pricing">
@@ -367,6 +382,8 @@
                 <?php endif; ?>
             <?php endforeach; ?>
             </ul>
+			<?php else: ?>
+			HAS ERROR
             <?php endif; ?>
         </div>
     </div>

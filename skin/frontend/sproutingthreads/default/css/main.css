@@ -1,3 +1,11 @@
+.product-view {
+	/*display: none;*/
+}
+.cart {
+	/*display: none;*/
+}
+
+
 /** Integration CSS **/
 footer {
 	clear: both;
@@ -17,27 +25,29 @@ html {
 
 /** Product Detail Page **/
 
+.girl input[type=radio] + label,
+.boy input[type=radio] + label {
+	width: 70px;
+	height: 208px;
+	background: url("../images/elements/girl-boy-sprite.png");
+	display:inline-block;
+}
+
 .girl input[type=radio] {
 display:none;
 }
  
 .girl input[type=radio] + label
 {
-background: url("../images/elements/girl-unchecked.png");
-height: 208px;
-width: 70px;
-display:inline-block;
 margin-top: 20px;
 padding: 0 0 0 0px;
+background-position: 0px 0px;
 }
 .girl input[type=radio]:checked + label
 {
-background: url("../images/elements/girl-checked.png");
-height: 208px;
-width: 70px;
-display:inline-block;
 margin-top: 20px;
 padding: 0 0 0 0px;
+background-position: 0px -208px;
 }
 .boy input[type=radio] {
 display:none;
@@ -45,21 +55,15 @@ display:none;
  
 .boy input[type=radio] + label
 {
-background: url("../images/elements/boy-unchecked.png");
-height: 208px;
-width: 70px;
-display:inline-block;
 margin-top: 20px;
 padding: 0 0 0 0px;
+background-position: -112px -0px;
 }
 .boy input[type=radio]:checked + label
 {
-background: url("../images/elements/boy-checked.png");
-height: 208px;
-width: 70px;
-display:inline-block;
 margin-top: 20px;
 padding: 0 0 0 0px;
+background-position: -112px -208px;
 }
 
 input[type=radio].error + label {
@@ -86,12 +90,6 @@ input[type=radio].error + label {
 	
 }
 
-#productSub .product-view {
-	display: none;
-}
-.cart {
-	display: none;
-}
 
 
 .selector img {
@@ -120,9 +118,25 @@ input[type=radio].error + label {
 	color: #898585;
 }
 
+.rowActive {
+	color: #898585;
+}
+
+.rowActive .textLabel {
+	color: #898585;
+}
+
+.rowActive a {
+	color: #898585;
+}
+
 .optionSet a.active {
 	color: #898585;
 }
+
+.checkout .step-title h2 {
+	color: #999;
+}	
 
 .SELECTED {
 	border: 1px solid #f00;
@@ -135,7 +149,7 @@ input[type=radio].error + label {
 /** Home Page Tweaks **/
 
 h6 {
-	margin-bottom: 5px;
+	padding-bottom: 5px;
 }
 
 .sky-form .select i {
@@ -147,10 +161,48 @@ h6 {
 	margin-top: 95px;
 }
 
+
 .home-section-3 h2 {
 	width: 400px;
 	margin-left: 140px;
 }
+
+@media screen and (max-width: 1150px) {
+	.home-section-3 h2 {
+		width: 100%;
+		margin-left: 0px;
+	}	
+}
+
+@media screen and (max-width: 720px) {
+	.home-section-3 h1 {
+		margin-top: 70px !important;
+	}
+}
+
+@media screen and (max-width: 616px) {
+	.home-section-3 h1 {
+		margin-top: 80px !important;
+	}
+	
+	#productSub .column.four {
+		text-align: center;
+	}		
+	
+	#productSub #name {
+		margin: 95px auto !important;
+	}	
+	
+	#productSub .column.seven {
+		width: 100%;
+	}
+}
+
+.start-section-4 {
+	margin-bottom: 20px;
+}
+
+
 
 .contentWrapper {
 	margin: 200px auto;
@@ -180,7 +232,12 @@ body select {
 }
 
 .checkout .allow .step-title h2 {
-	color: #a5bf3a;
+	color: #333;
+	cursor: pointer;
+}
+
+.checkout .allow.active .step-title h2 {
+	color: #a5bf3a !important;
 }
 
 .checkout .opc {
@@ -194,7 +251,7 @@ body select {
 }
 
 .checkout .step-title a {
-	display: block;
+	display: none !important;
 	float: right;
 	position: relative;
 	display: none;
@@ -228,6 +285,33 @@ body select {
 	-moz-appearance: none;
 	-webkit-appearance: none;
 
+}
+
+#opc-login .col-1, 
+#opc-login .col-2 {
+	width: 48%;
+	display: block;
+	float: left;
+	text-align: left;
+	height: 380px;
+}
+
+#opc-login p {
+	text-align: left;
+}
+
+#opc-login .col-1 ul {
+	margin-top: 15px;
+}
+#opc-login .col-1 ul li {
+	list-style: circle;
+	margin-left: 15px;
+	text-indent: 10px;
+}
+
+.checkout h3 {
+	line-height: 28px;
+	margin-bottom: 15px;
 }
 
 .checkout .sky-form select {
@@ -413,4 +497,46 @@ body select {
 .customer-account .col2-set .col-2 {
 	float: left;
 	width: 300px;
+}
+
+.styles-banners h6, 
+.styles-banners h2 {
+	margin-bottom: 0px;
+}
+
+.lm-button-blue {
+	white-space:nowrap;
+}
+
+.modal {
+	z-index: 5000;
+}
+
+
+/** Global Styles **/
+
+#productSub,
+.top-section-billing,
+.cms-styles,
+#cart {
+	text-transform: lowercase;
+}
+
+.agreement-content {
+	display: block;
+	overflow: auto;
+	border: 1px solid #333;
+	
+	margin: 20px 0 20px 0;
+}
+
+#twitterFooter {
+	margin-left: -5px;
+	margin-right: 3px;
+}
+
+.agree input[type=checkbox] {
+	top: 0px;
+	left: 0px;
+	margin-right: 10px;
 }

@@ -96,6 +96,29 @@ var arTranslations = {
 	"funky": "options[6]",
 };
 
+var base = 0;
+var skip = 13;
+var num = 2; // iterate this
+
+var arTranslations = {
+	"name": "options[" + (base + (skip*num) + 3) + "]",
+	"gender": "options[" + (base + (skip*num) + 4) + "]",
+	"birthdayMonth": "options[" + (base + (skip*num) + 2) + "][month]",
+	"birthdayDay": "options[" + (base + (skip*num) + 2) + "][day]",
+	"birthdayYear": "options[" + (base + (skip*num) + 2) + "][year]",
+	"height": "options[" + (base + (skip*num) + 12) + "]",
+	"weight": "options[" + (base + (skip*num) + 1) + "]",
+	"top": "options[" + (base + (skip*num) + 11) + "]",
+	"bottom": "options[" + (base + (skip*num) + 10) + "]",
+	"dress": "options[" + (base + (skip*num) + 9) + "]",
+	"picky": "options[" + (base + (skip*num) + 13) + "]",
+	
+	"vintage": "options[" + (base + (skip*num) + 8) + "]",
+	"classic": "options[" + (base + (skip*num) + 7) + "]",
+	"sporty": "options[" + (base + (skip*num) + 5) + "]",
+	"funky": "options[" + (base + (skip*num) + 6) + "]",
+};
+/*
 var arTranslations = {
 	"name": "options[16]",
 	"gender": "options[17]",
@@ -114,6 +137,7 @@ var arTranslations = {
 	"sporty": "options[18]",
 	"funky": "options[19]",
 };
+*/
 
 jQuery(document).ready(function(){
 	initSelectors();
@@ -122,6 +146,14 @@ jQuery(document).ready(function(){
 	jQuery("input[name='gender']").click(function() {	
 		var obj = jQuery(this);
 		var val = obj.val();
+		
+		if (val == "boy") {
+			jQuery("#dressSize").hide();
+		} else {
+			jQuery("#dressSize").show();
+		}
+		
+		
 		initSelectors(val);
 	});
 
@@ -204,6 +236,11 @@ function setupSelectors() {
 		parent.find(".selected").toggleClass("selected", false);
 		obj.toggleClass("selected", true);
 
+		if (num >= total) {
+			console.log("Skip");
+			var opener = jQuery(this).closest("ul");
+			opener.find(":checkbox").attr("checked", false);
+		}
 		
 		if (num < total) {
 			num++;
@@ -246,6 +283,20 @@ function validateForm(arFieldList, arData) {
 				highlightError(field);
 				return 0;
 			}	
+		}
+	}
+	
+	var gender = jQuery("input[name='gender']:checked");
+	var strGender = gender.val();
+	
+	console.log("GENDER: " + strGender);
+	
+	if (strGender == "girl") {
+		field = jQuery("select[name='dress']");
+		fieldValue = field.val();
+		if (fieldValue == "") {
+			highlightError(field);
+			return 0;
 		}
 	}
 	
@@ -308,9 +359,9 @@ function addProduct(arData, arTranslations) {
 			switch(type) {
 				case "radio":
 					if (val == "boy") {
-						jQuery("#options_17_2").prop("checked", true);
+						jQuery("#options_" + (base + (skip*num) + 4) + "_2").prop("checked", true);
 					} else {
-						jQuery("#options_17_3").prop("checked", true);
+						jQuery("#options_" + (base + (skip*num) + 4) + "_3").prop("checked", true);
 					}
 					break;
 				default:

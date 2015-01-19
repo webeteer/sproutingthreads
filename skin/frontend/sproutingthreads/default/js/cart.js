@@ -3,28 +3,52 @@ jQuery(document).ready(function(){
 	jQuery(".optionSet a").click(function(e) {
 		e.preventDefault();
 		var par = jQuery(this).closest(".optionSet");
+		var sub = jQuery(this).closest(".subSet");
+		var li = jQuery(this).closest("li");
+		
+		
+		/*
 		par.find("a").toggleClass('active', false);
 		
 		var obj = jQuery(this);
 		obj.toggleClass('active', true);
+		*/
+		
+		
+		var num = li.attr("data-row");
+		if (num > 0) {
+			sub.find("li").toggleClass("rowActive", false);
+			sub.find(".row"+num).toggleClass("rowActive", true);
+		}
+		
+		
+		
 	});
 	
 	jQuery(".optionSet input[type=checkbox]").click(function(e) {
 		//e.preventDefault();
 		var par = jQuery(this).closest(".optionSet");
+		var sub = jQuery(this).closest(".subSet");
+		var check = jQuery(this);
+		var li = check.closest("li");
+		
 		par.find("input[type=checkbox]").prop('checked', false);
 		//par.toggleClass("SELECTED", true);
 		
-		var check = jQuery(this);
-		check.prop('checked', true);
 		
-		var li = check.closest("li");
+		check.prop('checked', true);
 		
 		par.find("li").toggleClass("active", false);
 		li.toggleClass('active', true);
 		
 		var icon = check.parent().find("i:after");
 		icon.show();
+		
+		var num = li.attr("data-row");		
+		if (num > 0) {
+			sub.find("li").toggleClass("rowActive", false);
+			sub.find(".row"+num).toggleClass("rowActive", true);
+		}
 	});	
 });
 
