@@ -6,6 +6,7 @@
 }
 
 
+
 /** Integration CSS **/
 footer {
 	clear: both;
@@ -84,6 +85,7 @@ input[type=radio].error + label {
 
 .birthdayRow .col-1 {
 	width: 80px;
+	display: inline-block;
 }	
 
 .home-image {
@@ -195,6 +197,10 @@ h6 {
 	
 	#productSub .column.seven {
 		width: 100%;
+	}
+	
+	.table {
+		padding-right: 0px;
 	}
 }
 
@@ -539,4 +545,29 @@ body select {
 	top: 0px;
 	left: 0px;
 	margin-right: 10px;
+}
+
+
+#cart .checkbox input:hover + i:after,
+#cart .checkbox input + i:after {
+	color: #a5bf3a;
+}
+
+#cart .checkbox input:hover + i{
+	border-color: #a5bf3a !important;
+}
+
+#cart .radio input:checked +i,
+#cart .checkbox input:checked + i {
+	border-color: #a5bf3a;
+}
+
+.main-section-pricing .monthly, 
+.main-section-pricing .seasonal {
+	display: none;
+}
+
+.main-section-pricing .monthly.active, 
+.main-section-pricing .seasonal.active {
+	display: block;
 }
