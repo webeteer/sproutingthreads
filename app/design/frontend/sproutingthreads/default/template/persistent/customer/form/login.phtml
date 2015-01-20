@@ -32,10 +32,10 @@
  */
 /** @var $this Mage_Customer_Block_Form_Login */
 ?>
-<div class="account-login<?php if (!$this->helper('customer')->isRegistrationAllowed()) echo ' login-only' ?>">
+<div class="account-login<?php if (1 || !$this->helper('customer')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
         <h1><?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
-                <?php echo $this->__('Login or Create an Account') ?>
+                <?php echo $this->__('Login') ?>
             <?php else: ?>
                 <?php echo $this->__('Login'); ?>
             <?php endif; ?></h1>
@@ -44,26 +44,10 @@
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form" class="scaffold-form">
         <?php echo $this->getBlockHtml('formkey'); ?>
         <div class="col2-set">
-            <?php if ($this->helper('customer')->isRegistrationAllowed()): ?>
-            <div class="col-1 new-users">
-                <div class="content">
-                    <h2><?php echo $this->__('New Here?') ?></h2>
-                    <p class="form-instructions"><?php echo $this->__('Registration is free and easy!') ?></p>
-                    <ul class="benefits">
-                        <li><?php echo $this->__('Faster checkout') ?></li>
-                        <li><?php echo $this->__('Save multiple shipping addresses') ?></li>
-                        <li><?php echo $this->__('View and track orders and more') ?></li>
-                    </ul>
-                </div>
-                <div class="buttons-set">
-                    <a title="<?php echo $this->__('Create an Account') ?>" class="button" href="<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>"><span><span><?php echo $this->__('Create an Account') ?></span></span></a>
-                </div>
-            </div>
-            <?php endif; ?>
             <?php // This column should be col-1 if the registration column is not displayed ?>
             <div class="<?php if ($this->helper('customer')->isRegistrationAllowed()): ?>col-2<?php else: ?>col-1<?php endif; ?> registered-users">
                 <div class="content fieldset">
-                    <h2><?php echo $this->__('Already registered?') ?></h2>
+                    <br/>
                     <p class="form-instructions"><?php echo $this->__('If you have an account with us, please log in.') ?></p>
                     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                     <ul class="form-list">

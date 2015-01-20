@@ -45,7 +45,11 @@
 					<li><a href="/rethreads">reThreads</a></li>
 					<li><a href="/faq">faq</a></li>
 					<li><a href="/child-subscription.html" class="lm-button ls fill">go</a></li>
-                    <li><a href="/customer/account" class="lm-button-grey ls fill">log in</a></li>
+					<?php if ($this->helper('customer')->isLoggedIn()): ?>
+						<li><a href="/customer/account" class="lm-button-grey ls fill">log in</a></li>
+					<?php else: ?>
+						<li><a href="/customer/account" class="lm-button-grey ls fill">log in</a></li>
+					<?php endif; ?>
 				</ul>
 			</nav>
 		</div>

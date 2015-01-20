@@ -47,6 +47,7 @@ Default layout, loads most of the pages
 -->
 
     <default>
+
         <!-- Mage_Customer -->
         <reference name="top.links">
             <action method="addLink" translate="label title" module="customer"><label>My Account</label><url helper="customer/getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>10</position></action>
@@ -55,6 +56,7 @@ Default layout, loads most of the pages
         <reference name="footer_links2">
             <action method="addLink" translate="label title" module="catalog"><label>My Account</label><url helper="customer/getAccountUrl" /><title>My Account</title></action>
         </reference>
+
     </default>
 
 <!--
@@ -217,6 +219,9 @@ Customer account pages, rendered for all tabs in dashboard
         <label>Customer My Account (All Pages)</label>
         <!--remove name="catalog.compare.sidebar"/>
         <remove name="sale.reorder.sidebar"/-->
+		
+		
+		
         <!-- Mage_Customer -->
         <reference name="root">
             <action method="setTemplate"><template>page/1columnFloat.phtml</template></action>
@@ -260,6 +265,9 @@ Customer account home dashboard layout
         <reference name="root">
             <action method="setTemplate"><template>page/1columnFloat.phtml</template></action>
         </reference>
+		<reference name="head">
+			<action method="addItem"><type>skin_js</type><name>js/myaccount.js</name></action>
+		</reference>			
         <reference name="my.account.wrapper">
             <block type="customer/account_dashboard" name="customer_account_dashboard" template="customer/account/dashboard.phtml">
                 <block type="customer/account_dashboard_hello" name="customer_account_dashboard_hello" as="hello" template="customer/account/dashboard/hello.phtml"/>

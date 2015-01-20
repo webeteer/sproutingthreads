@@ -31,6 +31,22 @@
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('hello') ?>
     <?php echo $this->getChildHtml('top') ?>
+	<div id="return" class="box-account box-info">
+		<h2>Rethreading?</h2>
+		Let us know if you're sending threads back, and if you want to rethread, or return.
+		<script>
+		
+			objCustomer = <?php
+			$customer = Mage::getSingleton('customer/session')->getCustomer();
+			
+			echo json_encode($customer->_data);
+		?>;
+		</script>
+		<div class="button-set">
+			<a href="#" id="rethread" class="button" data-action="rethread">Rethread please!</a>
+			<a href="#" id="return" class="button" data-action="return">Returns are sent</a>
+		</div>
+	</div>
     <div class="box-account box-info">
         <div class="box-head">
             <h2><?php echo $this->__('Account Information') ?></h2>

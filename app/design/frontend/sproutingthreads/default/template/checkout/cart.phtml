@@ -76,9 +76,15 @@
         <div class="container">
 		
 <?php foreach($this->getItems() as $_item): ?>		
+<?php
+	$options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
+	$options = $options['options'];
+	
+	$name = $options[0]["value"];
+?>
             <div class="row">
 				<div class="pricing-container">
-					<h1> <?php echo $_item->getData('name');?>’s threads</h1>
+					<h1> <?php echo $name;?>’s threads</h1>
 					<div class="row subSet">
 					
 						<div class="column four">
@@ -206,25 +212,77 @@
 	<!-- section-2 table area -->
     <section class="main-section-pricing">
         <div class="container">
+		<?php
+			$today = strtotime("now");
+			
+			$curMonth = intval(date("m", $today));
+			$curDay = date("d", $today);
+			$curYear = date("Y", $today);
+			
+			$springMonth = 2;
+			$summerMonth = 5;
+			$fallMonth = 8;
+			$winterMonth = 11;
+			
+			$seasonYear = $curYear;
+			
+			if (in_array($curMonth, array(11, 12, 1))) {
+				// spring
+				$seasonMonth = $springMonth;
+				if ($curMonth == 11 || $curMonth == 12) {
+					$seasonYear++;
+				}	
+			}
+			if (in_array($curMonth, array(2, 3, 4))) {
+				// summer
+				$seasonMonth = $summerMonth;
+			}
+			if (in_array($curMonth, array(5, 6, 7))) {
+				// fall
+				$seasonMonth = $fallMonth;
+			}
+			if (in_array($curMonth, array(8, 9, 10))) {
+				// winter
+				$seasonMonth = $winterMonth;
+			}
+			
+			$seasonDate = "$seasonYear-$seasonMonth-10";
+			$seasonDisplay = date("m/d/y", strtotime($seasonDate));
+			
+			$firstMonth = new DateTime("$curYear-$curMonth-1");
+			if ($curDay < 10) {
+				// same month, can ship
+				$shipDate = "$curYear-$curMonth-10";
+			
+			} else {
+				$firstMonth->modify('next month');
+				$shipDate = $firstMonth->format('Y-m-10');
+			}
+			
+			$shipDisplay = date("m/d/y", strtotime($shipDate));
+			
+			
+			
+		?>
                     	<div class="row">
                         	<div class="column twelve">
 								<div class="pricingSection seasonal">
 									<h1>our seasons</h1><br>
-									<p><strong>spring</strong> season ships in <strong>february</strong><br><strong>summer</strong> season ships in <strong>may</strong><br><strong>fall</strong> season ships in august<br><strong>winter</strong> season ships in <strong>november</strong></p>
+									<p><strong>spring</strong> season ships in <strong>february</strong><br><strong>summer</strong> season ships in <strong>may</strong><br><strong>fall</strong> season ships in <strong>august</strong><br><strong>winter</strong> season ships in <strong>november</strong></p>
 									<br>
 									<p>for <strong>seasonal orders</strong>, please indicate below if you would like to start immediately or for next season</p>
 									<div class="column six">
 										<div class="table">
 											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="start" value="now" checked><i></i></label></div>
 											<span class="table-title">start right away</span>
-											<span class="table-title bold">ships 00/00/00</span>
+											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
 										</div>
 									</div>
 									<div class="column six">
 										<div class="table">
 											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="start" value="next"><i></i></label></div>
 											<span class="table-title">start next season</span>
-											<span class="table-title bold">ships 00/00/00</span>
+											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
 										</div>
 									</div> 
 								</div>

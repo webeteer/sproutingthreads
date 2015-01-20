@@ -1,8 +1,8 @@
 .product-view {
-	/*display: none;*/
+	display: none;
 }
 .cart {
-	/*display: none;*/
+	display: none;
 }
 
 
@@ -479,7 +479,7 @@ body select {
 .customer-account .col-left {
 	display: inline-block;
 	float: left;
-	width: 200px;
+	width: 250px;
 
 }
 
@@ -570,4 +570,104 @@ body select {
 .main-section-pricing .monthly.active, 
 .main-section-pricing .seasonal.active {
 	display: block;
+}
+
+#login-form .col-1,
+#login-form .col-2 {
+	position: relative;
+	width: 48%;
+	min-height: 370px;
+
+	float: left;
+	margin-bottom: 100px;
+}
+
+#login-form .col-1 {
+	display: none;
+}
+
+#login-form .buttons-set {
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+}
+
+.remember-me-popup {
+	display: none !important;
+}
+
+#login-form a.button,
+#login-form button {
+	display: block;
+	width: 50%;
+	margin: 20px auto;
+}
+
+#login-form .form-list {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.account-login {
+	width: 700px;
+	margin: 0px auto;
+}
+
+.box-info {
+	clear: both;
+}
+
+.my-account input[type=text],
+.my-account input[type=email],
+.my-account input[type=password] {
+	padding: 3px 5px 3px 5px;
+	margin-bottom: 5px;
+}
+
+.my-account .field {
+	margin-top: 5px;
+}
+
+.my-account .fieldset {
+	margin-bottom: 50px;
+}
+
+
+#checkout-review-table .item-options {
+
+}
+
+#checkout-review-table .item-options dt {
+	float: left;
+	display: block;
+	clear: both;
+	width: 100px;
+	font-weight: bold;
+}
+
+#checkout-review-table .item-options dd {
+	float: left;
+	display: block;
+}
+
+#return .button-set {
+	width: 100%;
+}
+
+#return .button {
+	width: 30%;
+}
+
+#return #rethread {
+	float: left;
+}
+
+#return #return {
+	float: right;
+}
+
+#return .thanks {
+	padding: 20px 0 20px 0;
+	text-align: center;
+	font-weight: bold;
 }
