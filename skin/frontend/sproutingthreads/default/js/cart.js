@@ -14,11 +14,14 @@ jQuery(document).ready(function(){
 		obj.toggleClass('active', true);
 		*/
 		
+		var check = sub.find(".allblend input[type=checkbox]:checked");
+		var checkUl = check.closest(".allblend");
 		
 		var num = li.attr("data-row");
 		if (num > 0) {
 			sub.find("li").toggleClass("rowActive", false);
 			sub.find(".row"+num).toggleClass("rowActive", true);
+			checkUl.find(".row"+num+" input[type=checkbox]").click();
 		}
 		
 		
@@ -50,6 +53,18 @@ jQuery(document).ready(function(){
 			sub.find(".row"+num).toggleClass("rowActive", true);
 		}
 	});	
+	
+	jQuery(".table-frequency input[type=checkbox]").click(function(e) {
+			var check = jQuery(this);
+			var term = check.attr("value");
+			console.log(term);
+			
+			
+			jQuery(".pricingSection").toggleClass("active", false);
+			
+			jQuery(".pricingSection."+term).toggleClass("active", true);
+	});
+	
 });
 
 

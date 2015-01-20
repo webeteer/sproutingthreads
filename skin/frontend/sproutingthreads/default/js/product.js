@@ -350,18 +350,22 @@ function addProduct(arData, arTranslations) {
 			
 			var tar = arTranslations[key];
 			
-			console.log("Getting", tar);
-			
-			
 			var field = jQuery("input[name='"+tar+"'],select[name='"+tar+"'],textarea[name='"+tar+"']");
 			var type = field.attr('type');
-			
-			switch(type) {
-				case "radio":
+						
+			switch(key) {
+				case "radio":	
 					if (val == "boy") {
-						jQuery("#options_" + (base + (skip*num) + 4) + "_2").prop("checked", true);
+						jQuery("#options_" + (base + (skip*num) + 4) + "_2").click();
 					} else {
-						jQuery("#options_" + (base + (skip*num) + 4) + "_3").prop("checked", true);
+						jQuery("#options_" + (base + (skip*num) + 4) + "_3").click();
+					}
+					break;
+				case "gender":
+					if (val == "boy") {
+						val = 31;
+					} else {
+						val = 32;
 					}
 					break;
 				default:
@@ -372,7 +376,8 @@ function addProduct(arData, arTranslations) {
 		}
 	}	
 	
+	//opConfig.reloadPrice();
 	
-	
+	//jQuery(".btn-cart").click();
 	jQuery("#product_addtocart_form").submit();
 }
