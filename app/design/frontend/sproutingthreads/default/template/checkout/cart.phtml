@@ -40,12 +40,12 @@
                         	<div class="column twelve">
                         		<h1>pricing</h1>
                                 <h3>our pricing options are designed to accommodate a range of family interests and needs.<br>
-                                organized in three categories: frequency, assortment, and quantity.</h3>
+                                Options organized into three categories: Quantity, assortment, and frequency.</h3>
                                 <div class="row">
                             <div class="column four">
                                 <div class="table quantity">
                                     <span class="price quantity">quantity</span>
-                                    <span class="table-title">select the number of pieces you would like to receive in each delivery</span>
+                                    <span class="table-title">select the number of outfits you would like to receive in each delivery</span>
                                 </div>
                             </div>
                             <div class="column four">
@@ -75,15 +75,18 @@
     <section class="section-3-billing">
         <div class="container">
 		
+
+            <div class="row">
+				<div class="pricing-container">
+				
 <?php foreach($this->getItems() as $_item): ?>		
 <?php
 	$options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
 	$options = $options['options'];
 	
-	$name = $options[0]["value"];
-?>
-            <div class="row">
-				<div class="pricing-container">
+	$name = $options[1]["value"];
+?>				
+				
 					<h1> <?php echo $name;?>’s threads</h1>
 					<div class="row subSet">
 					
@@ -95,11 +98,11 @@
 									<div class="list-box-container pink-border">
 										<div class="list-box-content">
 											<ul class="optionSet">
-												<li data-row="1" class="row1 pink-border-bottom"><a href="#">4 pieces</a></li>
-												<li data-row="2" class="row2 pink-border-bottom"><a href="#">6 pieces</a></li>
-												<li data-row="3" class="row3 rowActive pink-border-bottom"><a href="#">10 pieces</a></li>
-												<li data-row="4" class="row4 pink-border-bottom"><a href="#">12 pieces</a></li>
-												<li data-row="5" class="row5 pink-border-bottom"><a href="#">18 pieces</a></li>
+												<li data-row="1" class="row1 pink-border-bottom"><a href="#">2 outfits</a></li>
+												<li data-row="2" class="row2 pink-border-bottom"><a href="#">3 outfits</a></li>
+												<li data-row="3" class="row3 rowActive pink-border-bottom"><a href="#">5 outfits</a></li>
+												<li data-row="4" class="row4 pink-border-bottom"><a href="#">6 outfits</a></li>
+												<li data-row="5" class="row5 pink-border-bottom"><a href="#">9 outfits</a></li>
 											</ul>
 										</div>
 									</div>
@@ -152,9 +155,11 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					
+					<?php endforeach; ?>						
 						
-						
-						
+					<div class="row subSet">	
 						
 						<div class="column twelve optionSet">
 							<div class="table-frequency">
@@ -190,7 +195,7 @@
 			
 				</div>    
 			</div>
-<?php endforeach; ?>					
+				
 						
 						
 			<div class="row">
@@ -199,10 +204,11 @@
 						<br>
 						<p>Note:</p>
 						<ul class="arrow">
-							<li>Piece counts are approximate, we may provide an extra-special piece or more pieces if we find a great deal for you</li>
-							<li>Pause your subscription at any time.</li>
-							<li>Free returns if something isn’t right</li>
-							<li>Clothes can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for credit of 20% of value.</li>
+							<li>an outfit is either a dress or a top & bottom, and may include accessories (hair clips, hats, suspenders, ties, scarves)</li>
+							<li>pause your subscription at any time.</li>
+							<li>free returns if a piece doesn't work out (see <a href="/faq" class="blue-link" target="_blank">FAQ</a> for details)</li>
+							<li>Clothes can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for sprouting threads <b>credit</b>.</li>
+							
 						</ul>
 					</div>
 				</div>
@@ -273,14 +279,14 @@
 									<p>for <strong>seasonal orders</strong>, please indicate below if you would like to start immediately or for next season</p>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="start" value="now" checked><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="radio" name="start" value="now" checked><i></i></label></div>
 											<span class="table-title">start right away</span>
 											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
 										</div>
 									</div>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="checkbox" name="start" value="next"><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="radio" name="start" value="next"><i></i></label></div>
 											<span class="table-title">start next season</span>
 											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
 										</div>
@@ -288,7 +294,7 @@
 								</div>
 								<div class="pricingSection monthly active">
 									<h1>our schedule</h1><br>
-									<p>for <strong>monthly orders</strong> received before the 10th of the month, your initial order will ship within a week; after the 10th, your initial order will ship at the start of the next month.</p>
+									<p>We ship our members regular monthly orders on the 10th of the month. We want you to enjoy your first order as soon as possible, so we will send it out within a week up until the 20th before beginning the monthly schedule. If we receive your order after the 20th, we'll put you at the head of the line for the next months schedule.</p>
 									<div class="column six">
 										&nbsp;<br/>
 										&nbsp;<br/>

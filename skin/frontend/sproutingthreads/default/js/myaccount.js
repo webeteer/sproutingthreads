@@ -20,5 +20,31 @@ jQuery(document).ready(function(){
 		
 	});
 	
+	jQuery("#contactFormSection .button").click(function(e) {
+		e.preventDefault();
+		
+		
+		var email = objCustomer.email;
+		var action = jQuery(this).attr('data-action');
+		var content = jQuery("#contactFormField").val();
+				
+		jQuery.ajax({
+			type: "POST",
+			url: '/sendMail.php',
+			data: {
+				emailContent: content,
+				action: action,
+				email: email
+			},
+			dataType: "json"
+			
+		});
+		
+		var buttons = jQuery("#contactFormSection .forThank");
+		buttons.html("<div class='thanks'>Thank you!</div>");
+		
+		
+	});
+	
 });
 

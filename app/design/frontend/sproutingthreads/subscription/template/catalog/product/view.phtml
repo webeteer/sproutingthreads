@@ -108,7 +108,7 @@
                                             <a href="#" class="select-button" data-info="0">maybe</a>
                                             <a href="#" class="select-button" data-info="-1">no, thanks</a>
 											
-											<input type="hidden" name="vintage" id="vintage" value="13" />
+											<input type="hidden" name="vintage" id="vintage" value="0" />
                                             </div>
                                         </div>
                                     </div>
@@ -137,11 +137,11 @@
                                                 <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button">yes, please</a>
-                                            <a href="#" class="select-button">maybe</a>
-                                            <a href="#" class="select-button">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="1">yes, please</a>
+                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
 											
-											<input type="hidden" name="classic" id="classic" value="9" />
+											<input type="hidden" name="classic" id="classic" value="0" />
                                             </div>
                                         </div>
                                     </div>
@@ -170,11 +170,11 @@
                                                 <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button">yes, please</a>
-                                            <a href="#" class="select-button">maybe</a>
-                                            <a href="#" class="select-button">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="1">yes, please</a>
+                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
 											
-											<input type="hidden" name="sporty" id="sporty" value="5" />
+											<input type="hidden" name="sporty" id="sporty" value="0" />
                                             </div>
                                         </div>
                                     </div>
@@ -203,11 +203,11 @@
                                                 <p class="count">1 of 3</p>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button">yes, please</a>
-                                            <a href="#" class="select-button">maybe</a>
-                                            <a href="#" class="select-button">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="1">yes, please</a>
+                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
 											
-											<input type="hidden" name="funky" id="funky" value="7" />
+											<input type="hidden" name="funky" id="funky" value="0" />
                                             </div>
                                         </div>
                                     </div>
@@ -219,6 +219,9 @@
             </div>
         </div>
     </section>
+	
+	<input type="hidden" name="likes" id="likes" value="" />
+	
     <!-- Start Section 3 -->
     <section class="start-section-3">
         <div class="container">
@@ -397,7 +400,7 @@
                 	<div class="alignleft column six top-30"><img src="<?php echo $this->getSkinUrl('images/bg/picky.jpg'); ?>" alt="picky"></div>
                     <div class="picky-copy">
                     <h5>anything you're picky about?!</h5><br>
-                    <p>any preferred colors or patterns? does your child like his or her clothes extra loose or extra tight? is your child allergic to any specific materials? feel free to add any extra comments below.</p><br>
+                    <p>any preferred colors or patterns? does your child like his or her clothes extra loose or extra tight? is your child allergic to any specific materials? does your child like accessories (hats, scarves, hair clips, ties) or could do without? feel free to add any extra comments below.</p><br>
 					<textarea name="picky" id="picky" cols="30" rows="3"></textarea>
 					<br clear="all" />
                     <!--<a href="#" id="childAdd" class="lm-button lb fill">add child</a>-->

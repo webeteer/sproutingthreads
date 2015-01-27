@@ -5,4 +5,16 @@
             <action method="removeLinkByUrl"><url>http://your.site/index.php/contacts/</url></action>
         </reference>
     </default>
+	
+	<customer_account>
+		<reference name="left">
+			<reference name="customer_account_navigation">
+				<action method="addLink" translate="label" module="customer">
+					<name>Logout</name>
+					<path>customer/account/logout/</path>
+					<label>Log Out</label>
+				</action>
+			</reference>
+		</reference>
+	</customer_account>
 </layout>

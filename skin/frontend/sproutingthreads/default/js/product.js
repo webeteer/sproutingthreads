@@ -1,5 +1,14 @@
 var imgPath = "/skin/frontend/sproutingthreads/default/images/select/";
 
+var arLikes = {
+	"classic": 0,
+	"funky": 0,
+	"sporty": 0,
+	"vintage": 0
+};
+
+var strLikes = "";
+
 var arFields = {
 	"name": 1,
 	"gender": 1,
@@ -13,10 +22,12 @@ var arFields = {
 	"dress": 0,
 	"picky": 0,
 	
-	"vintage": 1,
-	"classic": 1,
-	"sporty": 1,
-	"funky": 1
+	"vintage": 0,
+	"classic": 0,
+	"sporty": 0,
+	"funky": 0,
+	
+	"likes": 0
 };
 
 var arSelectors = {
@@ -36,14 +47,14 @@ var arSelectors = {
 		"sporty": [
 			"sporty-boy-1.jpg",
 			"sporty-boy-2.jpg",
-			"sporty-boy-3.jpg",
+			"sporty-boy-5.jpg",
 			"sporty-boy-4.jpg"
 		],
 		"vintage": [
-			"vintage-boy-1.jpg",
+			"vintage-boy-5.jpg",
 			"vintage-boy-2.jpg",
 			"vintage-boy-3.jpg",
-			"vintage-boy-4.jpg"
+			"vintage-boy-6.jpg"
 		]
 	},
 	"girl": {
@@ -96,9 +107,9 @@ var arTranslations = {
 	"funky": "options[6]",
 };
 
-var base = 0;
+var base = 4;
 var skip = 13;
-var num = 2; // iterate this
+var num = 4; // iterate this
 
 var arTranslations = {
 	"name": "options[" + (base + (skip*num) + 3) + "]",
@@ -117,6 +128,8 @@ var arTranslations = {
 	"classic": "options[" + (base + (skip*num) + 7) + "]",
 	"sporty": "options[" + (base + (skip*num) + 5) + "]",
 	"funky": "options[" + (base + (skip*num) + 6) + "]",
+	
+	"likes": "options[" + (base + (skip*num) + 14) + "]"
 };
 /*
 var arTranslations = {
@@ -195,6 +208,22 @@ function getGender() {
 	
 }
 function initSelectors(gender) {
+	arLikes["classic"] = 0;
+	arLikes["funky"] = 0;
+	arLikes["sporty"] = 0;
+	arLikes["vintage"] = 0;
+	
+	strLikes = "";
+	
+	type = "classic";
+	jQuery("#"+type).val(arLikes[type]);
+	type = "funky";
+	jQuery("#"+type).val(arLikes[type]);
+	type = "sporty";
+	jQuery("#"+type).val(arLikes[type]);
+	type = "vintage";
+	jQuery("#"+type).val(arLikes[type]);
+	
 	jQuery(".imageSelector").each(function() {
 		var parent = jQuery(this);
 		parent.attr("data-count", 1);
@@ -209,6 +238,7 @@ function initSelectors(gender) {
 		
 		var img = parent.find(".selector img");
 		img.attr('src', imgPath + src);
+		img.attr('data-src', src);
 		
 		var objCount = parent.find(".count");
 		var strCount = num  + " of " + total;
@@ -224,7 +254,10 @@ function setupSelectors() {
 		
 		var obj = jQuery(this);
 		var parent = jQuery(this).closest(".imageSelector");
+		var img = parent.find(".selector img");
 		
+		var dataInfo = parseInt(obj.attr("data-info"));
+		var dataSrc = img.attr("data-src");
 		
 		var num = parent.attr("data-count");
 		var type = parent.attr("data-type");
@@ -233,22 +266,45 @@ function setupSelectors() {
 		var arBase = arSelectors[gender][type];
 		var total = arBase.length;
 
+		arLikes[type] += dataInfo;
+		
+		console.log("1");
+		jQuery("#"+type).val(arLikes[type]);
+		
+		console.log("2");
+
+		if (dataInfo == 1) {
+			// liked image
+			strLikes += dataSrc+";";
+			jQuery("#likes").val(strLikes);
+		}
+				console.log("3");
+
+		
 		parent.find(".selected").toggleClass("selected", false);
 		obj.toggleClass("selected", true);
 
+		
+				console.log("4");
+
+		
 		if (num >= total) {
 			console.log("Skip");
 			var opener = jQuery(this).closest("ul");
 			opener.find(":checkbox").attr("checked", false);
 		}
 		
+				console.log("5");
+
+		
 		if (num < total) {
 			num++;
 			
 			var src = arBase[num - 1];
 			
-			var img = parent.find(".selector img");
+			
 			img.attr('src', imgPath + src);
+			img.attr('data-src', src);
 			
 			var objCount = parent.find(".count");
 			var strCount = num  + " of " + total;
@@ -258,7 +314,8 @@ function setupSelectors() {
 			parent.attr("data-count", num );
 			obj.toggleClass("selected", false);
 		}
-		
+		console.log("LIKES BTN", arLikes);
+		console.log("LIKES STR", strLikes);
 		
 	});
 	
@@ -300,6 +357,8 @@ function validateForm(arFieldList, arData) {
 		}
 	}
 	
+	console.log("LIKES", arLikes);
+	
 	console.log("Errors", errors);
 	return (errors == 0);
 }
@@ -337,7 +396,7 @@ function getFormData(arFieldList) {
 		}
 	}	
 	
-	console.log(arData);
+	console.log("getForm", arData);
 	
 	return arData;
 }
@@ -352,6 +411,9 @@ function addProduct(arData, arTranslations) {
 			
 			var field = jQuery("input[name='"+tar+"'],select[name='"+tar+"'],textarea[name='"+tar+"']");
 			var type = field.attr('type');
+			
+			console.log(key, val, tar, type);
+			
 						
 			switch(key) {
 				case "radio":	
@@ -363,9 +425,9 @@ function addProduct(arData, arTranslations) {
 					break;
 				case "gender":
 					if (val == "boy") {
-						val = 31;
+						val = 66;
 					} else {
-						val = 32;
+						val = 67;
 					}
 					break;
 				default:
@@ -379,5 +441,7 @@ function addProduct(arData, arTranslations) {
 	//opConfig.reloadPrice();
 	
 	//jQuery(".btn-cart").click();
+	
+	
 	jQuery("#product_addtocart_form").submit();
 }
