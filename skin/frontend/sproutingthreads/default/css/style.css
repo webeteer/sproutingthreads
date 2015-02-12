@@ -1664,6 +1664,9 @@ ul.social li a:hover {
 	line-height: 51px;
 	margin-top: 140px;
 }
+
+
+
 .home-image {
 	background-image: url('../images/bg/home-1.jpg');
 }
@@ -1732,7 +1735,7 @@ ul.social li a:hover {
 }
 .home-section-4 {
     margin: 0;
-    background-color: #e2dcb2;
+    background-color: #90a54c;
     height: 414px;
     padding: 0;
 	z-index: 1;
@@ -2727,6 +2730,9 @@ background-image: url('../images/bg/home-top-1600.jpg');
     padding: 60px 0;
     background-position: left;
 }
+
+
+
   .top-section-home h1{
 	padding: 10px;
 	font-size: 27px;

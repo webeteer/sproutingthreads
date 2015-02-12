@@ -131,26 +131,7 @@ var arTranslations = {
 	
 	"likes": "options[" + (base + (skip*num) + 14) + "]"
 };
-/*
-var arTranslations = {
-	"name": "options[16]",
-	"gender": "options[17]",
-	"birthdayMonth": "options[15][month]",
-	"birthdayDay": "options[15][day]",
-	"birthdayYear": "options[15][year]",
-	"height": "options[25]",
-	"weight": "options[14]",
-	"top": "options[24]",
-	"bottom": "options[23]",
-	"dress": "options[22]",
-	"picky": "options[26]",
-	
-	"vintage": "options[21]",
-	"classic": "options[20]",
-	"sporty": "options[18]",
-	"funky": "options[19]",
-};
-*/
+
 
 jQuery(document).ready(function(){
 	initSelectors();
@@ -271,31 +252,20 @@ function setupSelectors() {
 		console.log("1");
 		jQuery("#"+type).val(arLikes[type]);
 		
-		console.log("2");
-
 		if (dataInfo == 1) {
 			// liked image
 			strLikes += dataSrc+";";
 			jQuery("#likes").val(strLikes);
 		}
-				console.log("3");
-
 		
 		parent.find(".selected").toggleClass("selected", false);
 		obj.toggleClass("selected", true);
 
 		
-				console.log("4");
-
-		
 		if (num >= total) {
-			console.log("Skip");
 			var opener = jQuery(this).closest("ul");
 			opener.find(":checkbox").attr("checked", false);
 		}
-		
-				console.log("5");
-
 		
 		if (num < total) {
 			num++;
@@ -314,8 +284,6 @@ function setupSelectors() {
 			parent.attr("data-count", num );
 			obj.toggleClass("selected", false);
 		}
-		console.log("LIKES BTN", arLikes);
-		console.log("LIKES STR", strLikes);
 		
 	});
 	

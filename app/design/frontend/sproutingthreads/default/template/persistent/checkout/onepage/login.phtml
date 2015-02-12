@@ -85,44 +85,59 @@
         </div>
     </div>
     <div class="col-2">
-        <h3><?php echo $this->__('Returning Customers') ?></h3>
-        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-        <form id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
-        <div class="fieldset">
-            <?php echo $this->getBlockHtml('formkey'); ?>
-            <p class="description"><?php echo $this->__('Sign in to speed up your checkout process') ?></p>
-            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
-            <ul class="form-list">
-                <li>
-                    <label for="login-email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
-                    <div class="input-box">
-                        <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" class="input-text required-entry validate-email" id="login-email" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" />
-                    </div>
-                </li>
-                <li>
-                    <label for="login-password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
-                    <div class="input-box">
-                        <input type="password" class="input-text validate-password required-entry" id="login-password" name="login[password]" />
-                    </div>
-                </li>
-                <li>
-                    <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>" class="f-left"><?php echo $this->__('Forgot your password?') ?></a>
-                </li>
-                <?php echo $this->getChildHtml('form.additional.info'); ?>
-                <?php echo $this->getChildHtml('persistent.remember.me'); ?>
-            </ul>
-            <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
-            <input name="context" type="hidden" value="checkout" />
-        </div>
-        </form>
-        <div class="buttons-set">
-            <button type="submit" class="button" onclick="onepageLogin(this)"><span><span><?php echo $this->__('Login') ?></span></span></button>
-        </div>
+		<a href="#" id="revealLogin">Already a customer?</a>
+		<div class="hiddenLogin">
+			<h3><?php echo $this->__('Returning Customers') ?></h3>
+			<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+			<form id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
+			<div class="fieldset">
+				<?php echo $this->getBlockHtml('formkey'); ?>
+				<p class="description"><?php echo $this->__('Sign in to speed up your checkout process') ?></p>
+				<p class="required"><?php echo $this->__('* Required Fields') ?></p>
+				<ul class="form-list">
+					<li>
+						<label for="login-email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+						<div class="input-box">
+							<input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" class="input-text required-entry validate-email" id="login-email" name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" />
+						</div>
+					</li>
+					<li>
+						<label for="login-password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+						<div class="input-box">
+							<input type="password" class="input-text validate-password required-entry" id="login-password" name="login[password]" />
+						</div>
+					</li>
+					<li>
+						<a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>" class="f-left"><?php echo $this->__('Forgot your password?') ?></a>
+					</li>
+					<?php echo $this->getChildHtml('form.additional.info'); ?>
+					<?php echo $this->getChildHtml('persistent.remember.me'); ?>
+				</ul>
+				<?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
+				<input name="context" type="hidden" value="checkout" />
+			</div>
+			</form>
+			<div class="buttons-set">
+				<button type="submit" class="button" onclick="onepageLogin(this)"><span><span><?php echo $this->__('Login') ?></span></span></button>
+			</div>
+		</div>
     </div>
 </div>
 
+<br clear="all" />
+
 <script type="text/javascript">
 //<![CDATA[
+jQuery(document).ready(function() {
+	jQuery("#revealLogin").click(function(e) {
+		e.preventDefault();
+		
+		jQuery(".hiddenLogin").show();
+		jQuery(this).hide();
+	});
+	
+});
+
     var loginForm = new VarienForm('login-form', true);
     $('login-email').observe('keypress', bindLoginPost);
     $('login-password').observe('keypress', bindLoginPost);

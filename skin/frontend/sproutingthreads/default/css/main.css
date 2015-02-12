@@ -18,6 +18,7 @@ footer {
 
 .picky-copy textarea {
 	margin-bottom: 0px;
+	text-align: left !important;
 }
 
 html {
@@ -704,3 +705,77 @@ body select {
 	width: 36px;
 	background: transparent url(../images/cart.png) no-repeat;
 }	
+
+.home-image a {
+	float: left;
+}
+
+ul.list-box .title-box,
+ul.list-box .title-box-pink {
+	font-size: 22px;
+}
+
+/** Color Product boxes **/
+
+.collapse-vintage-list .collapse-vintage-inner {
+	background-color: #fcfaf9;
+}
+
+.collapse-classic-list .collapse-classic-inner {
+	background-color: #ececec;
+}
+
+.collapse-sporty-list .collapse-sporty-inner {
+	background-color: #eff8f9;
+}
+
+.collapse-funky-list .collapse-funky-inner {
+	background-color: #f4f6ed;
+}
+
+#sky-form .note {
+}
+
+.pricing-container .sky-form .checkbox i {
+	border-color: #ccc;
+}
+
+
+/** Checkout Page **/
+
+#opc-login .col-1 {
+	width: 100%;
+}
+
+.checkout .section {
+	clear: both;
+}
+
+.checkout .buttons-set {
+	clear: both;
+}
+
+#revealLogin {
+	margin: 0px auto;
+	display: block;
+	width: auto;
+	text-align: center;
+}
+
+.checkout #opc-login .col-1, 
+.checkout #opc-login .col-2 {
+	height: auto;
+	width: 100%;
+}
+
+.hiddenLogin {
+	display: none;
+}
+
+.checkout-cart-index .brands h3 {
+	display: none;
+}
+
+.checkout-cart-index .brands {
+	padding: 10px 0 20px 0;
+}

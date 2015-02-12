@@ -47,16 +47,26 @@ $bLoggedIn = $this->helper('customer')->isLoggedIn();
 					<li><a href="/about">about</a></li>
 					<li><a href="/rethreads">reThreads</a></li>
 					<li><a href="/faq">faq</a></li>
+					<?php if ($bLoggedIn): ?>
+					<li><a href="/customer/account">myAccount</a></li>
+					<?php endif; ?>
+					
 					<?php if ($numCart > 0): ?>
-						<li><a href="/checkout/cart" id="cartIcon"></a></li>
-						<li><a href="/checkout/cart" class="lm-button ls fill">go</a></li>
+						<!--<li><a href="/checkout/cart" id="cartIcon"></a></li>-->
+						<li><a href="/checkout/cart" class="lm-button ls fill">Checkout</a></li>
 					<?php else: ?>
-						<li><a href="/child-subscription.html" class="lm-button ls fill">go</a></li>
+					
+						<?php if ($this->getIsHomePage()): ?>
+							<li><a href="/styles" class="lm-button ls fill">Start Now</a></li>
+						<?php else: ?>
+							<li><a href="/child-subscription.html" class="lm-button ls fill">Next</a></li>
+						<?php endif; ?>
+						
 					<?php endif; ?>
 					
 					
 					<?php if ($bLoggedIn): ?>
-						<li><a href="/customer/account" class="lm-button-grey ls fill">log in</a></li>
+						<li><a href="/customer/account/logout" class="lm-button-grey ls fill">log out</a></li>
 					<?php else: ?>
 						<li><a href="/customer/account" class="lm-button-grey ls fill">log in</a></li>
 					<?php endif; ?>
