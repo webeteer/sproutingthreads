@@ -1,5 +1,25 @@
 
 jQuery(document).ready(function(){
+	
+	jQuery(".prodCheck").click(function(e) {
+		var obj = jQuery(this);
+		
+		var optId = 71;
+		var optVal = obj.val();
+		
+		jQuery.ajax({
+			type: "POST",
+			url: "/checkout/cart/",
+			data: {
+				"optId": optId,
+				"optVal": optVal
+			},
+			success: function() {
+				
+			}
+			
+		});
+	});	
 	jQuery(".optionSet a").click(function(e) {
 		e.preventDefault();
 		var par = jQuery(this).closest(".optionSet");

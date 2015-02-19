@@ -31,7 +31,92 @@
  * @var $this Mage_Checkout_Block_Cart
  */
 ?>
+<?php
+	function toArDate($strDate) {
+		$dt = strtotime($strDate);
+		
+		$month = date("n", $dt);
+		$day = date("j", $dt);
+		$year = date("Y", $dt);
+		
+		$internal = date("Y-m-d 00:00:00", $dt);
+		
+		return array(
+			"month" => $month,
+			"day" => $day,
+			"year" => $year,
+			"date_internal" => $internal
+		);
+	};
 
+	$cart = Mage::getSingleton('checkout/cart');
+	$cartHelper = Mage::helper('checkout/cart');
+	
+	$cart = $cartHelper->getCart();
+	
+	$session = Mage::getSingleton('checkout/session');
+	
+	$quote = $session->getQuote();
+	
+	$quoteId= Mage::getModel('checkout/cart_api')->create('default');
+	$storeId = Mage::app()->getStore()->getStoreId();
+?>
+
+<?php 
+
+
+$optId = $_POST['optId'];
+$optVal = $_POST['optVal'];
+
+$set = "option_$optId";
+$val = $optVal;
+
+
+foreach($cart->getItems() as $_item): 
+	$options = $_item->getOptions();
+	
+	
+	foreach($options as $option) {
+		
+		$data = $option->getData();
+		
+		//print_r($data);
+		
+		$title = $option->getTitle();
+		$code = $option->getCode();
+		$value = $option->getValue();
+		
+		/*
+		echo $option->getTitle()."
+";
+		echo $option->getCode()."
+";
+		echo $option->getValue()."
+		
+";
+	*/
+
+		if ($code == $set) {
+			$option->setValue($val);
+		}
+
+		/*
+		if ($code == 'option_59') {
+			$option->setValue('TEST NEW NAME 5');
+		}
+		*/
+	}
+
+	
+endforeach;
+
+
+$session->setCartWasUpdated(true);
+$cart->save();
+$cart->init();
+
+	
+?>		
 
 <!--  Styles Intro Section -->
     <section class="top-section-billing">
@@ -67,8 +152,6 @@
 		
     </section>
 	
-	
-	
 	<form id="cart">
 	
 
@@ -80,13 +163,47 @@
 
             <div class="row">
 				<div class="pricing-container">
-				
-<?php foreach($this->getItems() as $_item): ?>		
 <?php
-	$options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
-	$options = $options['options'];
 	
-	$name = $options[1]["value"];
+	
+	
+?>				
+<?php foreach($cart->getItems() as $_item): ?>		
+<?php
+	
+	
+	$pid = $_item->getProduct()->getId();
+	
+	$options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
+	//$options = $options['options'];
+	
+	$findKey = "Name";
+	
+	for ($i=0;$i<count($options['options']);$i++) {
+			
+		$optId = $options['options'][$i]['option_id'];
+		$optValue = $options['options'][$i]['option_value'];
+		$optLabel = $options['options'][$i]['label'];
+		$optText = $options['options'][$i]['print_value'];
+		
+		//echo "$optLabel - $optValue - $optId";
+		
+		if ($optLabel == "Name") {
+			$name = $optValue;
+		} 
+		if ($optLabel == "SubType") {
+			$subType = $optValue;
+			$subText = $optText;
+		} 
+		
+	}
+	
+	function getNumeric($str) {
+		preg_match_all('!\d+!', $str, $matches);
+		return $matches[0][0];
+	}
+	
+	$subNum = getNumeric($subText);			
 ?>				
 				
 					<h1> <?php echo $name;?>’s threads</h1>
@@ -100,11 +217,16 @@
 									<div class="list-box-container pink-border">
 										<div class="list-box-content">
 											<ul class="optionSet">
-												<li data-row="1" class="row1 pink-border-bottom"><a href="#">2 outfits</a></li>
-												<li data-row="2" class="row2 pink-border-bottom"><a href="#">3 outfits</a></li>
-												<li data-row="3" class="row3 rowActive pink-border-bottom"><a href="#">5 outfits</a></li>
-												<li data-row="4" class="row4 pink-border-bottom"><a href="#">6 outfits</a></li>
-												<li data-row="5" class="row5 pink-border-bottom"><a href="#">9 outfits</a></li>
+												<?php $rowQuantity = 2; ?>
+												<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">2 outfits</a></li>
+												<?php $rowQuantity = 3; ?>
+												<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">3 outfits</a></li>
+												<?php $rowQuantity = 5; ?>
+												<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">5 outfits</a></li>
+												<?php $rowQuantity = 6; ?>
+												<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">6 outfits</a></li>
+												<?php $rowQuantity = 9; ?>
+												<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">9 outfits</a></li>
 											</ul>
 										</div>
 									</div>
@@ -123,12 +245,30 @@
 										<h1 class="title-box">all new</h1>
 										<div class="list-box-container">
 											<div class="list-box-content">
+												<?php
+													$rowRoot = "all new ";
+												?>
 												<ul class="allblend" data-type="all">
-													<li data-row="1" class="row1 green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" type="checkbox" value="130" name="terms"><i></i></label></div></li>
-													<li data-row="2" class="row2 green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" type="checkbox" value="180" name="terms" ><i></i></label></div></li>
-													<li data-row="3" class="row3 rowActive green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" type="checkbox" value="290" name="terms"  checked><i></i></label></div></li>
-													<li data-row="4" class="row4 green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" type="checkbox" value="340" name="terms" ><i></i></label></div></li>
-													<li data-row="5" class="row5 green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" type="checkbox" value="500" name="terms" ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" class="prodCheck" type="checkbox" value="69" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" class="prodCheck" type="checkbox" value="70" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" class="prodCheck" type="checkbox" value="71" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" class="prodCheck" type="checkbox" value="72" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" class="prodCheck" type="checkbox" value="73" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -143,12 +283,30 @@
 										<h1 class="title-box">&frac12; new &frac12; reThread</h1>
 										<div class="list-box-container">
 											<div class="list-box-content">
+												<?php
+													$rowRoot = "half new half rethread ";
+												?>											
 												<ul class="allblend" data-type="blend">
-													<li data-row="1" class="row1 green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="2" class="row2 green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="3" class="row3 rowActive green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="4" class="row4 green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="5" class="row5 green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" type="checkbox" name="terms" ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" class="prodCheck" type="checkbox" name="terms" value="74" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" class="prodCheck" type="checkbox" name="terms" value="75" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" class="prodCheck" type="checkbox" name="terms" value="76" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" class="prodCheck" type="checkbox" name="terms" value="77" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" class="prodCheck" type="checkbox" name="terms" value="78" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -435,7 +593,7 @@
                 </tr>
             </tfoot>
             <tbody>
-            <?php foreach($this->getItems() as $_item): ?>
+            <?php foreach($cart->getItems() as $_item): ?>
                 <?php echo $this->getItemHtml($_item) ?>
             <?php endforeach ?>
             </tbody>

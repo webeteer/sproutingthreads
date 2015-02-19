@@ -1,4 +1,5 @@
 var imgPath = "/skin/frontend/sproutingthreads/default/images/select/";
+var defaultSub = "all new 5";
 
 var arLikes = {
 	"classic": 0,
@@ -136,6 +137,8 @@ var arTranslations = {
 jQuery(document).ready(function(){
 	initSelectors();
 	setupSelectors();
+	
+
 	
 	jQuery("input[name='gender']").click(function() {	
 		var obj = jQuery(this);
@@ -410,6 +413,9 @@ function addProduct(arData, arTranslations) {
 	
 	//jQuery(".btn-cart").click();
 	
+	tar = "options["+(base + (skip*num) + 15)+"]";
+	var field = jQuery('select[name="'+tar+'"]');
+	var option = field.find("option:contains('" + defaultSub + "')").attr("selected", true);
 	
 	jQuery("#product_addtocart_form").submit();
 }

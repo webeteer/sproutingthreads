@@ -1,0 +1,23 @@
+
+<config>
+    <adminhtml>
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <AdminGridAdd>
+                        <class>AdminGridAdd/adminhtml_observer</class>
+                        <method>onBlockHtmlBefore</method>
+                    </AdminGridAdd>
+                </observers>
+            </adminhtml_block_html_before>
+            <eav_collection_abstract_load_before>
+                <observers>
+                    <AdminGridAdd>
+                        <class>AdminGridAdd/adminhtml_observer</class>
+                        <method>onEavLoadBefore</method>
+                    </AdminGridAdd>
+                </observers>
+            </eav_collection_abstract_load_before>
+        </events>
+    </adminhtml>
+</config>

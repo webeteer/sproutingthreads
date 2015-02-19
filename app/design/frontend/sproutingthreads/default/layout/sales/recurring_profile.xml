@@ -29,7 +29,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation" >
-            <action method="addLink" translate="label"><name>recurring_profiles</name><path>sales/recurring_profile/</path><label>Child Profiles</label></action>
+            <action method="addLink" translate="label"><name>recurring_profiles</name><path>sales/recurring_profile/</path><label>my child profiles</label></action>
         </reference>
     </customer_account>
 

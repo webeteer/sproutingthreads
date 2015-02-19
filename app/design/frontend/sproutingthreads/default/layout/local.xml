@@ -12,7 +12,7 @@
 				<action method="addLink" translate="label" module="customer">
 					<name>Logout</name>
 					<path>customer/account/logout/</path>
-					<label>Log Out</label>
+					<label>log out</label>
 				</action>
 			</reference>
 		</reference>
