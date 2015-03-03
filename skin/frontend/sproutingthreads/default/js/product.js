@@ -1,6 +1,8 @@
 var imgPath = "/skin/frontend/sproutingthreads/default/images/select/";
 var defaultSub = "all new 5";
 
+
+
 var arLikes = {
 	"classic": 0,
 	"funky": 0,
@@ -29,6 +31,14 @@ var arFields = {
 	"funky": 0,
 	
 	"likes": 0
+};
+
+var arChoices = {
+	"upload": "",
+	"classic": {},
+	"funky": {},
+	"sporty": {},
+	"vintage": {}
 };
 
 var arSelectors = {
@@ -86,59 +96,54 @@ var arSelectors = {
 	}
 };
 
-console.log(arSelectors);
-
-// original
-var arTranslations = {
-	"name": "options[3]",
-	"gender": "options[4]",
-	"birthdayMonth": "options[2][month]",
-	"birthdayDay": "options[2][day]",
-	"birthdayYear": "options[2][year]",
-	"height": "options[12]",
-	"weight": "options[1]",
-	"top": "options[11]",
-	"bottom": "options[10]",
-	"dress": "options[9]",
-	"picky": "options[13]",
-	
-	"vintage": "options[8]",
-	"classic": "options[7]",
-	"sporty": "options[5]",
-	"funky": "options[6]",
-};
-
-var base = 4;
-var skip = 13;
-var num = 4; // iterate this
-
-var arTranslations = {
-	"name": "options[" + (base + (skip*num) + 3) + "]",
-	"gender": "options[" + (base + (skip*num) + 4) + "]",
-	"birthdayMonth": "options[" + (base + (skip*num) + 2) + "][month]",
-	"birthdayDay": "options[" + (base + (skip*num) + 2) + "][day]",
-	"birthdayYear": "options[" + (base + (skip*num) + 2) + "][year]",
-	"height": "options[" + (base + (skip*num) + 12) + "]",
-	"weight": "options[" + (base + (skip*num) + 1) + "]",
-	"top": "options[" + (base + (skip*num) + 11) + "]",
-	"bottom": "options[" + (base + (skip*num) + 10) + "]",
-	"dress": "options[" + (base + (skip*num) + 9) + "]",
-	"picky": "options[" + (base + (skip*num) + 13) + "]",
-	
-	"vintage": "options[" + (base + (skip*num) + 8) + "]",
-	"classic": "options[" + (base + (skip*num) + 7) + "]",
-	"sporty": "options[" + (base + (skip*num) + 5) + "]",
-	"funky": "options[" + (base + (skip*num) + 6) + "]",
-	
-	"likes": "options[" + (base + (skip*num) + 14) + "]"
-};
-
 
 jQuery(document).ready(function(){
 	initSelectors();
 	setupSelectors();
 	
-
+	var uploader = new ss.SimpleUpload({
+		button: document.getElementById('uploadBtn'),
+		url: '/uploadHandler.php',
+		name: 'uploadfile',
+		responseType: 'json',
+		allowedExtensions: ["jpg", "jpeg", "png", "gif"],
+		onComplete: function(filename, response) {
+			if (!response) {
+				alert(filename + 'upload failed');
+				return false;            
+			}
+			
+			var newFilename = response.filename;
+			arChoices["upload"] = newFilename;
+			jQuery("#likes").val(JSON.stringify(arChoices));
+			jQuery("#uploadBtn").html("completed!");
+		}
+	});
+	
+	jQuery(".back, .next").click(function(e) {
+		e.preventDefault();
+		
+		var obj = jQuery(this);
+		
+		var change = parseInt(obj.attr("data-change"));
+		var parent = jQuery(this).closest(".imageSelector");
+		var num = parseInt(parent.attr("data-count"));
+		var type = parent.attr("data-type");
+		var gender = getGender();
+		
+		var arBase = arSelectors[gender][type];
+		var total = arBase.length;		
+		
+		var tar = num+change;
+		
+		if (tar <= total && tar > 0) {
+			moveStep(obj, num+change);	
+		}
+		
+		
+		
+		
+	});
 	
 	jQuery("input[name='gender']").click(function() {	
 		var obj = jQuery(this);
@@ -181,10 +186,8 @@ jQuery(document).ready(function(){
 });
 
 function getGender() {
-	console.log(arTranslations);
 	var field = arTranslations.gender;
 	var item = jQuery("input[name='gender']:checked");
-	console.log(item);
 	
 	var val = item.val();
 	
@@ -197,6 +200,13 @@ function initSelectors(gender) {
 	arLikes["sporty"] = 0;
 	arLikes["vintage"] = 0;
 	
+	
+	arChoices["classic"] = {};
+	arChoices["funky"] = {};
+	arChoices["sporty"] = {};
+	arChoices["vintage"] = {};
+	
+	jQuery("#likes").val(JSON.stringify(arChoices));
 	strLikes = "";
 	
 	type = "classic";
@@ -207,6 +217,8 @@ function initSelectors(gender) {
 	jQuery("#"+type).val(arLikes[type]);
 	type = "vintage";
 	jQuery("#"+type).val(arLikes[type]);
+	
+	jQuery(".start-styles-section").find(".selected").toggleClass("selected", false);	
 	
 	jQuery(".imageSelector").each(function() {
 		var parent = jQuery(this);
@@ -230,8 +242,9 @@ function initSelectors(gender) {
 				
 		
 	});
-
 }
+
+
 function setupSelectors() {
 	jQuery(".select-button").click(function(e) {
 		e.preventDefault();
@@ -252,14 +265,15 @@ function setupSelectors() {
 
 		arLikes[type] += dataInfo;
 		
-		console.log("1");
+		
+		arChoices[type][dataSrc] = dataInfo;
+		
+		
 		jQuery("#"+type).val(arLikes[type]);
 		
-		if (dataInfo == 1) {
-			// liked image
-			strLikes += dataSrc+";";
-			jQuery("#likes").val(strLikes);
-		}
+		jQuery("#likes").val(JSON.stringify(arChoices));
+		
+		console.log(JSON.stringify(arChoices));
 		
 		parent.find(".selected").toggleClass("selected", false);
 		obj.toggleClass("selected", true);
@@ -271,24 +285,54 @@ function setupSelectors() {
 		}
 		
 		if (num < total) {
-			num++;
-			
-			var src = arBase[num - 1];
-			
-			
-			img.attr('src', imgPath + src);
-			img.attr('data-src', src);
-			
-			var objCount = parent.find(".count");
-			var strCount = num  + " of " + total;
-			objCount.html(strCount);
-			
-			
-			parent.attr("data-count", num );
-			obj.toggleClass("selected", false);
+			moveStep(obj, ++num);
 		}
 		
+		console.log("arChoices: ", arChoices);
 	});
+	
+}
+
+function moveStep(obj, num) {
+	console.log(num);
+	var parent = obj.closest(".imageSelector");
+	var img = parent.find(".selector img");
+	
+	var parNum = parseInt(parent.attr("data-count"));
+	var type = parent.attr("data-type");
+	var gender = getGender();
+	
+	console.log(type, gender);
+	
+	var arBase = arSelectors[gender][type];
+	var total = arBase.length;
+	
+	var src = arBase[num - 1];
+	console.log(arBase, src);
+	
+	img.attr('src', imgPath + src);
+	img.attr('data-src', src);	
+	
+	var objCount = parent.find(".count");
+	var strCount = num  + " of " + total;
+	objCount.html(strCount);
+	
+	parent.attr("data-count", num );
+	parent.find(".select-button").toggleClass("selected", false);
+	
+	val = -5;
+	for(var k in arChoices[type]) {
+		if (k == src) {
+			val = arChoices[type][k];
+		}
+	}
+	
+	if (val > -5) {
+		parent.find(".select-button[data-info='"+val+"']").toggleClass('selected', true);
+	}
+	
+	
+	
 	
 }
 
@@ -389,16 +433,16 @@ function addProduct(arData, arTranslations) {
 			switch(key) {
 				case "radio":	
 					if (val == "boy") {
-						jQuery("#options_" + (base + (skip*num) + 4) + "_2").click();
+						jQuery("#options_" + genderOption + "_2").click();
 					} else {
-						jQuery("#options_" + (base + (skip*num) + 4) + "_3").click();
+						jQuery("#options_" + genderOption + "_3").click();
 					}
 					break;
 				case "gender":
 					if (val == "boy") {
-						val = 66;
+						val = arGender["Boy"];
 					} else {
-						val = 67;
+						val = arGender["Girl"];
 					}
 					break;
 				default:
@@ -413,7 +457,9 @@ function addProduct(arData, arTranslations) {
 	
 	//jQuery(".btn-cart").click();
 	
-	tar = "options["+(base + (skip*num) + 15)+"]";
+	jQuery("#recurring_start_date").val(jQuery("#startdate").val());
+	
+	tar = "options["+subTypeOption+"]";
 	var field = jQuery('select[name="'+tar+'"]');
 	var option = field.find("option:contains('" + defaultSub + "')").attr("selected", true);
 	

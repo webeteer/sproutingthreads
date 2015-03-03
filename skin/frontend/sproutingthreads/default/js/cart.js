@@ -4,22 +4,24 @@ jQuery(document).ready(function(){
 	jQuery(".prodCheck").click(function(e) {
 		var obj = jQuery(this);
 		
-		var optId = 71;
+		var optId = "subType";
 		var optVal = obj.val();
 		
 		jQuery.ajax({
 			type: "POST",
 			url: "/checkout/cart/",
 			data: {
+				"action": "update",
 				"optId": optId,
 				"optVal": optVal
 			},
-			success: function() {
-				
+			success: function(data) {
+				console.log(data);
 			}
 			
 		});
 	});	
+
 	jQuery(".optionSet a").click(function(e) {
 		e.preventDefault();
 		var par = jQuery(this).closest(".optionSet");
@@ -77,14 +79,51 @@ jQuery(document).ready(function(){
 	jQuery(".table-frequency input[type=checkbox]").click(function(e) {
 			var check = jQuery(this);
 			var term = check.attr("value");
-			console.log(term);
 			
+			updateFrequency(term);
+			
+			//updateDate("2015-03-10");
 			
 			jQuery(".pricingSection").toggleClass("active", false);
 			
 			jQuery(".pricingSection."+term).toggleClass("active", true);
 	});
 	
+	jQuery("input.setDate").click(function(e) {
+			var check = jQuery(this);
+			var term = check.attr("value");
+			
+			updateDate(term);
+	});
+	
 });
 
+function updateFrequency(frequency) {
+	jQuery(".setDate.default").prop("checked", true);
+	jQuery.ajax({
+		type: "POST",
+		url: "/checkout/cart/",
+		data: {
+			"action": "change",
+			"frequency": frequency
+		},
+		success: function(data) {
+		}
+		
+	});
+}
+
+function updateDate(dt) {
+	jQuery.ajax({
+		type: "POST",
+		url: "/checkout/cart/",
+		data: {
+			"action": "date",
+			"date": dt
+		},
+		success: function(data) {
+		}
+		
+	});
+}
 
