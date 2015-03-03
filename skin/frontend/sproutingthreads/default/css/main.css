@@ -783,3 +783,62 @@ ul.list-box .title-box-pink {
 .checkout-cart-index .brands {
 	padding: 10px 0 20px 0;
 }
+
+.contentWrapper {
+	min-height: 400px;
+}
+
+.uploadHolder {
+	display: block; 
+	position: absolute; 
+	overflow: hidden; 
+	margin: 0px; padding: 0px; opacity: 0; 
+	direction: ltr; 
+	z-index: 2147483583; 
+	left: 475px; 
+	top: 175px; 
+	width: 102px; 
+	height: 34px; visibility: hidden;
+}
+
+#uploadBtn {
+	border: 3px solid #a5bf3a !important;
+	background: #a5bf3a;
+	color: #fff;
+	padding: 4px 12px 4px 12px;
+	width: 195px;
+	cursor: pointer;
+}
+
+#fileUploadSection {
+	cursor: pointer;
+}
+
+#fileUploadSection:hover #uploadBtn {
+	color: #a5bf3a !important;
+	background: #fff !important;
+	
+}
+
+.selectorNav {
+	clear: both;
+	display: block;
+	text-align: center;
+}
+
+.selectorNav a {
+	display: inline-block;
+}
+
+.selectorNav .count {
+	display: inline-block;
+}
+
+.selectorNav .back {
+	margin-right: 10px;
+}
+
+.selectorNav .next {
+	margin-left: 10px;
+}
+

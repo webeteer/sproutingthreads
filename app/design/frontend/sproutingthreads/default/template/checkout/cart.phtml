@@ -30,8 +30,13 @@
  *
  * @var $this Mage_Checkout_Block_Cart
  */
+ 
+//require($_SERVER['DOCUMENT_ROOT'].'/config.php');
+
 ?>
 <?php
+	global $productMonthly, $arMonthly, $arMonthlySub, $productSeasonal, $arSeasonal, $arSeasonalSub, $arMonthlyGender, $arSeasonalGender;
+
 	function toArDate($strDate) {
 		$dt = strtotime($strDate);
 		
@@ -60,61 +65,148 @@
 	
 	$quoteId= Mage::getModel('checkout/cart_api')->create('default');
 	$storeId = Mage::app()->getStore()->getStoreId();
+	
+	
+$uniOptions = getProdOptions($cart, 0);
+
+//print_r($uniOptions);
+
+$monOptions = uniToProduct($uniOptions, "monthly");
+$seaOptions = uniToProduct($uniOptions, "seasonal");
+
+
+$fullMonOptions = array(
+	"product_id" => $productMonthly,
+	"qty" => 1,
+	"options" => $monOptions
+);
+$fullSeaOptions = array(
+	"product_id" => $productSeasonal,
+	"qty" => 1,
+	"options" => $seaOptions
+);
+
+
+foreach($cart->getItems() as $item) {
+	$productId = $item->getProductId();
+}
+
+//print_r($fullSeaOptions);
+
+
+//addProduct($productSeasonal, $fullSeaOptions);
+//addProduct($productMonthly, $fullMonOptions);
 ?>
 
 <?php 
 
-
-$optId = $_POST['optId'];
-$optVal = $_POST['optVal'];
-
-$set = "option_$optId";
-$val = $optVal;
-
+$action = $_POST['action'];
 
 foreach($cart->getItems() as $_item): 
 	$options = $_item->getOptions();
-	
+	$productId = $item->getProductId();
 	
 	foreach($options as $option) {
-		
 		$data = $option->getData();
-		
-		//print_r($data);
-		
-		$title = $option->getTitle();
+
 		$code = $option->getCode();
 		$value = $option->getValue();
+		$type = $option->getType();
 		
-		/*
-		echo $option->getTitle()."
-";
-		echo $option->getCode()."
-";
-		echo $option->getValue()."
-		
-";
-	*/
 
-		if ($code == $set) {
-			$option->setValue($val);
-		}
-
-		/*
-		if ($code == 'option_59') {
-			$option->setValue('TEST NEW NAME 5');
-		}
-		*/
 	}
 
 	
-endforeach;
+endforeach;	
+
+if ($productId == $productMonthly) {
+	$arActive = $fullMonOptions;
+}
+if ($productId == $productSeasonal) {
+	$arActive = $fullSeaOptions;
+}
+
+if ($action == "update") {
+
+	$optId = $_POST['optId'];
+	$optVal = $_POST['optVal'];
+	
+	/*
+	$arActive = updateProductOption($cart, $arActive, $optId, $optVal);
+	clearCart($cart);
+	addProduct($productId, $arActive);
+	*/
+	
+	updateProduct($cart, $arActive, $optId, $optVal);
+	
+	echo "DONE";
+	exit();
+}
+
+if ($action == "change") {
+	$frequency = $_POST['frequency'];
+	
+	clearCart($cart);
+	
+	if ($frequency == "monthly") {
+		addProduct($productMonthly, $fullMonOptions);
+	}
+	
+	if ($frequency == "seasonal") {
+		addProduct($productSeasonal, $fullSeaOptions);
+	}
+	
+	exit();
+}
+
+if ($action == "date") {
+	echo "Change Date";
+	$dt = $_POST['date'];
+	
+	
+	/*
+	$optId = "recurring_profile_options";
+	$dt = date("Y-m-d H:i:s", strtotime($_POST['date']));
+	$optVal = serialize(array("start_datetime" => $dt));
+	*/
+	/*
+	$optVal = array("start_datetime" => array(
+		"day" => date("d", strtotime($_POST['date'])),
+		"month" => date("m", strtotime($_POST['date'])),
+		"year" => date("Y", strtotime($_POST['date']))
+	));
+	*/
+	
+	//$optVal = $dt;
+	
+	$arActive = updateProductOption($cart, $arActive, $optId, $optVal);
+	$startDate = Varien_Date::formatDate("next year jan 05", Varien_Date::DATETIME_INTERNAL_FORMAT);
+	
+	/*
+	$arActive['recurring_profile_options'] = serialize(array(
+		"start_datetime" => $startDate
+	));
+	*/
+	
+	
+	echo "Start
+	";
+	print_r($arActive);
+	echo "end
+	";
+
+	/*
+	clearCart($cart);
+	addProduct($productId, $arActive);
+	*/
 
 
-$session->setCartWasUpdated(true);
-$cart->save();
-$cart->init();
-
+	//updateOptionValue($cart, $field, $val);
+	
+	updateCartDateOption($cart, 0, $dt);
+	
+	exit();
+}
 	
 ?>		
 
@@ -165,13 +257,12 @@ $cart->init();
 				<div class="pricing-container">
 <?php
 	
-	
+	$cart->init();
 	
 ?>				
-<?php foreach($cart->getItems() as $_item): ?>		
+<?php 
+foreach($cart->getItems() as $_item): ?>		
 <?php
-	
-	
 	$pid = $_item->getProduct()->getId();
 	
 	$options = $_item->getProduct()->getTypeInstance(true)->getOrderOptions($_item->getProduct());
@@ -180,7 +271,6 @@ $cart->init();
 	$findKey = "Name";
 	
 	for ($i=0;$i<count($options['options']);$i++) {
-			
 		$optId = $options['options'][$i]['option_id'];
 		$optValue = $options['options'][$i]['option_value'];
 		$optLabel = $options['options'][$i]['label'];
@@ -252,23 +342,23 @@ $cart->init();
 													<?php
 														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" class="prodCheck" type="checkbox" value="69" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" class="prodCheck" type="checkbox" value="all2" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 													<?php
 														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" class="prodCheck" type="checkbox" value="70" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" class="prodCheck" type="checkbox" value="all3" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 													<?php
 														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" class="prodCheck" type="checkbox" value="71" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" class="prodCheck" type="checkbox" value="all5" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 													<?php
 														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" class="prodCheck" type="checkbox" value="72" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" class="prodCheck" type="checkbox" value="all6" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" class="prodCheck" type="checkbox" value="73" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" class="prodCheck" type="checkbox" value="all9" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -290,23 +380,23 @@ $cart->init();
 													<?php
 														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" class="prodCheck" type="checkbox" name="terms" value="74" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" class="prodCheck" type="checkbox" name="terms" value="half2" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" class="prodCheck" type="checkbox" name="terms" value="75" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" class="prodCheck" type="checkbox" name="terms" value="half3" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" class="prodCheck" type="checkbox" name="terms" value="76" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" class="prodCheck" type="checkbox" name="terms" value="half5" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" class="prodCheck" type="checkbox" name="terms" value="77" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" class="prodCheck" type="checkbox" name="terms" value="half6" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" class="prodCheck" type="checkbox" name="terms" value="78" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" class="prodCheck" type="checkbox" name="terms" value="half9" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -329,7 +419,7 @@ $cart->init();
 									<div class="list-box-container blue-border">
 										<div class="list-box-content ">
 											<ul>
-												<li><label class="textLabel" for="check11">monthly &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check11" type="checkbox" name="terms" value="monthly"><i></i></label></div></li>
+												<li <?php if ($productId == $productMonthly): ?>class='active'<?php endif; ?>><label class="textLabel" for="check11">monthly &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check11" class="frequency" type="checkbox" name="frequency" value="monthly" <?php if ($productId == $productMonthly): ?>checked<?php endif; ?>><i></i></label></div></li>
 											</ul>
 										</div>
 									</div>
@@ -339,7 +429,7 @@ $cart->init();
 									<div class="list-box-container blue-border">
 										<div class="list-box-content">
 											<ul>
-												<li class="active"><label class="textLabel" for="check12">seasonal &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check12" type="checkbox" value="seasonal" name="terms" checked><i></i></label></div></li>
+												<li <?php if ($productId != $productMonthly): ?>class='active'<?php endif; ?>><label class="textLabel" for="check12">seasonal &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="frequency" id="check12" type="checkbox" value="seasonal" name="frequency" <?php if ($productId == $productSeasonal): ?>checked<?php endif; ?>><i></i></label></div></li>
 											</ul>
 										</div>
 									</div>
@@ -383,85 +473,67 @@ $cart->init();
 		<?php
 			$today = strtotime("now");
 			
-			$curMonth = intval(date("m", $today));
-			$curDay = date("d", $today);
-			$curYear = date("Y", $today);
+			$cartShip = getCartShip($cart, 0);
 			
-			$springMonth = 2;
-			$summerMonth = 5;
-			$fallMonth = 8;
-			$winterMonth = 11;
 			
-			$seasonYear = $curYear;
-			
-			if (in_array($curMonth, array(11, 12, 1))) {
-				// spring
-				$seasonMonth = $springMonth;
-				if ($curMonth == 11 || $curMonth == 12) {
-					$seasonYear++;
-				}	
-			}
-			if (in_array($curMonth, array(2, 3, 4))) {
-				// summer
-				$seasonMonth = $summerMonth;
-			}
-			if (in_array($curMonth, array(5, 6, 7))) {
-				// fall
-				$seasonMonth = $fallMonth;
-			}
-			if (in_array($curMonth, array(8, 9, 10))) {
-				// winter
-				$seasonMonth = $winterMonth;
-			}
-			
-			$seasonDate = "$seasonYear-$seasonMonth-10";
+			$seasonDate = getShipDate("seasonal");
 			$seasonDisplay = date("m/d/y", strtotime($seasonDate));
 			
-			$firstMonth = new DateTime("$curYear-$curMonth-1");
-			if ($curDay < 10) {
-				// same month, can ship
-				$shipDate = "$curYear-$curMonth-10";
 			
-			} else {
-				$firstMonth->modify('next month');
-				$shipDate = $firstMonth->format('Y-m-10');
-			}
-			
+			$shipDate = getShipDate("monthly");
 			$shipDisplay = date("m/d/y", strtotime($shipDate));
 			
+			$shipNextDate = getShipDate("monthly", "next");
+			$shipNextDisplay = date("m/d/y", strtotime($shipNextDate));
+			
+			//echo $cartShip." / ".$shipDate." / ".$shipNextDate." / ".$seasonDate;
 			
 			
 		?>
                     	<div class="row">
                         	<div class="column twelve">
-								<div class="pricingSection seasonal active">
-									<h1>our seasons</h1><br>
-									<p><strong>spring</strong> season ships in <strong>february</strong><br><strong>summer</strong> season ships in <strong>may</strong><br><strong>fall</strong> season ships in <strong>august</strong><br><strong>winter</strong> season ships in <strong>november</strong></p>
-									<br>
-									<p>for <strong>seasonal orders</strong>, please indicate below if you would like to start immediately or for next season</p>
+								<!-- Monthly -->
+								<div class="pricingSection monthly <?php if ($productId == $productMonthly): ?>active<?php endif; ?>">
+									<h1>our schedule</h1><br>
+									<!--<p>We ship our members regular monthly orders on the 10th of the month. We want you to enjoy your first order as soon as possible, so we will send it out within a week up until the 20th before beginning the monthly schedule. If we receive your order after the 20th, we'll put you at the head of the line for the next months schedule.</p>-->
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="radio" name="start" value="now" checked><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="startMonthly" value="<?php echo $shipDate; ?>" <?php if ($cartShip != $shipNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start right away</span>
 											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
 										</div>
 									</div>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="radio" name="start" value="next"><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="startMonthly" value="<?php echo $shipNextDate; ?>" <?php if ($cartShip == $shipNextDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<span class="table-title">start next month</span>
+											<span class="table-title bold">ships <?php echo $shipNextDisplay; ?></span>
+										</div>
+									</div> 
+								</div>
+								
+								<!-- Seasonal -->
+								<div class="pricingSection seasonal <?php if ($productId != $productMonthly): ?>active<?php endif; ?>">
+									<h1>our seasons</h1><br>
+									<p><strong>spring</strong> season ships in <strong>february</strong><br><strong>summer</strong> season ships in <strong>may</strong><br><strong>fall</strong> season ships in <strong>august</strong><br><strong>winter</strong> season ships in <strong>november</strong></p>
+									<br>
+									<p>for <strong>seasonal orders</strong>, please indicate below if you would like to start immediately or for next season</p>
+									<div class="column six">
+										<div class="table">
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="start" value="<?php echo $shipDate; ?>" <?php if ($cartShip != $seasonDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<span class="table-title">start right away</span>
+											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
+										</div>
+									</div>
+									<div class="column six">
+										<div class="table">
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="start" value="<?php echo $seasonDate; ?>" <?php if ($cartShip == $seasonDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start next season</span>
 											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
 										</div>
 									</div> 
 								</div>
-								<div class="pricingSection monthly">
-									<h1>our schedule</h1><br>
-									<p>We ship our members regular monthly orders on the 10th of the month. We want you to enjoy your first order as soon as possible, so we will send it out within a week up until the 20th before beginning the monthly schedule. If we receive your order after the 20th, we'll put you at the head of the line for the next months schedule.</p>
-									<div class="column six">
-										&nbsp;<br/>
-										&nbsp;<br/>
-									</div>
-								</div>
+								
                             <div class="column twelve">                           
                             <a href="/checkout/onepage/" class="lm-button lb fill">checkout</a><br><br><br>
                             </div>

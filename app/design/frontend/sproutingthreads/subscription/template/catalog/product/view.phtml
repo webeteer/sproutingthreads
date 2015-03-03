@@ -60,7 +60,7 @@
                                 <h2>what is your child's name</h2>
                             </div>
                                 <div class="column four">
-                                    <input type="text" placeholder="jane smith" id="name" name="name">
+                                    <input type="text" placeholder="first name" id="name" name="name">
                                 </div>
                             <div class="column four center">
                                 <div class="girl"><input type='radio' name='gender' value='girl' id="girl" checked/><label for="girl"></label></div>
@@ -113,12 +113,17 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select.jpg'); ?>" alt="select">
-                                                <p class="count">1 of 3</p>
+												<div class="selectorNav">
+													<a href="#" class="back" data-change="-1">&laquo; back</a>
+													<p class="count">1 of 3</p>
+													<a href="#" class="next" data-change="1">next &raquo;</a>
+												</div>
+												
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button" data-info="1">yes, please</a>
                                             <a href="#" class="select-button" data-info="0">maybe</a>
-                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="vintage" id="vintage" value="0" />
                                             </div>
@@ -155,12 +160,16 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select-classic.jpg'); ?>" alt="select">
-                                                <p class="count">1 of 3</p>
+												<div class="selectorNav">
+													<a href="#" class="back" data-change="-1">&laquo; back</a>
+													<p class="count">1 of 3</p>
+													<a href="#" class="next" data-change="1">next &raquo;</a>
+												</div>
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button" data-info="1">yes, please</a>
                                             <a href="#" class="select-button" data-info="0">maybe</a>
-                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="classic" id="classic" value="0" />
                                             </div>
@@ -198,12 +207,16 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select-sporty.jpg'); ?>" alt="select">
-                                                <p class="count">1 of 3</p>
+												<div class="selectorNav">
+													<a href="#" class="back" data-change="-1">&laquo; back</a>
+													<p class="count">1 of 3</p>
+													<a href="#" class="next" data-change="1">next &raquo;</a>
+												</div>
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button" data-info="1">yes, please</a>
                                             <a href="#" class="select-button" data-info="0">maybe</a>
-                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="sporty" id="sporty" value="0" />
                                             </div>
@@ -241,12 +254,16 @@
                                         	<div class="selector">
                                                 <p>please rate each photo</p>
                                                 <img src="<?php echo $this->getSkinUrl('images/select/select-funky.jpg'); ?>" alt="select">
-                                                <p class="count">1 of 3</p>
+												<div class="selectorNav">
+													<a href="#" class="back" data-change="-1">&laquo; back</a>
+													<p class="count">1 of 3</p>
+													<a href="#" class="next" data-change="1">next &raquo;</a>
+												</div>
                                             </div>
                                             <div class="select-options">
                                             <a href="#" class="select-button" data-info="1">yes, please</a>
                                             <a href="#" class="select-button" data-info="0">maybe</a>
-                                            <a href="#" class="select-button" data-info="-1">no, thanks</a>
+                                            <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="funky" id="funky" value="0" />
                                             </div>
@@ -262,6 +279,11 @@
     </section>
 	
 	<input type="hidden" name="likes" id="likes" value="" />
+	<?php
+		$startDate = getShipDate("monthly");
+		$startDate = date("m/d/Y h:i A", strtotime($startDate));
+	?>
+	<input type="hidden" name="startdate" id="startdate" value="<?php echo $startDate; ?>" />
 	
     <!-- Start Section 3 -->
     <section class="start-section-3">
@@ -428,6 +450,15 @@
 							</label>
 						</section>
                         </div>
+                    	<div class="row" id="dressSize">
+                        <label class="label col col-4">upload photo</label>
+                        <section class="col col-5" id="fileUploadSection">
+							<button id="uploadBtn" class="">Choose File</button>
+							<div class="fileSuccess">
+							
+							</div>
+						</section>
+                        </div>
 					</div>
 					</fieldset>
 			</div>
@@ -445,7 +476,7 @@
                 	<div class="alignleft column six top-30"><img src="<?php echo $this->getSkinUrl('images/bg/picky.jpg'); ?>" alt="picky"></div>
                     <div class="picky-copy">
                     <h5>anything you're picky about?!</h5><br>
-                    <p>any preferred colors or patterns? does your child like his or her clothes extra loose or extra tight? is your child allergic to any specific materials? does your child like accessories (hats, scarves, hair clips, ties) or could do without? feel free to add any extra comments below.</p><br>
+                    <p>please use this time to explain any details you have learned about your child’s style and preferences. favorite colors or patterns? loose or tight fitting clothes? allergic to any specific materials? Likes accessories (hats, scarves, hairclips, ties)? Anything else?</p><br>
 					<textarea name="picky" id="picky" cols="30" rows="3"></textarea>
 					<br clear="all" />
                     <!--<a href="#" id="childAdd" class="lm-button lb fill">add child</a>-->

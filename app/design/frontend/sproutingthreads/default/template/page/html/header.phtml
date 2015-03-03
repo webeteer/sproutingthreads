@@ -29,6 +29,8 @@
  
 $numCart = $this->helper('checkout/cart')->getItemsCount();
 $bLoggedIn = $this->helper('customer')->isLoggedIn();
+
+require($_SERVER['DOCUMENT_ROOT'].'/config.php');
 ?>
 
 <header id="header-section">

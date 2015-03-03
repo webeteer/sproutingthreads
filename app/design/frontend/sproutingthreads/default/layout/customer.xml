@@ -95,7 +95,7 @@ Layout for customer login page
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1columnFloat.phtml</template></action>
+            <action method="setTemplate"><template>page/1columnAccount.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="customer/form_login" name="customer_form_login" template="customer/form/login.phtml" />
@@ -113,7 +113,7 @@ Layout for customer log out page
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1columnFloat.phtml</template></action>
+            <action method="setTemplate"><template>page/1columnAccount.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="core/template" name="customer_logout" template="customer/logout.phtml"/>
@@ -224,7 +224,7 @@ Customer account pages, rendered for all tabs in dashboard
 		
         <!-- Mage_Customer -->
         <reference name="root">
-            <action method="setTemplate"><template>page/1columnFloat.phtml</template></action>
+            <action method="setTemplate"><template>page/1columnAccount.phtml</template></action>
             <action method="addBodyClass"><class>customer-account</class></action>
         </reference>
 

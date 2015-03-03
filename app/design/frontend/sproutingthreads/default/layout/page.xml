@@ -87,6 +87,7 @@
                 <action method="addItem"><type>skin_js</type><name>js/slideshow.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/lib/imagesloaded.js</name></action>
                 <action method="addItem"><type>skin_js</type><name>js/minicart.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/lib/SimpleAjaxUploader.min.js</name></action>
 				
 				
 				<!--
