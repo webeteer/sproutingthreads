@@ -265,11 +265,10 @@ function setupSelectors() {
 
 		arLikes[type] += dataInfo;
 		
-		
 		arChoices[type][dataSrc] = dataInfo;
 		
 		
-		jQuery("#"+type).val(arLikes[type]);
+		jQuery("input#"+type).val(arLikes[type]);
 		
 		jQuery("#likes").val(JSON.stringify(arChoices));
 		
@@ -288,13 +287,11 @@ function setupSelectors() {
 			moveStep(obj, ++num);
 		}
 		
-		console.log("arChoices: ", arChoices);
 	});
 	
 }
 
 function moveStep(obj, num) {
-	console.log(num);
 	var parent = obj.closest(".imageSelector");
 	var img = parent.find(".selector img");
 	
@@ -302,13 +299,10 @@ function moveStep(obj, num) {
 	var type = parent.attr("data-type");
 	var gender = getGender();
 	
-	console.log(type, gender);
-	
 	var arBase = arSelectors[gender][type];
 	var total = arBase.length;
 	
 	var src = arBase[num - 1];
-	console.log(arBase, src);
 	
 	img.attr('src', imgPath + src);
 	img.attr('data-src', src);	
@@ -361,8 +355,6 @@ function validateForm(arFieldList, arData) {
 	var gender = jQuery("input[name='gender']:checked");
 	var strGender = gender.val();
 	
-	console.log("GENDER: " + strGender);
-	
 	if (strGender == "girl") {
 		field = jQuery("select[name='dress']");
 		fieldValue = field.val();
@@ -372,9 +364,6 @@ function validateForm(arFieldList, arData) {
 		}
 	}
 	
-	console.log("LIKES", arLikes);
-	
-	console.log("Errors", errors);
 	return (errors == 0);
 }
 
@@ -411,8 +400,6 @@ function getFormData(arFieldList) {
 		}
 	}	
 	
-	console.log("getForm", arData);
-	
 	return arData;
 }
 
@@ -426,8 +413,6 @@ function addProduct(arData, arTranslations) {
 			
 			var field = jQuery("input[name='"+tar+"'],select[name='"+tar+"'],textarea[name='"+tar+"']");
 			var type = field.attr('type');
-			
-			console.log(key, val, tar, type);
 			
 						
 			switch(key) {
@@ -452,10 +437,6 @@ function addProduct(arData, arTranslations) {
 			field.val(val);
 		}
 	}	
-	
-	//opConfig.reloadPrice();
-	
-	//jQuery(".btn-cart").click();
 	
 	jQuery("#recurring_start_date").val(jQuery("#startdate").val());
 	

@@ -275,7 +275,13 @@ body select {
 }
 
 
+
+.checkout .sky-form input.no-display {
+	display: none !important;
+}
 .checkout .sky-form input[type=text],
+.checkout .sky-form input[type=password],
+.checkout .sky-form input[type=email],
 .checkout .sky-form input[type=tel],
 .checkout .sky-form textarea {
 	display: block;
@@ -297,6 +303,8 @@ body select {
 	-webkit-appearance: none;
 
 }
+
+
 
 #opc-login .col-1, 
 #opc-login .col-2 {
@@ -498,6 +506,14 @@ body select {
 	width: 700px;
 }
 
+.customer-account .box-info {
+	clear: both;
+}
+
+#return.box-info {
+	height: 150px;
+}
+
 .customer-account .col2-set,
 .customer-account .box-account,
 .customer-account .box-info {
@@ -594,7 +610,7 @@ body select {
 #login-form .buttons-set {
 	width: 100%;
 	position: absolute;
-	bottom: -50px;
+	bottom: -80px;
 }
 
 #login-form button {
@@ -695,9 +711,13 @@ body select {
 	margin: 15px 0 15px 0;
 }
 
+#contactFormSection {
+	margin-top: 50px;
+}
 #contactFormSection .button {
 	width: 30%;
 	float: left;
+	
 }
 
 #cartIcon {
@@ -842,3 +862,102 @@ ul.list-box .title-box-pink {
 	margin-left: 10px;
 }
 
+.invalidAttribute {
+	display: none !important;
+}
+
+/** Fix Account Styling **/
+
+.customer-account .sky-form button,
+.customer-account .sky-form a.button {
+	border: 3px solid #2da5da !important;
+	background: #2da5da !important;
+}
+.customer-account .sky-form button:hover,
+.customer-account .sky-form a.button:hover {
+	color: #2da5da !important;
+	background: #fff !important;
+}
+
+.customer-account .col-1,
+.customer-account .col-2 {
+	width: 100% !important;
+	clear: both;
+	float: none !important;
+}
+
+.customer-account .dashboard .col-1,
+.customer-account .dashboard .col-2 {
+/*
+	width: 40% !important;
+	clear: none;
+	float: left !important;
+	margin-top: 0px !important;
+	margin-right: 10px;
+*/
+}
+
+
+.customer-account .col-2 {
+	margin-top: 30px;
+}
+
+.customer-account ol {
+	margin-left: 20px;
+}
+
+.customer-account .buttons-set {
+	text-align: left;
+}
+
+.customer-account .buttons-set form {
+	display: inline-block;
+}
+
+.customer-account h1{
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+
+
+.customer-account h2{
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+
+
+.customer-account h3 {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.customer-account h4 {
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+
+#header-section input[type=checkbox] {
+	top: -9999px;
+	left: -9999px;
+}
+
+.customer-account input[type=checkbox] {
+	top: auto;
+	left: auto;
+}
+
+.account-login input[type=checkbox] {
+	top: auto;
+	left: auto;
+	margin-right: 10px;
+}
+
+.account-login .form-list li {
+	margin-bottom: 20px;
+}
+.account-login .remember-me-box {
+	width: 100%;
+}
+.account-login .remember-me-box .input-box {
+	float: left;
+}

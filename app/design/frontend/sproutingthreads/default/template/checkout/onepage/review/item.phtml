@@ -30,9 +30,24 @@
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
+			<?php 
+				$arValid = array(
+					"name",
+					"gender",
+					"birthday",
+					"subtype"
+				);
+				$name = $_option['label'];
+				
+				$cls = "";
+				if (!in_array(strtolower($name), $arValid)) {
+					$cls = " invalidAttribute";
+				}
+			?>
             <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
-            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+			<!-- [<?php echo $name; ?>] -->
+            <dt class="<?php echo $cls; ?>"><?php echo $this->escapeHtml($_option['label']) ?></dt>
+            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated<?php echo $cls; ?>"<?php else: ?> class="<?php echo $cls; ?>" <?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
                 <?php if (isset($_formatedOptionValue['full_view'])): ?>
                 <div class="truncated_full_value">
                     <dl class="item-options">
