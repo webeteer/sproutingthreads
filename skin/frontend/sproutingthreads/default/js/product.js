@@ -30,7 +30,8 @@ var arFields = {
 	"sporty": 0,
 	"funky": 0,
 	
-	"likes": 0
+	"likes": 0,
+	"fixRenewal": 0
 };
 
 var arChoices = {
@@ -414,6 +415,8 @@ function addProduct(arData, arTranslations) {
 			var field = jQuery("input[name='"+tar+"'],select[name='"+tar+"'],textarea[name='"+tar+"']");
 			var type = field.attr('type');
 			
+			
+			console.log(key, val, type);
 						
 			switch(key) {
 				case "radio":	

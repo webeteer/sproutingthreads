@@ -961,3 +961,25 @@ ul.list-box .title-box-pink {
 .account-login .remember-me-box .input-box {
 	float: left;
 }
+
+.product-view #product-options-wrapper select {
+	color: #000 !important;
+	line-height: 22px;
+	padding: 5px !important;
+	height: 50px !important;
+}
+
+/** Fix cart formatting **/
+
+.pricing-container .table.quantity {
+	/*padding-left: 0px;*/
+}
+
+.pricing-container .subSet {
+	/* margin-left: -80px !important; */
+}
+
+.pricingSection span.note {
+	margin-top: 10px;
+	font-weight: bold;
+}

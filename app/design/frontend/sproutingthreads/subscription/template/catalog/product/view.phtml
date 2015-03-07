@@ -30,9 +30,22 @@
  * @see Mage_Catalog_Block_Product_View
  * @see Mage_Review_Block_Product_View
  */
+ 
+global $productMonthly;
+ 
 ?>
 <?php $_helper = $this->helper('catalog/output'); ?>
 <?php $_product = $this->getProduct(); ?>
+
+<?php
+
+if ($_product->getId() == $productMonthly) {
+	$type = "monthly";
+} else {
+	$type = "seasonal";
+}
+writeJsTranslation($type);
+?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
@@ -121,8 +134,8 @@
 												
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button" data-info="1">yes, please</a>
-                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="1">love it</a>
+                                            <a href="#" class="select-button" data-info="0">like it</a>
                                             <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="vintage" id="vintage" value="0" />
@@ -167,8 +180,8 @@
 												</div>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button" data-info="1">yes, please</a>
-                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="1">love it</a>
+                                            <a href="#" class="select-button" data-info="0">like it</a>
                                             <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="classic" id="classic" value="0" />
@@ -214,8 +227,8 @@
 												</div>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button" data-info="1">yes, please</a>
-                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="1">love it</a>
+                                            <a href="#" class="select-button" data-info="0">like it</a>
                                             <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="sporty" id="sporty" value="0" />
@@ -261,8 +274,8 @@
 												</div>
                                             </div>
                                             <div class="select-options">
-                                            <a href="#" class="select-button" data-info="1">yes, please</a>
-                                            <a href="#" class="select-button" data-info="0">maybe</a>
+                                            <a href="#" class="select-button" data-info="1">love it</a>
+                                            <a href="#" class="select-button" data-info="0">like it</a>
                                             <a href="#" class="select-button" data-info="-1">no way</a>
 											
 											<input type="hidden" name="funky" id="funky" value="0" />
@@ -280,10 +293,18 @@
 	
 	<input type="hidden" name="likes" id="likes" value="" />
 	<?php
-		$startDate = getShipDate("monthly");
+		$startDate = getBillDate($type, "immediate");
+		//$startDate = date("Y-m-d")
 		$startDate = date("m/d/Y h:i A", strtotime($startDate));
+		$startDateShip = getShipFromBill($startDate);
 	?>
-	<input type="hidden" name="startdate" id="startdate" value="<?php echo $startDate; ?>" />
+	<input type="text" name="startdate" id="startdate" value="<?php echo $startDate; ?>" />
+	<?php
+		$fixDate = getBillDate($type);
+		$fixDate = date("m/d/Y", strtotime($fixDate));
+		$bImmediate = isImmediateShip($type);
+	?>
+	<input type="text" name="fixRenewal" id="fixRenewal" value="<?php echo ($bImmediate == 1)?$fixDate:""; ?>" />
 	
     <!-- Start Section 3 -->
     <section class="start-section-3">

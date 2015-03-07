@@ -1,7 +1,11 @@
 <?php
 /** define the various attributes ids and field names **/
 
-global $productMonthly, $arMonthly, $arMonthlySub, $productSeasonal, $arSeasonal, $arSeasonalSub, $arMonthlyGender, $arSeasonalGender;
+global $gImmediateShipCutoff, $gBillDateOffset, $productMonthly, $arMonthly, $arMonthlySub, $productSeasonal, $arSeasonal, $arSeasonalSub, $arMonthlyGender, $arSeasonalGender;
+global $gDateOverride;
+
+//$gDateOverride = "2015-03-01";
+$gDateOverride = "now";
 
 function clearCart($cart) {
 	
@@ -41,6 +45,9 @@ function addProduct($productId, $params) {
 	echo " Product Added ";
 }
 
+$gImmediateShipCutoff = "14 days";	// subtracted
+$gBillDateOffset = "9 days";		// subtracted
+
 $productMonthly = 7;
 $arMonthly = array(
 		"weight" => 	57,
@@ -57,7 +64,8 @@ $arMonthly = array(
 		"height" => 	68,
 		"picky" => 		69,
 		"likes" => 		70,
-		"subType" => 	71
+		"subType" => 	71,
+		"fixRenewal" => 	87
 );
 
 $arMonthlySub = array(
@@ -94,7 +102,8 @@ $arSeasonal = array(
 		"height" => 	83,
 		"picky" => 		84,
 		"likes" => 		85,
-		"subType" => 	86
+		"subType" => 	86,
+		"fixRenewal" => 	88
 );
 $arSeasonalSub = array(
 	"all2" => 	82,
@@ -415,8 +424,61 @@ function getConfigField($type, $field) {
 }
 
 
+
+function isImmediateShip($type = "monthly") {
+	global $gImmediateShipCutoff, $gDateOverride;
+	
+	$curTime = strtotime($gDateOverride);	
+	$cur = date("Y-m-d", $curTime);
+
+	
+	$nextShip = getShipDate($type);
+	$nextShipTime = strtotime($nextShip);
+
+	$cutOff = new DateTime($nextShip);
+	
+	date_sub($cutOff, date_interval_create_from_date_string($gImmediateShipCutoff));
+	
+	$cutOffDate = $cutOff->format("Y-m-d");
+	$cutOffTime = strtotime($cutOffDate);
+	
+	if ($curTime <= $cutOffTime) {
+		return 1;
+	} else {
+		return 0;
+	}
+	
+	
+}
+
+function getBillDate($type, $which) {
+	global $gBillDateOffset;
+	
+	$dt = getShipDate($type, $which);
+	
+	$bill = new DateTime($dt);
+	date_sub($bill, date_interval_create_from_date_string($gBillDateOffset));	
+	
+	$billDate = $bill->format("Y-m-d");
+	
+	return $billDate;
+}
+
+function getShipFromBill($dt) {
+	global $gBillDateOffset;
+	// $dt = '2015-01-15'
+	
+	$bill = new DateTime($dt);
+	date_add($bill, date_interval_create_from_date_string($gBillDateOffset));	
+	return $bill->format("Y-m-d");
+}
+
 function getShipDate($type = "monthly", $which = "current") {
-	$today = strtotime("now");
+	global $gImmediateShipCutoff, $gDateOverride;
+	
+	//$today = strtotime("now");
+	$today = strtotime($gDateOverride);
+	$dtToday = date("Y-n-d", $today);
 	
 	$curMonth = intval(date("m", $today));
 	$curDay = date("d", $today);
@@ -427,8 +489,32 @@ function getShipDate($type = "monthly", $which = "current") {
 	$fallMonth = 8;
 	$winterMonth = 11;	
 	
+	if ($which == "immediate") {
+		$next = getShipDate($type);
+		$nextTime = strtotime($next);
+		
+		
+		$cutOff = new DateTime($next);
+		
+		date_sub($cutOff, date_interval_create_from_date_string($gImmediateShipCutoff));
+		
+		$cutOffDate = $cutOff->format("Y-m-d");
+		$cutOffTime = strtotime($cutOffDate);
+		
+		if ($today <= $cutOffTime) {
+			// we have time, so ship immediately
+			return $dtToday;
+		} else {
+			// 
+			return $next;
+		}
+		
+		return $dtToday;
+	}
+	
 	switch($type) {
 		case "monthly":
+			
 			if ($which == "next") {
 				return date("Y-m-d", strtotime(getShipDate($type)." +1 month"));
 			}
@@ -447,6 +533,7 @@ function getShipDate($type = "monthly", $which = "current") {
 		case "seasonal":
 			if ($which == "next") {
 				$current = getShipDate($type);
+				return date("Y-m-d", strtotime(getShipDate($type)." +3 months"));
 			}
 			$seasonYear = $curYear;
 			
@@ -477,30 +564,43 @@ function getShipDate($type = "monthly", $which = "current") {
 	return date("Y-m-d", strtotime($dt));
 }
 
-function writeJsTranslation() {
-	global $arMonthlyGender;
+function writeJsTranslation($type="monthly") {
+	global $arMonthlyGender, $arSeasonalGender;
+	
+	if ($type == "monthly") {
+		$arGender = $arMonthlyGender;
+	} else {
+		$arGender = $arSeasonalGender;
+	}
+	
+	
+	
+	
+	
+	
 ?>
 <script language="javascript">var arTranslations = <?php
 
 	$arTranslations = new stdClass();
 
-	$arTranslations->name = "options[".getConfigField("monthly", "name")."]";
-	$arTranslations->gender = "options[".getConfigField("monthly", "gender")."]";
-	$arTranslations->birthdayMonth = "options[".getConfigField("monthly", "birthday")."][month]";
-	$arTranslations->birthdayDay = "options[".getConfigField("monthly", "birthday")."][day]";
-	$arTranslations->birthdayYear = "options[".getConfigField("monthly", "birthday")."][year]";
-	$arTranslations->height = "options[".getConfigField("monthly", "height")."]";
-	$arTranslations->weight = "options[".getConfigField("monthly", "weight")."]";
-	$arTranslations->top = "options[".getConfigField("monthly", "top")."]";
-	$arTranslations->bottom = "options[".getConfigField("monthly", "bottom")."]";
-	$arTranslations->dress = "options[".getConfigField("monthly", "dress")."]";
-	$arTranslations->picky = "options[".getConfigField("monthly", "picky")."]";
-	$arTranslations->vintage = "options[".getConfigField("monthly", "vintage")."]";
-	$arTranslations->classic = "options[".getConfigField("monthly", "classic")."]";
-	$arTranslations->sporty = "options[".getConfigField("monthly", "sporty")."]";
-	$arTranslations->funky = "options[".getConfigField("monthly", "funky")."]";
-	$arTranslations->likes = "options[".getConfigField("monthly", "likes")."]";
-	$arTranslations->subType = "options[".getConfigField("monthly", "subType")."]";
+	$arTranslations->name = "options[".getConfigField($type, "name")."]";
+	$arTranslations->gender = "options[".getConfigField($type, "gender")."]";
+	$arTranslations->birthdayMonth = "options[".getConfigField($type, "birthday")."][month]";
+	$arTranslations->birthdayDay = "options[".getConfigField($type, "birthday")."][day]";
+	$arTranslations->birthdayYear = "options[".getConfigField($type, "birthday")."][year]";
+	$arTranslations->height = "options[".getConfigField($type, "height")."]";
+	$arTranslations->weight = "options[".getConfigField($type, "weight")."]";
+	$arTranslations->top = "options[".getConfigField($type, "top")."]";
+	$arTranslations->bottom = "options[".getConfigField($type, "bottom")."]";
+	$arTranslations->dress = "options[".getConfigField($type, "dress")."]";
+	$arTranslations->picky = "options[".getConfigField($type, "picky")."]";
+	$arTranslations->vintage = "options[".getConfigField($type, "vintage")."]";
+	$arTranslations->classic = "options[".getConfigField($type, "classic")."]";
+	$arTranslations->sporty = "options[".getConfigField($type, "sporty")."]";
+	$arTranslations->funky = "options[".getConfigField($type, "funky")."]";
+	$arTranslations->likes = "options[".getConfigField($type, "likes")."]";
+	$arTranslations->subType = "options[".getConfigField($type, "subType")."]";
+	$arTranslations->fixRenewal = "options[".getConfigField($type, "fixRenewal")."]";
 	
 	
 	echo json_encode($arTranslations);
@@ -508,15 +608,15 @@ function writeJsTranslation() {
 ?>;
 	var arGender = <?php
 	
-	echo json_encode($arMonthlyGender);
+	echo json_encode($arGender);
 	
 	?>;
 	
-	var genderOption = <?php echo getConfigField("monthly", "gender"); ?>;
-	var subTypeOption = <?php echo getConfigField("monthly", "subType"); ?>;
+	var genderOption = <?php echo getConfigField($type, "gender"); ?>;
+	var subTypeOption = <?php echo getConfigField($type, "subType"); ?>;
 
 </script><?php
 }
 
-writeJsTranslation();
+//writeJsTranslation();
 ?>

@@ -163,6 +163,7 @@ if ($action == "date") {
 	echo "Change Date";
 	$dt = $_POST['date'];
 	
+	//$dt = "2015-02-01";
 	
 	/*
 	$optId = "recurring_profile_options";
@@ -475,16 +476,38 @@ foreach($cart->getItems() as $_item): ?>
 			
 			$cartShip = getCartShip($cart, 0);
 			
+			$seasonImmediate = isImmediateShip("seasonal");
 			
-			$seasonDate = getShipDate("seasonal");
-			$seasonDisplay = date("m/d/y", strtotime($seasonDate));
+			$seasonDate = getBillDate("seasonal", "immediate");
+			$seasonDateShip = getShipFromBill($seasonDate);
+			$seasonDisplay = date("m/d/y", strtotime($seasonDateShip));
+			
+			$seasonNextDate = getBillDate("seasonal", "current");
+			$seasonNextDateShip = getShipFromBill($seasonNextDate);
+			$seasonNextDisplay = date("m/d/y", strtotime($seasonNextDateShip));
+
+			if ($seasonNextDate == $seasonDate) {
+				$seasonNextDate = getBillDate("seasonal", "next");
+				$seasonNextDateShip = getShipFromBill($seasonNextDate);
+				$seasonNextDisplay = date("m/d/y", strtotime($seasonNextDateShip));
+			}
 			
 			
-			$shipDate = getShipDate("monthly");
-			$shipDisplay = date("m/d/y", strtotime($shipDate));
+			$monthImmediate = isImmediateShip("monthly");
 			
-			$shipNextDate = getShipDate("monthly", "next");
-			$shipNextDisplay = date("m/d/y", strtotime($shipNextDate));
+			$monthDate = getBillDate("monthly", "immediate");
+			$monthDateShip = getShipFromBill($monthDate);
+			$monthDisplay = date("m/d/y", strtotime($monthDateShip));
+			
+			$monthNextDate = getBillDate("monthly", "current");
+			$monthNextDateShip = getShipFromBill($monthNextDate);
+			$monthNextDisplay = date("m/d/y", strtotime($monthNextDateShip));
+			
+			if ($monthNextDate == $monthDate) {
+				$monthNextDate = getBillDate("monthly", "next");
+				$monthNextDateShip = getShipFromBill($monthNextDate);
+				$monthNextDisplay = date("m/d/y", strtotime($monthNextDateShip));
+			}
 			
 			//echo $cartShip." / ".$shipDate." / ".$shipNextDate." / ".$seasonDate;
 			
@@ -498,16 +521,19 @@ foreach($cart->getItems() as $_item): ?>
 									<!--<p>We ship our members regular monthly orders on the 10th of the month. We want you to enjoy your first order as soon as possible, so we will send it out within a week up until the 20th before beginning the monthly schedule. If we receive your order after the 20th, we'll put you at the head of the line for the next months schedule.</p>-->
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="startMonthly" value="<?php echo $shipDate; ?>" <?php if ($cartShip != $shipNextDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="startMonthly" value="<?php echo $monthDate; ?>" <?php if ($cartShip != $monthNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start right away</span>
-											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
+											<span class="table-title bold">ships <?php echo $monthDisplay; ?></span>
+											<?php if ($monthImmediate): ?>
+												<span class="table-title note">Please note, your next scheduled delivery will be shipped on <?php echo $monthNextDisplay; ?></span>
+											<?php endif; ?>
 										</div>
 									</div>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="startMonthly" value="<?php echo $shipNextDate; ?>" <?php if ($cartShip == $shipNextDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="startMonthly" value="<?php echo $monthNextDate; ?>" <?php if ($cartShip == $monthNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start next month</span>
-											<span class="table-title bold">ships <?php echo $shipNextDisplay; ?></span>
+											<span class="table-title bold">ships <?php echo $monthNextDisplay; ?></span>
 										</div>
 									</div> 
 								</div>
@@ -520,16 +546,20 @@ foreach($cart->getItems() as $_item): ?>
 									<p>for <strong>seasonal orders</strong>, please indicate below if you would like to start immediately or for next season</p>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="start" value="<?php echo $shipDate; ?>" <?php if ($cartShip != $seasonDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="start" value="<?php echo $seasonDate; ?>" <?php if ($cartShip != $seasonNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start right away</span>
-											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
+											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
+											<?php if ($seasonImmediate): ?>
+												<span class="table-title note">Please note, your next scheduled delivery will be shipped on <?php echo $seasonNextDisplay; ?></span>
+											<?php endif; ?>
+											
 										</div>
 									</div>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="start" value="<?php echo $seasonDate; ?>" <?php if ($cartShip == $seasonDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="start" value="<?php echo $seasonNextDate; ?>" <?php if ($cartShip == $seasonNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start next season</span>
-											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
+											<span class="table-title bold">ships <?php echo $seasonNextDisplay; ?></span>
 										</div>
 									</div> 
 								</div>
