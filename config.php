@@ -20,6 +20,21 @@ function clearCart($cart) {
 	$cart->init();
 }
 
+function updateOptionsFieldValue($productId, $type, $ar, $field, $value) {
+	print_r($ar);
+	
+	
+	
+	if ($field == "fixRenewal" && $value != "" && $value != "ok")
+		$value = date("m/d/Y", strtotime($value));
+	
+	$fieldId = getConfigField($productId, $field);
+	
+	$ar['options'][$fieldId] = $value;
+	
+	return $ar;
+}
+
 function addProduct($productId, $params) {
 	
 	global $cart, $session;
@@ -28,10 +43,12 @@ function addProduct($productId, $params) {
 	$cart->init();
 	
 	$product = Mage::getModel('catalog/product')->load($productId);
+	/*
 	$quote = Mage::getModel('sales/quote')->setStoreId(Mage::app()->getStore('default')->getId());
 	
 	$req = new Varien_Object();
 	$req->setData($params);
+	*/
 	
 	$newItem = $cart->addProduct($product, $params);
 	
@@ -141,12 +158,15 @@ function updateProduct($cart, $ar, $field, $value) {
 			$code = $option->getCode();
 			echo $code." - ";
 			if ($code == "option_$fieldId") {
+				echo "
+UPDATING option_".$fieldId." = ".$value."
+";
 				$option->setValue($value);
 			}
 		}
 	}	
 
-	$cart->save();
+	//$cart->save();
 }
 
 function updateProductOption($cart, $ar, $field, $value) {
@@ -231,8 +251,16 @@ function getProdOptions($cart, $which) {
 }
 
 function updateCartDateOption($cart, $which, $date) {
-	$dt1 = date("n/j/Y h:i A", strtotime($date));
-	$dt2 = date("Y-m-d H:i:s", strtotime($date));
+	
+	if ($date == date("Y-m-d")) {
+		// immediate
+		
+	} else {
+		// proper start time, no reset needed
+	}
+	
+	$dt1 = date("n/j/Y 05:00 A", strtotime($date));
+	$dt2 = date("Y-m-d 05:00:00", strtotime($date));
 	
 	$num = 0;
 	foreach($cart->getItems() as $item) {
@@ -255,23 +283,19 @@ function updateCartDateOption($cart, $which, $date) {
 				if ($code == "additional_options") {
 					$add = unserialize($value);
 					$add[0]["value"] = $dt1; //"3/8/2015 1:50 PM";
-					print_r($add);
 					$option->setValue(serialize($add));
 				}
 				if ($code == "recurring_profile_options") {
 					$add = unserialize($value);
 					$add['start_datetime'] = $dt2; //"2015-03-08 18:50:00";
-					print_r($add);
 					$option->setValue(serialize($add));
 				}
 				
 			}
-
-
 		}
 		$num++;
 	}
-	$cart->save();
+	//$cart->save();
 		
 	return;
 

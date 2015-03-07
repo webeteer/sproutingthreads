@@ -390,7 +390,7 @@ body select {
 .checkout .sky-form input:focus,
 .checkout .sky-form select:focus,
 .checkout .sky-form textarea:focus {
-	/*border-color: #2da5da;*/
+	/*border-color: #63bac3;*/
 	border-color: #a5bf3a;
 }
 
@@ -870,12 +870,12 @@ ul.list-box .title-box-pink {
 
 .customer-account .sky-form button,
 .customer-account .sky-form a.button {
-	border: 3px solid #2da5da !important;
-	background: #2da5da !important;
+	border: 3px solid #63bac3 !important;
+	background: #63bac3 !important;
 }
 .customer-account .sky-form button:hover,
 .customer-account .sky-form a.button:hover {
-	color: #2da5da !important;
+	color: #63bac3 !important;
 	background: #fff !important;
 }
 

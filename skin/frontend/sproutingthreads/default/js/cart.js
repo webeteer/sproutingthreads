@@ -80,7 +80,11 @@ jQuery(document).ready(function(){
 			var check = jQuery(this);
 			var term = check.attr("value");
 			
-			updateFrequency(term);
+			var fixDate = check.parent().find(".setFix");
+			var fixValue = fixDate.val();			
+			
+			
+			updateFrequency(term, fixValue);
 			
 			//updateDate("2015-03-10");
 			
@@ -93,19 +97,24 @@ jQuery(document).ready(function(){
 			var check = jQuery(this);
 			var term = check.attr("value");
 			
-			updateDate(term);
+			var fixDate = check.parent().find(".setFix");
+			
+			var fixValue = fixDate.val();
+			
+			updateDate(term, fixValue);
 	});
 	
 });
 
-function updateFrequency(frequency) {
+function updateFrequency(frequency, fixDate) {
 	jQuery(".setDate.default").prop("checked", true);
 	jQuery.ajax({
 		type: "POST",
 		url: "/checkout/cart/",
 		data: {
 			"action": "change",
-			"frequency": frequency
+			"frequency": frequency,
+			"fixDate": fixDate
 		},
 		success: function(data) {
 		}
@@ -113,17 +122,19 @@ function updateFrequency(frequency) {
 	});
 }
 
-function updateDate(dt) {
+function updateDate(dt, fixDate) {
 	jQuery.ajax({
 		type: "POST",
 		url: "/checkout/cart/",
 		data: {
 			"action": "date",
-			"date": dt
+			"date": dt,
+			"fixDate": fixDate
 		},
 		success: function(data) {
 		}
 		
 	});
 }
+
 

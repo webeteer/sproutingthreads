@@ -59,6 +59,15 @@
 
 
 
+<?php
+	global $productMonthly, $arMonthly, $arMonthlySub, $productSeasonal, $arSeasonal, $arSeasonalSub, $arMonthlyGender, $arSeasonalGender;
+
+	$productId = $productSeasonal;
+	
+	$subNum = 5;
+	$subText = "all new 5";
+	
+?>		
 
 <!--  Styles Intro Section -->
     <section class="top-section-billing">
@@ -66,7 +75,7 @@
                     	<div class="row">
                         	<div class="column twelve">
                         		<h1>pricing</h1>
-                                <h3>our pricing options are designed to accommodate a range of family interests and needs.<br>
+                                <h3><br>
                                 zero member fees. pause anytime. free shipping. reThread for credit.</h3>
                                 <div class="row">
                             <div class="column four">
@@ -78,7 +87,7 @@
                             <div class="column four">
                                 <div class="table assortment">
                                     <span class="price assortment">assortment</span>
-                                    <span class="table-title">choose all new pieces from top brands or 50/50 blend (1/2 new, 1/2 rethreads)</span>
+                                    <span class="table-title">choose all new pieces from top brands or<br/>&frac12;&nbsp;new&nbsp;&frac12;&nbsp;reThread</span>
                                 </div>
                             </div>
                             <div class="column four">
@@ -91,8 +100,8 @@
                         	</div>
                     </div>
         </div>
+		
     </section>
-	
 	
 	<form id="cart">
 	
@@ -106,8 +115,7 @@
             <div class="row">
 				<div class="pricing-container">
 				
-				
-					<h1>pricing</h1>
+					<h1> child’s threads</h1>
 					<div class="row subSet">
 					
 						<div class="column four">
@@ -118,11 +126,16 @@
 									<div class="list-box-container pink-border">
 										<div class="list-box-content">
 											<ul class="optionSet">
-												<li data-row="1" class="row1 pink-border-bottom"><a href="#">2 outfits</a></li>
-												<li data-row="2" class="row2 pink-border-bottom"><a href="#">3 outfits</a></li>
-												<li data-row="3" class="row3 rowActive pink-border-bottom"><a href="#">5 outfits</a></li>
-												<li data-row="4" class="row4 pink-border-bottom"><a href="#">6 outfits</a></li>
-												<li data-row="5" class="row5 pink-border-bottom"><a href="#">9 outfits</a></li>
+												<?php $rowQuantity = 2; ?>
+												<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">2 outfits</a></li>
+												<?php $rowQuantity = 3; ?>
+												<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">3 outfits</a></li>
+												<?php $rowQuantity = 5; ?>
+												<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">5 outfits</a></li>
+												<?php $rowQuantity = 6; ?>
+												<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">6 outfits</a></li>
+												<?php $rowQuantity = 9; ?>
+												<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">9 outfits</a></li>
 											</ul>
 										</div>
 									</div>
@@ -141,12 +154,30 @@
 										<h1 class="title-box">all new</h1>
 										<div class="list-box-container">
 											<div class="list-box-content">
+												<?php
+													$rowRoot = "all new ";
+												?>
 												<ul class="allblend" data-type="all">
-													<li data-row="1" class="row1 green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" type="checkbox" value="130" name="terms"><i></i></label></div></li>
-													<li data-row="2" class="row2 green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" type="checkbox" value="180" name="terms" ><i></i></label></div></li>
-													<li data-row="3" class="row3 rowActive green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" type="checkbox" value="290" name="terms"  checked><i></i></label></div></li>
-													<li data-row="4" class="row4 green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" type="checkbox" value="340" name="terms" ><i></i></label></div></li>
-													<li data-row="5" class="row5 green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" type="checkbox" value="500" name="terms" ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" class="prodCheck" type="checkbox" value="all2" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" class="prodCheck" type="checkbox" value="all3" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" class="prodCheck" type="checkbox" value="all5" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" class="prodCheck" type="checkbox" value="all6" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" class="prodCheck" type="checkbox" value="all9" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -158,15 +189,33 @@
 								<div class="table frequency">
 									<ul class="list-box">
 									<li>
-										<h1 class="title-box">&frac12; new, &frac12; rethread</h1>
+										<h1 class="title-box">&frac12; new &frac12; reThread</h1>
 										<div class="list-box-container">
 											<div class="list-box-content">
+												<?php
+													$rowRoot = "half new half rethread ";
+												?>											
 												<ul class="allblend" data-type="blend">
-													<li data-row="1" class="row1 green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="2" class="row2 green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="3" class="row3 rowActive green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="4" class="row4 green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" type="checkbox" name="terms" ><i></i></label></div></li>
-													<li data-row="5" class="row5 green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" type="checkbox" name="terms" ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" class="prodCheck" type="checkbox" name="terms" value="half2" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" class="prodCheck" type="checkbox" name="terms" value="half3" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" class="prodCheck" type="checkbox" name="terms" value="half5" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" class="prodCheck" type="checkbox" name="terms" value="half6" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" class="prodCheck" type="checkbox" name="terms" value="half9" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -175,8 +224,8 @@
 								</div>
 							</div>
 						</div>
-					</div>					
-						
+					</div>
+					
 					<div class="row subSet">	
 						
 						<div class="column twelve optionSet">
@@ -187,7 +236,7 @@
 									<div class="list-box-container blue-border">
 										<div class="list-box-content ">
 											<ul>
-												<li><label class="textLabel" for="check11">monthly &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check11" type="checkbox" name="terms" value="monthly"><i></i></label></div></li>
+												<li <?php if ($productId == $productMonthly): ?>class='active'<?php endif; ?>><label class="textLabel" for="check11">monthly &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check11" class="frequency" type="checkbox" name="frequency" value="monthly" <?php if ($productId == $productMonthly): ?>checked<?php endif; ?>><i></i></label></div></li>
 											</ul>
 										</div>
 									</div>
@@ -197,7 +246,7 @@
 									<div class="list-box-container blue-border">
 										<div class="list-box-content">
 											<ul>
-												<li class="active"><label class="textLabel" for="check12">seasonal &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check12" type="checkbox" value="seasonal" name="terms" checked><i></i></label></div></li>
+												<li <?php if ($productId != $productMonthly): ?>class='active'<?php endif; ?>><label class="textLabel" for="check12">seasonal &nbsp;&nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="frequency" id="check12" type="checkbox" value="seasonal" name="frequency" <?php if ($productId == $productSeasonal): ?>checked<?php endif; ?>><i></i></label></div></li>
 											</ul>
 										</div>
 									</div>
@@ -215,7 +264,6 @@
 			</div>
 				
 						
-						
 			<div class="row">
 				<div class="column twelve">
 					<div class="list-section">
@@ -224,7 +272,7 @@
 						<ul class="arrow">
 							<li>an outfit is either a dress or a top & bottom, and may include accessories (hair clips, hats, suspenders, ties, scarves)</li>
 							<li>pause your subscription at any time.</li>
-							<li>free returns if a piece doesn't work out (see <a href="/faq" class="blue-link" target="_blank">FAQ</a> for details)</li>
+							<li>free returns during the "tuning cycle" (see <a href="/faq" class="blue-link" target="_blank">FAQ</a> for details)</li>
 							<li>Clothes can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for sprouting threads <b>credit</b>.</li>
 							
 						</ul>
@@ -233,254 +281,118 @@
 			</div>
 		</div>
     </section>
+	
+	
+	
 	<!-- section-2 table area -->
     <section class="main-section-pricing">
         <div class="container">
 		<?php
 			$today = strtotime("now");
 			
-			$curMonth = intval(date("m", $today));
-			$curDay = date("d", $today);
-			$curYear = date("Y", $today);
+			$cartShip = date("Y-m-d");
 			
-			$springMonth = 2;
-			$summerMonth = 5;
-			$fallMonth = 8;
-			$winterMonth = 11;
+			$seasonImmediate = isImmediateShip("seasonal");
 			
-			$seasonYear = $curYear;
+			$seasonDate = getBillDate("seasonal", "immediate");
+			$seasonDateShip = getShipFromBill($seasonDate);
+			$seasonDisplay = date("m/d/y", strtotime($seasonDateShip));
 			
-			if (in_array($curMonth, array(11, 12, 1))) {
-				// spring
-				$seasonMonth = $springMonth;
-				if ($curMonth == 11 || $curMonth == 12) {
-					$seasonYear++;
-				}	
-			}
-			if (in_array($curMonth, array(2, 3, 4))) {
-				// summer
-				$seasonMonth = $summerMonth;
-			}
-			if (in_array($curMonth, array(5, 6, 7))) {
-				// fall
-				$seasonMonth = $fallMonth;
-			}
-			if (in_array($curMonth, array(8, 9, 10))) {
-				// winter
-				$seasonMonth = $winterMonth;
+			$seasonNextDate = getBillDate("seasonal", "current");
+			$seasonNextDateShip = getShipFromBill($seasonNextDate);
+			$seasonNextDisplay = date("m/d/y", strtotime($seasonNextDateShip));
+
+			if ($seasonNextDate == $seasonDate) {
+				$seasonNextDate = getBillDate("seasonal", "next");
+				$seasonNextDateShip = getShipFromBill($seasonNextDate);
+				$seasonNextDisplay = date("m/d/y", strtotime($seasonNextDateShip));
 			}
 			
-			$seasonDate = "$seasonYear-$seasonMonth-10";
-			$seasonDisplay = date("m/d/y", strtotime($seasonDate));
 			
-			$firstMonth = new DateTime("$curYear-$curMonth-1");
-			if ($curDay < 10) {
-				// same month, can ship
-				$shipDate = "$curYear-$curMonth-10";
+			$monthImmediate = isImmediateShip("monthly");
 			
-			} else {
-				$firstMonth->modify('next month');
-				$shipDate = $firstMonth->format('Y-m-10');
+			$monthDate = getBillDate("monthly", "immediate");
+			$monthDateShip = getShipFromBill($monthDate);
+			$monthDisplay = date("m/d/y", strtotime($monthDateShip));
+			
+			$monthNextDate = getBillDate("monthly", "current");
+			$monthNextDateShip = getShipFromBill($monthNextDate);
+			$monthNextDisplay = date("m/d/y", strtotime($monthNextDateShip));
+			
+			if ($monthNextDate == $monthDate) {
+				$monthNextDate = getBillDate("monthly", "next");
+				$monthNextDateShip = getShipFromBill($monthNextDate);
+				$monthNextDisplay = date("m/d/y", strtotime($monthNextDateShip));
 			}
 			
-			$shipDisplay = date("m/d/y", strtotime($shipDate));
-			
+			//echo $cartShip." / ".$shipDate." / ".$shipNextDate." / ".$seasonDate;
 			
 			
 		?>
                     	<div class="row">
                         	<div class="column twelve">
-								<div class="pricingSection seasonal active">
+								<!-- Monthly -->
+								<div class="pricingSection monthly <?php if ($productId == $productMonthly): ?>active<?php endif; ?>">
+									<h1>our schedule</h1><br>
+									<!--<p>We ship our members regular monthly orders on the 10th of the month. We want you to enjoy your first order as soon as possible, so we will send it out within a week up until the 20th before beginning the monthly schedule. If we receive your order after the 20th, we'll put you at the head of the line for the next months schedule.</p>-->
+									<div class="column six">
+										<div class="table">
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="startMonthly" value="<?php echo $monthDate; ?>" <?php if ($cartShip != $monthNextDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<span class="table-title">start right away</span>
+											<span class="table-title bold">ships <?php echo $monthDisplay; ?></span>
+											<?php if ($monthImmediate): ?>
+												<span class="table-title note">Please note, your next scheduled delivery will be shipped on <?php echo $monthNextDisplay; ?></span>
+											<?php endif; ?>
+										</div>
+									</div>
+									<div class="column six">
+										<div class="table">
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="startMonthly" value="<?php echo $monthNextDate; ?>" <?php if ($cartShip == $monthNextDate): ?>checked<?php endif; ?>><i></i></label></div>
+											<span class="table-title">start next month</span>
+											<span class="table-title bold">ships <?php echo $monthNextDisplay; ?></span>
+										</div>
+									</div> 
+								</div>
+								
+								<!-- Seasonal -->
+								<div class="pricingSection seasonal <?php if ($productId != $productMonthly): ?>active<?php endif; ?>">
 									<h1>our seasons</h1><br>
 									<p><strong>spring</strong> season ships in <strong>february</strong><br><strong>summer</strong> season ships in <strong>may</strong><br><strong>fall</strong> season ships in <strong>august</strong><br><strong>winter</strong> season ships in <strong>november</strong></p>
 									<br>
 									<p>for <strong>seasonal orders</strong>, please indicate below if you would like to start immediately or for next season</p>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="radio" name="start" value="now" checked><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate default" type="radio" name="start" value="<?php echo $seasonDate; ?>" <?php if ($cartShip != $seasonNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start right away</span>
-											<span class="table-title bold">ships <?php echo $shipDisplay; ?></span>
+											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
+											<?php if ($seasonImmediate): ?>
+												<span class="table-title note">Please note, your next scheduled delivery will be shipped on <?php echo $seasonNextDisplay; ?></span>
+											<?php endif; ?>
+											
 										</div>
 									</div>
 									<div class="column six">
 										<div class="table">
-											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input type="radio" name="start" value="next"><i></i></label></div>
+											<div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input class="setDate" type="radio" name="start" value="<?php echo $seasonNextDate; ?>" <?php if ($cartShip == $seasonNextDate): ?>checked<?php endif; ?>><i></i></label></div>
 											<span class="table-title">start next season</span>
-											<span class="table-title bold">ships <?php echo $seasonDisplay; ?></span>
+											<span class="table-title bold">ships <?php echo $seasonNextDisplay; ?></span>
 										</div>
 									</div> 
 								</div>
-								<div class="pricingSection monthly">
-									<h1>our schedule</h1><br>
-									<p>We ship our members regular monthly orders on the 10th of the month. We want you to enjoy your first order as soon as possible, so we will send it out within a week up until the 20th before beginning the monthly schedule. If we receive your order after the 20th, we'll put you at the head of the line for the next months schedule.</p>
-									<div class="column six">
-										&nbsp;<br/>
-										&nbsp;<br/>
-									</div>
-								</div>
-                            <div class="column twelve">                           
-                            <a href="/checkout/onepage/" class="lm-button lb fill">checkout</a><br><br><br>
-                            </div>
+								
+                            
                             </div>
 						</div>
         </div>
 		
     </section>
+	
+	<!--
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('brands')->toHtml();?>	
+	-->
 
 
 	</form>
-
-
-
-
-<?php $_priceDisplay = ($this->helper('tax')->displayCartBothPrices()) ? 'display-both-prices' : 'display-single-price'; ?>
-<div class="cart <?php echo $_priceDisplay; ?>">
-    <div class="page-title title-buttons">
-        <h1><?php echo $this->__('Shopping Cart') ?></h1>
-        <?php if(!$this->hasError()): ?>
-        <ul class="checkout-types top">
-        <?php foreach ($this->getMethods('top_methods') as $method): ?>
-            <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
-            <li><?php echo $methodHtml; ?></li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-        </ul>
-        <?php endif; ?>
-    </div>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <?php echo $this->getChildHtml('form_before') ?>
-    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
-        <?php echo $this->getBlockHtml('formkey'); ?>
-        <table id="shopping-cart-table" class="cart-table data-table">
-            <col width="1" />
-            <col width="1" />
-            <col width="1" />
-            <col width="1" />
-            <col width="1" />
-            <col width="1" />
-            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-            <col width="1" />
-            <col width="1" />
-            <?php endif; ?>
-
-        <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
-            <thead>
-                <tr>
-                    <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Product') ?></span></th>
-
-                    <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
-
-                    <th class="a-center cart-price-head" colspan="<?php echo $mergedCells; ?>">
-<!--                            <div class="cart-price-placeholder">-->
-                            <span class="nobr"><?php echo $this->__('Price') ?></span>
-<!--                            </div>-->
-                    </th>
-
-                    <th rowspan="<?php echo $mergedCells; ?>" class="a-center">
-                        <?php echo $this->__('Qty') ?>
-
-                        <?php /*if ($this->helper('wishlist')->isAllowInCart()) : ?>
-                            <span class="nobr"><?php echo $this->__('Move to Wishlist') ?></span>
-                        <?php endif*/ ?>
-
-                    </th>
-
-                    <th class="a-center cart-total-head" colspan="<?php echo $mergedCells; ?>">
-<!--                            <div class="cart-total-placeholder">-->
-                            <?php echo $this->__('Subtotal') ?>
-<!--                            </div>-->
-                    </th>
-
-                    <th class="a-center" rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
-
-                </tr>
-                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                <tr>
-                    <th class="a-center cart-price-head"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                    <th class="a-center cart-price-head"><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                    <th class="a-center cart-total-head"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                    <th class="a-center cart-total-head"><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                </tr>
-                <?php endif; ?>
-            </thead>
-            <tfoot>
-                <tr>
-                    <td colspan="50" class="a-right cart-footer-actions">
-
-                        <!-- Make this button the first responder rather than empty cart -->
-                        <button type="submit" style="visibility:hidden;" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Shopping Cart'); ?>" class="button2 btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
-
-                        <button type="submit" name="update_cart_action" value="empty_cart" title="<?php echo $this->__('Empty Cart'); ?>" class="button2 btn-empty" id="empty_cart_button"><span><span><?php echo $this->__('Empty Cart'); ?></span></span></button>
-
-                        <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Shopping Cart'); ?>" class="button2 btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
-
-                        <span class="or">-or-</span>
-
-                        <?php if($this->getContinueShoppingUrl()): ?>
-                            <button type="button" title="<?php echo $this->__('Continue Shopping') ?>" class="button2 btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
-                        <?php endif; ?>
-                        <!--[if lt IE 8]>
-                        <input type="hidden" id="update_cart_action_container" />
-                        <script type="text/javascript">
-                        //<![CDATA[
-                            Event.observe(window, 'load', function()
-                            {
-                                // Internet Explorer (lt 8) does not support value attribute in button elements
-                                $emptyCartButton = $('empty_cart_button');
-                                $cartActionContainer = $('update_cart_action_container');
-                                if ($emptyCartButton && $cartActionContainer) {
-                                    Event.observe($emptyCartButton, 'click', function()
-                                    {
-                                        $emptyCartButton.setAttribute('name', 'update_cart_action_temp');
-                                        $cartActionContainer.setAttribute('name', 'update_cart_action');
-                                        $cartActionContainer.setValue('empty_cart');
-                                    });
-                                }
-
-                            });
-                        //]]>
-                        </script>
-                        <![endif]-->
-                    </td>
-                </tr>
-            </tfoot>
-            <tbody>
-            <?php foreach($this->getItems() as $_item): ?>
-                <?php echo $this->getItemHtml($_item) ?>
-            <?php endforeach ?>
-            </tbody>
-        </table>
-        <script type="text/javascript">decorateTable('shopping-cart-table')</script>
-    </form>
-
-    <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>
-    <div class="cart-forms">
-        <?php /* Extensions placeholder */ ?>
-        <?php echo $this->getChildHtml('checkout_cart_widget') ?>
-        <?php echo $this->getChildHtml('coupon') ?>
-        <?php echo $this->getChildHtml('checkout.cart.extra') ?>
-        <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
-    </div>
-    <div class="cart-totals-wrapper">
-        <div class="cart-totals">
-            <?php echo $this->getChildHtml('totals'); ?>
-            <?php if(!$this->hasError()): ?>
-            <ul class="checkout-types bottom">
-            <?php foreach ($this->getMethods('methods') as $method): ?>
-                <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
-                <li class="method-<?php echo preg_replace("/[^_a-zA-Z0-9-]/", '-', $method); ?>"><?php echo $methodHtml; ?></li>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            </ul>
-			<?php else: ?>
-			HAS ERROR
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php echo $this->getChildHtml('crosssell') ?>
-</div>
-
-
 
 <!-- END CONTENT -->
 

@@ -38,7 +38,7 @@
 	clear: both;
 }
 .sky-form a {
-	color: #2da5da;
+	color: #63bac3;
 }
 .sky-form .label {
 	display: block;
@@ -698,7 +698,7 @@
 	-webkit-transition: border-color 0.3s;
 }
 .sky-form .toggle i:before {
-	background-color: #2da5da;	
+	background-color: #63bac3;	
 }
 .sky-form .rating label {
 	color: #444;
@@ -707,7 +707,7 @@
 	-webkit-transition: color 0.3s;
 }
 .sky-form .button {
-	background-color: #2da5da;
+	background-color: #63bac3;
 	opacity: 0.8;
 	-ms-transition: opacity 0.2s;
 	-moz-transition: opacity 0.2s;
@@ -736,7 +736,7 @@
 }
 .sky-form .rating input + label:hover,
 .sky-form .rating input + label:hover ~ label {
-	color: #2da5da;
+	color: #63bac3;
 }
 .sky-form .button:hover {
 	text-decoration: none;
@@ -756,7 +756,7 @@
 .sky-form .radio input:focus + i,
 .sky-form .checkbox input:focus + i,
 .sky-form .toggle input:focus + i {
-	border-color: #2da5da;
+	border-color: #63bac3;
 }
 
 
@@ -764,18 +764,18 @@
 /* checked state */
 /**/
 .sky-form .radio input + i:after {
-	background-color: #2da5da;	
+	background-color: #63bac3;	
 }
 .sky-form .checkbox input + i:after {
-	color: #2da5da;
+	color: #63bac3;
 }
 .sky-form .radio input:checked + i,
 .sky-form .checkbox input:checked + i,
 .sky-form .toggle input:checked + i {
-	border-color: #2da5da;	
+	border-color: #63bac3;	
 }
 .sky-form .rating input:checked ~ label {
-	color: #2da5da;	
+	color: #63bac3;	
 }
 
 

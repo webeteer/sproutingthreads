@@ -295,16 +295,16 @@ writeJsTranslation($type);
 	<?php
 		$startDate = getBillDate($type, "immediate");
 		//$startDate = date("Y-m-d")
-		$startDate = date("m/d/Y h:i A", strtotime($startDate));
+		$startDate = date("m/d/Y 05:00 A", strtotime($startDate));
 		$startDateShip = getShipFromBill($startDate);
 	?>
-	<input type="text" name="startdate" id="startdate" value="<?php echo $startDate; ?>" />
+	<input type="hidden" name="startdate" id="startdate" value="<?php echo $startDate; ?>" />
 	<?php
 		$fixDate = getBillDate($type);
 		$fixDate = date("m/d/Y", strtotime($fixDate));
 		$bImmediate = isImmediateShip($type);
 	?>
-	<input type="text" name="fixRenewal" id="fixRenewal" value="<?php echo ($bImmediate == 1)?$fixDate:""; ?>" />
+	<input type="hidden" name="fixRenewal" id="fixRenewal" value="<?php echo ($bImmediate == 1)?$fixDate:"ok"; ?>" />
 	
     <!-- Start Section 3 -->
     <section class="start-section-3">
