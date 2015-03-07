@@ -52,7 +52,8 @@
                 </tr>
             <?php endif; ?>
         </thead>
-        <?php echo $this->getChildHtml('totals'); ?>
+		<?php // REMOVE TOTALS FROM CHECKOUT ?>
+        <?php //echo $this->getChildHtml('totals'); ?>
         <tbody>
         <?php foreach($this->getItems() as $_item): ?>
             <?php echo $this->getItemHtml($_item)?>
