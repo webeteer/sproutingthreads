@@ -142,9 +142,7 @@ $arSeasonalGender = array(
 
 function updateProduct($cart, $ar, $field, $value) {
 	$productId = $ar['product_id'];
-	
-	echo "START";
-	
+		
 	$fieldId = getConfigField($productId, $field);
 	if ($fieldId == "") 
 		$fieldId = $field;
