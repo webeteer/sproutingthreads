@@ -1,6 +1,9 @@
 <?php
 
-$to = "seangw@seangw.com";
+include "config.php";
+
+global $gEmailRecipient;
+$to = $gEmailRecipient;
 
 extract($_POST);
 

@@ -6,46 +6,51 @@ include("phpLibrary.php");
 global $gImmediateShipCutoff, $gBillDateOffset, $productMonthly, $arMonthly, $arMonthlySub, $productSeasonal, $arSeasonal, $arSeasonalSub, $arMonthlyGender, $arSeasonalGender;
 global $gDateOverride;
 
+global $gEmailRecipient;
+
+$gEmailRecipient = "info@sproutingthreads.com";
+
 $gImmediateShipCutoff = "14 days";	// subtracted
 $gBillDateOffset = "9 days";		// subtracted
 
 
-$productMonthly = 7;
+
+$productMonthly = 82;
 $arMonthly = array(
-		"weight" => 	57,
-		"birthday" => 	58,
-		"name" => 		59,
-		"gender" => 	60,
-		"sporty" => 	61,
-		"funky" => 		62,
-		"classic" => 	63,
-		"vintage" => 	64,
-		"dress" => 		65,
-		"bottom" => 	66,
-		"top" => 		67,
-		"height" => 	68,
-		"picky" => 		69,
-		"likes" => 		70,
-		"subType" => 	71,
-		"fixRenewal" => 	87
+		"weight" => 	89,
+		"birthday" => 	90,
+		"name" => 		91,
+		"gender" => 	92,
+		"sporty" => 	93,
+		"funky" => 		94,
+		"classic" => 	95,
+		"vintage" => 	96,
+		"dress" => 		97,
+		"bottom" => 	98,
+		"top" => 		99,
+		"height" => 	100,
+		"picky" => 		101,
+		"likes" => 		102,
+		"subType" => 	103,
+		"fixRenewal" => 	104
 );
 
 $arMonthlySub = array(
-	"all2" => 	69,
-	"all3" => 	70,
-	"all5" => 	71,
-	"all6" => 	72,
-	"all9" => 	73,
-	"half2" => 	74,
-	"half3" => 	75,
-	"half5" => 	76,
-	"half6" => 	77,
-	"half9" => 	78
+	"all2" => 	95,
+	"all3" => 	96,
+	"all5" => 	97,
+	"all6" => 	98,
+	"all9" => 	99,
+	"half2" => 	100,
+	"half3" => 	101,
+	"half5" => 	102,
+	"half6" => 	103,
+	"half9" => 	104
 );
 
 $arMonthlyGender = array(
-	"Boy" => 66,
-	"Girl" => 67
+	"Boy" => 92,
+	"Girl" => 93
 );
 
 $productSeasonal = 81;
