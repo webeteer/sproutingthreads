@@ -102,6 +102,8 @@ jQuery(document).ready(function(){
 	initSelectors();
 	setupSelectors();
 	
+	//window.history.forward(1);
+	
 	var uploader = new ss.SimpleUpload({
 		button: document.getElementById('uploadBtn'),
 		url: '/uploadHandler.php',

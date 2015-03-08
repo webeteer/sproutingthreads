@@ -971,6 +971,11 @@ ul.list-box .title-box-pink {
 
 /** Fix cart formatting **/
 
+#checkout-review-table tfoot tr:nth-child(1)
+#checkout-review-table tfoot tr:nth-child(2) {
+	display: none;
+}
+
 .pricing-container .table.quantity {
 	/*padding-left: 0px;*/
 }
@@ -982,4 +987,22 @@ ul.list-box .title-box-pink {
 .pricingSection span.note {
 	margin-top: 10px;
 	font-weight: bold;
+}
+
+#profileShipList {
+	margin-top: 10px;
+	width: 200px;
+	float: right;
+	font-weight: bold;
+	
+	border: 1px solid #63bac3;
+	padding: 10px;
+}
+
+#profileShipList b {
+	font-weight: bold;
+}
+
+#profileShipList .profileShip {
+	margin-bottom: 20px;
 }

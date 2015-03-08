@@ -497,11 +497,16 @@ function getShipFromBill($dt) {
 	return $bill->format("Y-m-d");
 }
 
-function getShipDate($type = "monthly", $which = "current") {
+function getShipDate($type = "monthly", $which = "current", $date = "") {
 	global $gImmediateShipCutoff, $gDateOverride;
 	
 	//$today = strtotime("now");
-	$today = strtotime($gDateOverride);
+	
+	if ($date == "") {
+		$today = strtotime($gDateOverride);
+	} else {
+		$today = strtotime($date);
+	}
 	$dtToday = date("Y-n-d", $today);
 	
 	$curMonth = intval(date("m", $today));
@@ -514,7 +519,7 @@ function getShipDate($type = "monthly", $which = "current") {
 	$winterMonth = 11;	
 	
 	if ($which == "immediate") {
-		$next = getShipDate($type);
+		$next = getShipDate($type, "current", $date);
 		$nextTime = strtotime($next);
 		
 		
@@ -540,7 +545,7 @@ function getShipDate($type = "monthly", $which = "current") {
 		case "monthly":
 			
 			if ($which == "next") {
-				return date("Y-m-d", strtotime(getShipDate($type)." +1 month"));
+				return date("Y-m-d", strtotime(getShipDate($type, "current", $date)." +1 month"));
 			}
 			$firstMonth = new DateTime("$curYear-$curMonth-1");
 			
@@ -556,8 +561,8 @@ function getShipDate($type = "monthly", $which = "current") {
 			break;
 		case "seasonal":
 			if ($which == "next") {
-				$current = getShipDate($type);
-				return date("Y-m-d", strtotime(getShipDate($type)." +3 months"));
+				$current = getShipDate($type, "current", $date);
+				return date("Y-m-d", strtotime(getShipDate($type, "current", $date)." +3 months"));
 			}
 			$seasonYear = $curYear;
 			

@@ -23,6 +23,8 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+ 
+global $productMonthly, $productSeasonal;
 ?>
 <div class="dashboard">
     <div class="page-title">
@@ -55,7 +57,18 @@
 				$buyRequest = unserialize($orderItems['info_buyRequest']);
 				$schedule = $profile->exportScheduleInfo();
 				
-				$productId = $buyRequest['product_id'];
+				
+				if (isset($buyRequest['product'])) {
+					$productId = $buyRequest['product'];
+				} else {
+					$productId = $buyRequest['product_id'];
+				}
+				
+				
+				//print_r($buyRequest);
+				
+				
+
 				
 				$nameFieldId = getConfigField($productId, "name");
 				$name = $buyRequest['options'][$nameFieldId];
@@ -71,11 +84,13 @@
 				
 				$orderDate = $orderData['created_at'];
 				
-				if ($productId = $productMonthly) {
+				if ($productId == $productMonthly) {
 					$type = "monthly";
 				} else {
 					$type = "seasonal";
 				}
+				
+				
 				
 				
 				$shipDate = getShipDate($type, "current", $orderDate);

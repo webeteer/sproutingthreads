@@ -1,6 +1,10 @@
 
 jQuery(document).ready(function(){
 	
+	/** Stop the back button **/
+	
+	//window.history.forward(1);
+	
 	jQuery(".prodCheck").click(function(e) {
 		var obj = jQuery(this);
 		
