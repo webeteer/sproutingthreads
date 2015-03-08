@@ -28,10 +28,74 @@
     <div class="page-title">
         <h1><?php echo $this->__('My Dashboard') ?></h1>
     </div>
+	
+	
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	
+	
+	<?php
+	$customer = Mage::getSingleton('customer/session')->getCustomer();
+	
+	
+	$customerId = $customer->getId();
+	
+	$profiles = Mage::getModel('sales/recurring_profile')->getCollection()->addFieldToSelecT('*')->addFieldToFilter('customer_id', $customerId);
+	
+	$numProfiles = count($profiles);
+	if ($numProfiles > 0): 
+	?>
+		<div id="profileShipList">
+			<?
+			foreach($profiles as $profile) {
+				
+				$data = $profile->getOrigData();
+				
+				$order = unserialize($data['order_info']);
+				$orderItems = unserialize($data['order_item_info']);
+				$buyRequest = unserialize($orderItems['info_buyRequest']);
+				$schedule = $profile->exportScheduleInfo();
+				
+				$productId = $buyRequest['product_id'];
+				
+				$nameFieldId = getConfigField($productId, "name");
+				$name = $buyRequest['options'][$nameFieldId];
+				
+				$childOrders = $profile->getChildOrderIds();
+				$numShipped = count($childOrders);
+				$startdate = "";
+				
+				
+				$recentOrder = array_pop($childOrders);
+				
+				$orderData = Mage::getModel('sales/order')->load($recentOrder)->getOrigData();
+				
+				$orderDate = $orderData['created_at'];
+				
+				if ($productId = $productMonthly) {
+					$type = "monthly";
+				} else {
+					$type = "seasonal";
+				}
+				
+				
+				$shipDate = getShipDate($type, "current", $orderDate);
+				$shipDateDisplay = date("l F jS", strtotime($shipDate));
+				?>
+					<div class="profileShip">
+						<b><?php echo $name; ?>'s</b> next shipment is scheduled for:<br/><b><?php echo $shipDateDisplay; ?></b>
+					</div>
+				<?
+				//echo "Name: $name / $numShipped / $orderDate / $type / $shipDate";
+			}
+			?>
+		</div>
+	<? endif; ?>
+	</div>	
     <?php echo $this->getChildHtml('hello') ?>
 
     <!--<?php echo $this->getChildHtml('top') ?>-->
+	
+
 	
 	<div id="return" class="box-account box-info">
 		<h2>Rethreading or Returning?</h2>

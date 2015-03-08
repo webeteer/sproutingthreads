@@ -6,6 +6,8 @@
         </reference>
     </default>
 	
+
+	
 	<customer_account_login>
 		<reference name="root">
 			<action method="setTemplate">
