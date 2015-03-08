@@ -99,7 +99,17 @@ var arSelectors = {
 
 
 jQuery(document).ready(function(){
-	initSelectors();
+	
+	var likes = jQuery("#likes").val();
+	
+	if (likes != "") {
+		// populate
+		gender = getGender();
+		loadSelectors(likes, gender);
+	} else {
+		// reset
+		initSelectors();
+	}
 	setupSelectors();
 	
 	//window.history.forward(1);
@@ -197,7 +207,83 @@ function getGender() {
 	return val;
 	
 }
+
+function loadSelectors(likes, gender) {
+	arChoices = JSON.parse(likes);
+	
+	type = "classic";
+	classic = jQuery("#"+type).val();
+	arLikes[type] = classic;
+	
+	type = "funky";
+	funky = jQuery("#"+type).val();
+	arLikes[type] = funky;
+	
+	type = "sporty";
+	sporty = jQuery("#"+type).val();
+	arLikes[type] = sporty;
+	
+	type = "vintage";
+	vintage = jQuery("#"+type).val();
+	arLikes[type] = vintage;
+	
+	jQuery(".start-styles-section").find(".selected").toggleClass("selected", false);	
+	
+	buildSelectors();
+	
+	populateSelectors();
+	
+}
+
+function populateSelectors() {
+	jQuery(".imageSelector").each(function() {
+		var parent = jQuery(this);
+		parent.attr("data-count", 1);
+		
+		var type = parent.attr("data-type");
+		var gender = getGender();
+		
+		var ar = arChoices[type];
+		
+		var num = 0;
+		for (key in ar) {
+			num++;
+		}
+		
+		if (num > 0)
+			moveStep(parent.find(".selector"), num);
+		
+	});			
+}
+
+function buildSelectors() {
+	jQuery(".imageSelector").each(function() {
+		var parent = jQuery(this);
+		parent.attr("data-count", 1);
+		
+		var type = parent.attr("data-type");
+		var gender = getGender();
+		
+		var arBase = arSelectors[gender][type];
+		var total = arBase.length;
+		
+		var num = 1;
+		var src = arBase[num - 1];
+		
+		var img = parent.find(".selector img");
+		img.attr('src', imgPath + src);
+		img.attr('data-src', src);
+		
+		var objCount = parent.find(".count");
+		var strCount = num  + " of " + total;
+		objCount.html(strCount);
+				
+		
+	});		
+}
+
 function initSelectors(gender) {
+	console.log("Initializing Selectors");
 	arLikes["classic"] = 0;
 	arLikes["funky"] = 0;
 	arLikes["sporty"] = 0;
@@ -223,28 +309,7 @@ function initSelectors(gender) {
 	
 	jQuery(".start-styles-section").find(".selected").toggleClass("selected", false);	
 	
-	jQuery(".imageSelector").each(function() {
-		var parent = jQuery(this);
-		parent.attr("data-count", 1);
-		var type = parent.attr("data-type");
-		var gender = getGender();
-		
-		var arBase = arSelectors[gender][type];
-		var total = arBase.length;
-		
-		var num = 1;
-		var src = arBase[num - 1];
-		
-		var img = parent.find(".selector img");
-		img.attr('src', imgPath + src);
-		img.attr('data-src', src);
-		
-		var objCount = parent.find(".count");
-		var strCount = num  + " of " + total;
-		objCount.html(strCount);
-				
-		
-	});
+	buildSelectors();
 }
 
 
@@ -316,6 +381,8 @@ function moveStep(obj, num) {
 	
 	parent.attr("data-count", num );
 	parent.find(".select-button").toggleClass("selected", false);
+	
+	console.log(arChoices, type, src);
 	
 	val = -5;
 	for(var k in arChoices[type]) {
