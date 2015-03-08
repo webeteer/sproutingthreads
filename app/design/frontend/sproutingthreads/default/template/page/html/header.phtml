@@ -85,3 +85,73 @@ require($_SERVER['DOCUMENT_ROOT'].'/config.php');
 
 
 <?php echo $this->getChildHtml('topContainer'); ?>
+<?php
+    function _getOrdersTrackingCode(){
+		$orderIds = array();
+		$order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+		$orderIds[] = $order->getId();
+		
+		if (empty($orderIds) || !is_array($orderIds)) {
+            return;
+        }
+		
+        $collection = Mage::getResourceModel('sales/order_collection')
+            ->addFieldToFilter('entity_id', array('in' => $orderIds))
+        ;
+
+		
+		
+        $aOrders = array();
+        foreach ($collection as $order) {
+			
+            $objOrder = new stdClass();
+            $objOrder->transactionId = $order->getIncrementId();
+            $objOrder->transactionAffiliation = Mage::app()->getStore()->getFrontendName();
+            $objOrder->transactionTotal = $order->getBaseGrandTotal();
+            $objOrder->transactionTax = $order->getBaseTaxAmount();
+            $objOrder->transactionShipping = $order->getBaseShippingAmount();
+
+            $aItems = array();
+            foreach ($order->getAllVisibleItems() as $item) {
+                $objItem = array();
+                $objItem['sku'] = $item->getSku();
+                $objItem['name'] = $item->getName();
+                $objItem['category'] = null; //todo
+                $objItem['price'] = $item->getBasePrice();
+                $objItem['quantity'] = $item->getQtyOrdered();
+                $aItems[] = (object) $objItem;
+            }
+
+            $objOrder->transactionProducts = $aItems;
+            $aOrders[] = $objOrder;
+        }
+
+		if (empty($aOrders)) {
+
+		} else {
+			echo "dataLayer = ".json_encode($aOrders).";";
+		}
+		
+        return;
+    }
+?>
+
+<script>
+<?php
+	//_getOrdersTrackingCode();
+?>
+</script>
+
+
+<!-- Google Tag Manager 
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WDTLVP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WDTLVP');</script>
+End Google Tag Manager -->
+
+
+
