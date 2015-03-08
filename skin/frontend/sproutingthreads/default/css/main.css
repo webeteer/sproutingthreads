@@ -946,18 +946,22 @@ ul.list-box .title-box-pink {
 	left: auto;
 }
 
+#checkout-step-login input[type=checkbox],
 .account-login input[type=checkbox] {
 	top: auto;
 	left: auto;
 	margin-right: 10px;
 }
 
+#checkout-step-login .form-list li,
 .account-login .form-list li {
 	margin-bottom: 20px;
 }
+#checkout-step-login .remember-me-box,
 .account-login .remember-me-box {
 	width: 100%;
 }
+#checkout-step-login .remember-me-box .input-box,
 .account-login .remember-me-box .input-box {
 	float: left;
 }
