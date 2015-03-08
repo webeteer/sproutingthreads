@@ -1,0 +1,14 @@
+AuthType Basic
+AuthName "Restricted Access"
+AuthUserFile /var/www/vhosts/sproutingthreads.com/.htpasswd
+Require user tester
+
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
