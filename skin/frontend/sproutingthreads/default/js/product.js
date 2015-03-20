@@ -99,7 +99,7 @@ var arSelectors = {
 
 
 jQuery(document).ready(function(){
-	
+
 	var likes = jQuery("#likes").val();
 	
 	if (likes != "") {
@@ -185,11 +185,18 @@ jQuery(document).ready(function(){
 	// move to next page (cart)
 	jQuery("#childNext").click(function(e) {
 		e.preventDefault();
+		var inactive = jQuery(this).hasClass('inactive');
+		if (inactive) return;
+		
+		jQuery(this).toggleClass("inactive", true);
+		
 		var arData = getFormData(arFields);
 		if (validateForm(arFields, arData)) {
 			console.log("GOOD");
 			addProduct(arData, arTranslations);
 			//document.location = "/checkout/cart";
+		} else {
+			jQuery(this).toggleClass("inactive", false);
 		}
 	});
 	

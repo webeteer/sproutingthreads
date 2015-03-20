@@ -739,4 +739,21 @@ var ProductMediaManager = {
 
 $j(document).ready(function() {
     ProductMediaManager.init();
+	
+	$j("#submitRethread").click(function(e) {
+		e.preventDefault();
+		
+		var form = $j("#rethreadForm form");
+		
+		$j.ajax({
+			type: "POST",
+			url: "/sendMail.php",
+			data: form.serialize()
+		}).done(function() {
+			$j("#rethreadForm").html("Thank you!");
+			$j("#submitRethread").hide();
+		});
+	});
 });
+
+

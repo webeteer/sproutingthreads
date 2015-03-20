@@ -38,6 +38,12 @@
         <?php echo $this->getChildHtml('methods') ?>
     </div>
 </form>
+
+<div class="checkoutPromo">
+	<label>If you have a <b>gift card</b> please enter it here &mdash; you will receive a credit for the amount:</label>
+	<input type="text" name="gift" id="gift" placeholder="Enter your gift certificate or promotion code here" />
+</div>
+
 <div class="tool-tip" id="payment-tool-tip" style="display:none;">
     <div class="btn-close"><a href="#" id="payment-tool-tip-close" title="<?php echo $this->__('Close') ?>"><?php echo $this->__('Close') ?></a></div>
     <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>

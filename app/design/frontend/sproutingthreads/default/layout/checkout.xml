@@ -357,6 +357,9 @@ One page checkout main layout
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
+		<reference name="head">
+			<action method="addItem"><type>skin_js</type><name>js/checkout.js</name></action>
+		</reference>		
         <reference name="right">
             <action method="unsetChildren"></action>
             <block type="page/html_wrapper" name="checkout.progress.wrapper" translate="label">

@@ -6,6 +6,11 @@
 	display: none;
 }
 
+#opc-review #checkout-agreements .buttons-set {
+	display: none;
+}
+
+
 #cart {
 	/*display: none;*/
 }	
@@ -1010,3 +1015,89 @@ ul.list-box .title-box-pink {
 #profileShipList .profileShip {
 	margin-bottom: 20px;
 }
+
+.checkoutPromo {
+	position: relative;
+	clear: both;
+	padding-top: 20px;
+}
+
+#opc-review #checkout-agreements #review-buttons-container {
+	display: block;
+}
+
+
+
+/* reThread Landing Page
+================================================== */
+.steps {
+	margin: 45px auto;
+	padding: 20px 20px 0 20px;
+	display:inline-block;
+	position: relative;
+	text-align:center;
+	vertical-align:top;
+}
+.steps h1 {
+	color: #333;
+	padding: 0 0 5px 0;
+	font-weight: normal;
+    font-size: 22px;
+	font-family: 'AvantGardeGothicITCW02Md', sans-serif;	
+}
+.steps p {
+	color: #333;
+	padding: 0 0 5px 0;
+	font-weight: normal;
+    font-size: 15px;
+	font-family: "ITCAvantGardeW04-Book", Helvetica, Arial, sans-serif;
+}
+.steps img {
+	padding: 0;
+	border: none;
+}
+.top-section-rethread-landing {
+    background-color: #fff;
+    height: 450px;
+    padding: 60px 0;
+}
+.rethread-image-landing {
+	background-image: url('../images/bg/rethread-landing-bg.jpg');
+}
+.top-section-rethread-landing h1 {
+	color: #fff;
+	font-size: 72px;
+	text-align: left;
+	line-height: 78px;
+	padding-top: 230px;
+}
+
+/* Rethread form */
+
+#rethreadForm {
+	display: block;
+	width: 520px;
+	margin: 20px auto;
+	margin-bottom: 60px !important;
+
+}
+
+#rethreadForm input {
+	border: none;
+}
+
+#rethreadForm .half,
+#rethreadForm .half2 {
+	display: inline-block;
+	width: 255px;
+	margin: 0px;
+}
+
+#rethreadForm .half2 {
+	margin-left: 5px;
+}
+
+#rethreadForm .input-box {
+	margin: 0 0 10px 0;
+}
+

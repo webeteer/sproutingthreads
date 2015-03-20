@@ -45,4 +45,9 @@ Checkout.prototype.gotoSection = function (section, reloadProgressBlock) {
     if (!reloadProgressBlock) {
         this.resetPreviousSteps();
     }
+	
+	if (section == "review") {
+		jQuery("#ordercomment-comment").val(giftCode);
+		console.log(giftCode);
+	}
 }
