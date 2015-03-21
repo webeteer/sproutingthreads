@@ -5,8 +5,6 @@ include "config.php";
 global $gEmailRecipient;
 $to = $gEmailRecipient;
 
-$to = "seangw@seangw.com";
-
 extract($_POST);
 
 
