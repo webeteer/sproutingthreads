@@ -1101,3 +1101,6 @@ ul.list-box .title-box-pink {
 	margin: 0 0 10px 0;
 }
 
+.checkout .list-section {
+	max-width: 525px;
+}

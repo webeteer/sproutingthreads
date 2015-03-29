@@ -171,7 +171,7 @@ if ($action == "date") {
                         	<div class="column twelve">
                         		<h1>pricing</h1>
                                 <h3><br>
-                                zero member fees. pause anytime. free shipping. reThread for credit.</h3>
+                                free shipping both ways.  pause anytime.  rethread for credit.</h3>
                                 <div class="row">
                             <div class="column four">
                                 <div class="table quantity">
@@ -268,12 +268,10 @@ foreach($cart->getItems() as $_item): ?>
 												<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">2 outfits</a></li>
 												<?php $rowQuantity = 3; ?>
 												<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">3 outfits</a></li>
+												<?php $rowQuantity = 4; ?>
+												<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">4 outfits</a></li>
 												<?php $rowQuantity = 5; ?>
-												<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">5 outfits</a></li>
-												<?php $rowQuantity = 6; ?>
-												<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">6 outfits</a></li>
-												<?php $rowQuantity = 9; ?>
-												<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">9 outfits</a></li>
+												<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> pink-border-bottom"><a href="#">5 outfits</a></li>
 											</ul>
 										</div>
 									</div>
@@ -299,23 +297,19 @@ foreach($cart->getItems() as $_item): ?>
 													<?php
 														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check1">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" class="prodCheck" type="checkbox" value="all2" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check1"><input id="check1" class="prodCheck" type="checkbox" value="all2" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 													<?php
 														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check2">$180 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" class="prodCheck" type="checkbox" value="all3" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check2"><input id="check2" class="prodCheck" type="checkbox" value="all3" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<?php
+														$rowQuantity = 4; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" class="prodCheck" type="checkbox" value="all4" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
 													<?php
 														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check3">$290 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check3"><input id="check3" class="prodCheck" type="checkbox" value="all5" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
-													<?php
-														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
-													?>
-													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check4">$340 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" class="prodCheck" type="checkbox" value="all6" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
-													<?php
-														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
-													?>
-													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check5">$500 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check5"><input id="check5" class="prodCheck" type="checkbox" value="all9" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?>><i></i></label></div></li>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline" for="check4"><input id="check4" class="prodCheck" type="checkbox" value="all5" name="terms" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -337,23 +331,19 @@ foreach($cart->getItems() as $_item): ?>
 													<?php
 														$rowQuantity = 2; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check6">&nbsp;$90 &nbsp;&nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" class="prodCheck" type="checkbox" name="terms" value="half2" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="1" class="row1 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check6" class="prodCheck" type="checkbox" name="terms" value="half2" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 3; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check7">$130 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" class="prodCheck" type="checkbox" name="terms" value="half3" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="2" class="row2 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check7" class="prodCheck" type="checkbox" name="terms" value="half3" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<?php
+														$rowQuantity = 4; $rowName = $rowRoot.$rowQuantity;
+													?>
+													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" class="prodCheck" type="checkbox" name="terms" value="half4" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 													<?php
 														$rowQuantity = 5; $rowName = $rowRoot.$rowQuantity;
 													?>
-													<li data-row="3" class="row3 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check8">$210 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check8" class="prodCheck" type="checkbox" name="terms" value="half5" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
-													<?php
-														$rowQuantity = 6; $rowName = $rowRoot.$rowQuantity;
-													?>
-													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check9">$250 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" class="prodCheck" type="checkbox" name="terms" value="half6" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
-													<?php
-														$rowQuantity = 9; $rowName = $rowRoot.$rowQuantity;
-													?>
-													<li data-row="5" class="row5 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><label class="textLabel" for="check10">$360 &nbsp;</label><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check10" class="prodCheck" type="checkbox" name="terms" value="half9" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
+													<li data-row="4" class="row4 <?php if ($rowQuantity == $subNum): ?>rowActive<?php endif; ?> green-border-bottom"><div id="sky-form" class="sky-form inline"><label class="checkbox inline"><input id="check9" class="prodCheck" type="checkbox" name="terms" value="half5" <?php if ($rowName == $subText): ?>checked<?php endif; ?> ><i></i></label></div></li>
 												</ul>
 											</div>
 										</div>
@@ -436,10 +426,16 @@ foreach($cart->getItems() as $_item): ?>
 						<br>
 						<p>Note:</p>
 						<ul class="arrow">
+							<li>the styling fee is $20, which can be applied toward your purchase of 2 or more new pieces</li>
 							<li>an outfit is either a dress or a top & bottom, and may include accessories (hair clips, hats, suspenders, ties, scarves)</li>
+							<li>our individual pieces range in price and are similiar to higher-end boutiques and resale shops</li>
+							<li>new pieces range from $25-65+ (outfits average ~$65), reThreads range from $12-25</li>
+							<li>return pieces that don't work out within 5 business days using the pre-paid self-addressed envelope</li>
 							<li>pause your subscription at any time.</li>
+							<!--
 							<li>free returns during the "tuning cycle" (see <a href="/faq" class="blue-link" target="_blank">FAQ</a> for details)</li>
-							<li>Clothes can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for sprouting threads <b>credit</b>.</li>
+							-->
+							<li>pieces can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for sprouting threads <b>credit</b>.</li>
 							
 						</ul>
 					</div>
