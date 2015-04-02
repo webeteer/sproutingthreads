@@ -1104,3 +1104,12 @@ ul.list-box .title-box-pink {
 .checkout .list-section {
 	max-width: 525px;
 }
+
+#detailsList {
+	font-size: 16px;
+	line-height: 25px;
+}
+
+#detailsList li {
+	margin-bottom: 10px;
+}
