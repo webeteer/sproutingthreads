@@ -212,6 +212,51 @@ h6 {
 	.table {
 		padding-right: 0px;
 	}
+	
+	.pricing-container .assortment {
+		padding: 0px !important;
+	}
+	
+	.pricing-container .column,
+	.pricing-container .subSet,
+	.pricing-container .optionSet {
+		display: inline-block;
+	}
+	
+	.pricing-container .optionSet a	{
+		font-size: 18px;
+		line-height: 18px;
+	}
+	
+	.pricing-container h1 {
+		height: 66px !important;
+	}
+	.pricing-container .table-frequency h1 {
+		font-size: 18px;
+	}	
+	.pricing-container .table-frequency label {
+		text-align: center;
+		font-size: 18px;
+		line-height: 18px;
+	}	
+	
+	.pricing-container .table-frequency>ul>li {
+		margin-right: 5px;
+	}
+	.pricing-container .list-box>li {
+		width: 110px !important;
+		padding: 0px !important;
+	}
+	
+	.pricing-container .list-box>li li {
+		width: 100px !important;
+		padding: 10px 0px 10px 0px !important;
+	}
+	
+	.pricing-container .list-box-content ul>li i {
+		left: -8px;
+	}
+	
 }
 
 .start-section-4 {
