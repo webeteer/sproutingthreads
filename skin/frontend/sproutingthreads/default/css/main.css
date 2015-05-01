@@ -252,6 +252,19 @@ h6 {
 		width: 100px !important;
 		padding: 10px 0px 10px 0px !important;
 	}
+	.assortment .list-box>li li,
+	.frequency .list-box>li li {
+		width: 105px !important;
+	}
+	.assortment .list-box-container,
+	.frequency .list-box-container{
+		padding:0;
+		margin-top:0;
+		border-left: none !important;
+		border-top: 5px solid #a5bf3a !important;
+		border-right: 5px solid #a5bf3a !important;
+		border-bottom: 5px solid #a5bf3a !important;
+	}	
 	
 	.pricing-container .list-box-content ul>li i {
 		left: -8px;

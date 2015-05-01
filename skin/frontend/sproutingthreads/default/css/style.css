@@ -568,7 +568,7 @@ ul.list-box li.current{
 	border: 5px solid #a5bf3a;
 }
 .pink-border{
-	border: 5px solid #ec8a94;
+	border: 5px solid #ec8a94 !important;
 }
 .pink-border-bottom{
 	border-bottom: 5px solid #ec8a94;
@@ -1668,7 +1668,8 @@ ul.social li a:hover {
 
 
 .home-image {
-	background-image: url('../images/bg/home-1.jpg');
+	/*background-image: url('../images/bg/home-1.jpg');*/
+	background-image: url('../images/bg/home-1-2.jpg');
 }
 .home-button {
 	border: 3px solid #ddd2c5;
@@ -2111,7 +2112,7 @@ ul.social li a:hover {
 @media screen and (min-width: 1570px) {
 
 .home-image {
-background-image: url('../images/bg/home-top-1600-spring.jpg');
+	background-image: url('../images/bg/home-1-2-1600.jpg');
 }
 
 }
@@ -2198,7 +2199,9 @@ background-image: url('../images/bg/home-top-1600-spring.jpg');
 	 width: 95%; /* For responsive, 5% left and right of mobile phone screen. */
 }
 	.home-image {
-	background: url('../images/bg/home-1-tablet.jpg');
+	/*background: url('../images/bg/home-1-tablet.jpg');*/
+	background: url('../images/bg/home-1-2-tablet.jpg');
+	
 }
 
     .leftalign .section-header {
@@ -2742,7 +2745,9 @@ background-image: url('../images/bg/home-top-1600-spring.jpg');
 	margin-top: 30px;
 }
 .home-image {
-	background-image: url('../images/bg/home-1-phone.jpg');
+	/*background-image: url('../images/bg/home-1-phone.jpg');*/
+	background-image: url('../images/bg/home-1-2-phone.jpg');
+	
 }
 .home-button {
 	border: 3px solid #ddd2c5;
