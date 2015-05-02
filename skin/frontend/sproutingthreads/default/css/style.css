@@ -2747,6 +2747,7 @@ ul.social li a:hover {
 .home-image {
 	/*background-image: url('../images/bg/home-1-phone.jpg');*/
 	background-image: url('../images/bg/home-1-2-phone.jpg');
+	background-position: -30px 0px;
 	
 }
 .home-button {
