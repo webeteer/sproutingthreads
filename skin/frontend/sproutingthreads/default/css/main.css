@@ -224,37 +224,46 @@ h6 {
 	}
 	
 	.pricing-container .optionSet a	{
-		font-size: 18px;
-		line-height: 18px;
+		font-size: 16px;
+		line-height: 16px;
+	}
+	
+	ul.list-box .title-box,
+	ul.list-box .title-box-pink {
+		font-size: 18px !important;
 	}
 	
 	.pricing-container h1 {
 		height: 66px !important;
 	}
+	.pricing-container .table-frequency {
+		padding-left: 10px;
+	}
 	.pricing-container .table-frequency h1 {
-		font-size: 18px;
+		font-size: 16px;
 	}	
+	
 	.pricing-container .table-frequency label {
 		text-align: center;
-		font-size: 18px;
-		line-height: 18px;
+		font-size: 16px;
+		line-height: 16px;
 	}	
 	
 	.pricing-container .table-frequency>ul>li {
 		margin-right: 5px;
 	}
 	.pricing-container .list-box>li {
-		width: 110px !important;
+		width: 87px !important;
 		padding: 0px !important;
 	}
 	
 	.pricing-container .list-box>li li {
-		width: 100px !important;
+		width: 82px !important;
 		padding: 10px 0px 10px 0px !important;
 	}
 	.assortment .list-box>li li,
 	.frequency .list-box>li li {
-		width: 105px !important;
+		width: 82px !important;
 	}
 	.assortment .list-box-container,
 	.frequency .list-box-container{
@@ -266,8 +275,11 @@ h6 {
 		border-bottom: 5px solid #a5bf3a !important;
 	}	
 	
-	.pricing-container .list-box-content ul>li i {
-		left: -8px;
+	.pricing-container .optionSet .table-frequency .list-box-content {
+		margin-left: -4px;
+	}
+	.pricing-container .optionSet .table-frequency .list-box-content .checkbox {
+		margin-left: -24px;
 	}
 	
 }
