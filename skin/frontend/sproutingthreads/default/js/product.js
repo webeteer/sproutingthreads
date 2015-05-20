@@ -183,7 +183,7 @@ jQuery(document).ready(function(){
 	});	
 	
 	// move to next page (cart)
-	jQuery("#childNext").click(function(e) {
+	jQuery("#childNext, #headerNext").click(function(e) {
 		e.preventDefault();
 		var inactive = jQuery(this).hasClass('inactive');
 		if (inactive) return;
