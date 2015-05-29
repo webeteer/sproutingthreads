@@ -45,51 +45,51 @@ var arChoices = {
 var arSelectors = {
 	"boy": {
 		"classic": [
-			"classic-boy-1.jpg",
+			"classic-boy-6.jpg",
 			"classic-boy-2.jpg",
 			"classic-boy-3.jpg",
 			"classic-boy-4.jpg"
 		],
 		"funky": [
-			"funky-boy-1.jpg",
+			"funky-boy-5.jpg",
 			"funky-boy-2.jpg",
 			"funky-boy-3.jpg",
-			"funky-boy-4.jpg"
+			"funky-boy-6.jpg"
 		],
 		"sporty": [
-			"sporty-boy-1.jpg",
-			"sporty-boy-2.jpg",
+			"sporty-boy-4.jpg",
 			"sporty-boy-5.jpg",
-			"sporty-boy-4.jpg"
+			"sporty-boy-6.jpg",
+			"sporty-boy-7.jpg"
 		],
 		"vintage": [
-			"vintage-boy-5.jpg",
+			"vintage-boy-9.jpg",
 			"vintage-boy-2.jpg",
-			"vintage-boy-3.jpg",
+			"vintage-boy-5.jpg",
 			"vintage-boy-6.jpg"
 		]
 	},
 	"girl": {
 		"classic": [
-			"classic-girl-1.jpg",
-			"classic-girl-2.jpg",
+			"classic-girl-5.jpg",
+			"classic-girl-6.jpg",
 			"classic-girl-3.jpg",
 			"classic-girl-4.jpg"
 		],
 		"funky": [
-			"funky-girl-1.jpg",
-			"funky-girl-2.jpg",
-			"funky-girl-3.jpg",
-			"funky-girl-4.jpg"
+			"funky-girl-6.jpg",
+			"funky-girl-7.jpg",
+			"funky-girl-8.jpg",
+			"funky-girl-9.jpg"
 		],
 		"sporty": [
 			"sporty-girl-1.jpg",
-			"sporty-girl-2.jpg",
-			"sporty-girl-3.jpg",
+			"sporty-girl-6.jpg",
+			"sporty-girl-7.jpg",
 			"sporty-girl-4.jpg"
 		],
 		"vintage": [
-			"vintage-girl-1.jpg",
+			"vintage-girl-5.jpg",
 			"vintage-girl-2.jpg",
 			"vintage-girl-3.jpg",
 			"vintage-girl-4.jpg"
