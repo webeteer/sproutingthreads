@@ -70,4 +70,12 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_RecurringprofileController extend
 			}
 		}
 	}
+	
+	/**
+	 * Check ACP perms
+	 */
+	protected function _isAllowed()
+	{
+		return Mage::getSingleton('admin/session')->isAllowed('sales/recurring_profile');
+	}
 }

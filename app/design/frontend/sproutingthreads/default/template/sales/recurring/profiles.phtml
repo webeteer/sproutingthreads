@@ -1,0 +1,287 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php 
+$customer = Mage::getSingleton('customer/session')->getCustomer(); 
+	$allprofiles=Mage::getModel('sales/recurring_profile')->getCollection()
+            ->addFieldToFilter('customer_id',  Mage::getSingleton('customer/session')->getId())
+			//->addFieldToFilter('state','active')
+			->addFieldToSelect('*')
+            ->setOrder('profile_id', 'desc');
+			$allprof=$allprofiles->getData(); 
+			
+			if(!empty($_GET['child'])){
+			$profiles=Mage::getModel('sales/recurring_profile')->getCollection()
+            ->addFieldToFilter('customer_id',  Mage::getSingleton('customer/session')->getId())
+			//->addFieldToFilter('state','active')
+			->addFieldToFilter('profile_id',$_GET['child'])
+			->addFieldToSelect('*')
+            ->setOrder('profile_id', 'desc');
+			$prof=$profiles->getData();  
+			}
+			else
+			{
+				$prof=$allprof;	
+			}
+			
+			$info=unserialize($prof[0]['order_item_info']);
+			$child=unserialize($info['info_buyRequest']); 
+			$child1=unserialize($info['options']); 
+			$product=$child['product']?$child['product']:$child['product_id'];
+			
+			  $options = Mage::getModel('catalog/product')->load($product)->getProductOptionsCollection();
+			  foreach ($options as $o) 
+			  {  
+				  
+					$firstchilddetails[$o->getData('title')][]=$child['options'][$o->getData('option_id')]; 
+					$values = $o->getValues();
+					$mydata='';
+					foreach($values as $v)
+					  {
+						 $mydata[] = $v->getData();
+											 
+					  }
+					 $firstchilddetails[$o->getData('title')][]=$mydata; 
+				   } 
+			
+			if(isset($_GET['debug']))
+			{
+				echo '<pre>';
+				$info=unserialize($allprof[0]['order_item_info']);
+				$child=unserialize($info['options']);
+				print_r($prof[0]);
+			}
+		  	
+			
+ ?>
+ 
+ <form action="<?php echo $this->getUrl('childprofile/index/subscription/') ?>" method="post">
+<div class="row">
+            	<div class="column twelve">
+                
+                
+                	<div class="sub-inner">
+                		<div class="column twelve subsr"><h1>My subscription</h1>
+                        
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+                        <div class="first_ch"> 
+                     <?php 
+					 $i=0;
+					foreach($allprof as $pr){ 
+		$childdetails='';
+		$info=unserialize($pr['order_item_info']);
+		$child=unserialize($info['info_buyRequest']);
+		
+			$unser=(unserialize($info['options'])); 
+			$opt=$unser['options'];
+			foreach($opt as $opf)
+			{
+				if($opf['label']=='Name')
+				{
+					$name=$opf['value'];
+				}
+			}
+		 ?>
+    <a href="<?php echo $this->getUrl('sales/recurring_profile/') ?>?child=<?php echo $pr['profile_id']; ?>">
+    <label for="child1" class="firstlab  <?php echo ((empty($_GET['child'])&&$i==0)||($pr['profile_id']==str_replace('/','',$_GET['child'])))?'active':'' ?>">
+	<?php echo $name  ?>
+    </label></a> 
+    <?php 
+	$i++;
+	} ?>
+                <?php /*?>     <input type="radio" name="child" id="child1" value="child1" checked=""><label for="child1" class="firstlab">Child 1</label>
+                                            <input type="radio" name="child" id="child2" value="child2"><label for="child2" class="seclab">Child 2</label><?php */?> </div>
+                     
+                        </div>
+                        <div class="current-sub-full">
+                        <div class="column  seven"><p>Your current subscription plan is detailed below in box:
+</p></div>
+                        <div class="column five"> 
+                        <?php if($prof[0]['state']=='active'){  ?>
+                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$prof[0]['profile_id'].'/action/suspend/') ?>'; } return false;" class="pause_sub">Suspend Subscription</a>
+                        <?php }  ?>
+                       <?php if($prof[0]['state']=='suspended'){ ?>
+                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$prof[0]['profile_id'].'/action/activate/') ?>'; } return false;"  class="pause_sub">Activate Subscription</a>
+                        <?php } ?>
+                         <?php if($prof[0]['state']!='canceled'){ ?>
+                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$prof[0]['profile_id'].'/action/cancel/') ?>'; } return false;"  class="stop_sub">Cancel Subscription</a>
+                          <?php } ?>
+                        </div>
+                        </div>
+                        
+                        <div class="column twelve sel_sub"><p>Select the plan for your Subscription</p></div>
+                        
+                        <div class="column four sel_sub_bx">
+                         <ul>
+                                        <li class="hedi">Quality</li>
+                                        <li>2 outfits</li>
+                                        <li>3 outfits</li>
+                                        <li>4 outfits</li>
+                                        <li class="last">5 outfits</li>
+                         </ul>
+                        </div> 
+                        <div class="column four sel_sub_bx">
+                        
+                        <?php
+						$first=array();
+						$second=array();
+						foreach($firstchilddetails['SubType'][1] as $cats)
+						{
+							 
+	 
+						if (strpos($cats['default_title'], 'all new') === false) {
+							array_push($second,array('name'=>$cats['default_title'],'value'=>$cats['option_type_id']));
+							 
+						} else {
+							array_push($first,array('name'=>$cats['default_title'],'value'=>$cats['option_type_id']));
+						}
+						}
+						
+						 
+						?>
+                        
+                         <ul>
+                                        <li class="hedi_green">All new</li>
+                                        <?php
+										foreach($first as $f)
+										{
+											?>
+                                             <li><div class="squaredOne">
+                                      <input type="radio" value="<?php echo $f['value'] ?>" id="squaredOne<?php echo $f['value'] ?>" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==$f['value']?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne<?php echo $f['value'] ?>"></label>
+                                       </div></li>
+                                            <?php
+										}
+										?>
+                                        
+                                       
+                                        <?php /*?><li><div class="squaredOne">
+                                      <input type="radio" value="109" id="squaredOne2" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==109?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne2"></label>
+                                       </div></li>
+                                        <li><div class="squaredOne">
+                                      <input type="radio" value="110" id="squaredOne3" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==110?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne3"></label>
+                                       </div></li>
+                                        <li class="last"><div class="squaredOne">
+                                      <input type="radio" value="111" id="squaredOne4" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==111?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne4"></label>
+                                       </div></li><?php */?>
+                         </ul>
+                        </div>
+                        <div class="column four sel_sub_bx">
+                         <ul>
+                                        <li class="hedi_green">½ New ½ rethread</li>
+                                        
+                                        <?php
+										foreach($second as $s)
+										{
+											?>
+                                             <li><div class="squaredOne">
+                                      <input type="radio" value="<?php echo $s['value'] ?>" id="squaredOne<?php echo $s['value'] ?>" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==$s['value']?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne<?php echo $s['value'] ?>"></label>
+                                       </div></li>
+                                            <?php
+										}
+										?>
+                                        
+                                      <?php /*?> <li><div class="squaredOne">
+                                      <input type="radio" value="113" id="squaredOne21" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==113?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne21"></label>
+                                       </div></li>
+                                        <li><div class="squaredOne">
+                                      <input type="radio" value="114" id="squaredOne12" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==114?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne12"></label>
+                                       </div></li>
+                                        <li><div class="squaredOne">
+                                      <input type="radio" value="115" id="squaredOne13" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==115?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne13"></label>
+                                       </div></li>
+                                        <li class="last"><div class="squaredOne">
+                                      <input type="radio" value="116" id="squaredOne24" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==116?'checked':'' ?>>
+                                      <label class="org_bg" for="squaredOne24"></label>
+                                       </div></li><?php */?>
+                         </ul>
+                        </div>        	
+                                    
+                               
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row mt30">
+            
+              <div class="column twelve iten2">
+                 
+                    <div class="row_center">
+                         <div class="column four sel_sub_bx marg-left-15">  
+                         <ul>
+                                        <li class="hedi_blue">frequency</li>
+                                        <li>
+                                        Monthly
+                                        <div class="squaredOne">
+                                      <input type="radio" value="monthly" id="squaredOne31" class="nrdcheck" name="frequency" <?php echo $prof[0]['period_frequency']==1?'checked':'' ?>  >
+                                      <label class="org_bg" for="squaredOne31"></label>
+                                       </div>
+                                       
+                                       </li>
+                                       
+                         </ul>
+                        </div> 
+              			
+                         <div class="column four sel_sub_bx">
+                         <ul>
+                                        <li class="hedi_blue">frequency</li>
+                                      <li>
+                                        Seasonal
+                                        <div class="squaredOne">
+                                      <input  <?php echo $prof[0]['period_frequency']==3?'checked':'' ?> type="radio" value="seasonal" id="squaredOne32" class="nrdcheck" name="frequency">
+                                      <label class="org_bg" for="squaredOne32"></label>
+                                       </div>
+                                       
+                                       </li>
+                                           
+                         </ul>
+                        </div>     
+                    </div>
+              </div>
+              <div class="column twelve nbutton">
+                            	<input type="submit" value="Submit Changes" class="subscr_sub" name="checkout_submit">
+               </div>
+              
+            </div>
+             <input type="hidden" name="profile" value="<?php echo $prof[0]['profile_id'];  ?>" />
+ </form>
+
+
+<?php /*?><div class="recurring-profiles">
+
+    <?php echo $this->getChildHtml('grid')?>
+
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->escapeHtml($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+</div><?php */?>

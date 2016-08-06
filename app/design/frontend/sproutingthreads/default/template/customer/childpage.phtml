@@ -1,0 +1,217 @@
+<?php
+	$customer = Mage::getSingleton('customer/session')->getCustomer();
+?>
+<div class="profile-container">
+        	<div class="row">
+            	<div class="my-child"><div class="page-title">
+    <h1 class="mhead2">My child's profile</h1>
+</div>
+<form action="#" method="post" autocomplete="off" id="form-validate" class="scaffold-form" enctype="multipart/form-data">
+    
+    <div class="left_sec_rt">
+    <label class="label_nentry">*child's name</label>
+   <input  type="text" id="name" name="name"  title="First Name" maxlength="255" class="input-text required-entry input_nentry">
+    </div>
+    
+     <div class="right_sec_rt">
+    <label class="label_nentry">*boy or girl</label>
+   <input  type="text" id="borg" name="borg"  title="boy or girl" class="input-text required-entry input_nentry">
+    </div>
+    
+     <div class="left_sec_rt">
+    <label class="label_nentry">*height</label>
+   <input  type="text" id="height" name="height"  title="height"  class="input-text required-entry input_nentry">
+    </div>
+    
+     <div class="right_sec_rt">
+    <label class="label_nentry">*weight</label>
+   <input  type="text" id="weight" name="weight"  title="weight" class="input-text required-entry input_nentry">
+    </div>
+    
+     <div class="left_sec_rt">
+    <label class="label_nentry">*top size</label>
+   <input  type="text" id="atop" name="atop"  title="Top size" class="input-text required-entry input_nentry">
+    </div>
+    
+    <div class="right_sec_rt">
+    <label class="label_nentry">*bottom size</label>
+   <input  type="text" id="bottom" name="bottom"  title="bottom size" class="input-text required-entry input_nentry">
+    </div>
+    
+    <div class="left_sec_rt">
+    <label class="label_nentry">*comments</label>
+   <textarea name="details" id="details" class="input_nentry3"></textarea>
+    </div>
+    
+    
+     <div class="right_sec_rt">
+    <label class="label_nentry">*dress size</label>
+   <input  type="text" id="dress" name="dress"  title="dress size" class="input-text required-entry input_nentry">
+    </div>
+     <div class="nrow2">
+    
+    <input type="submit" name="SUBMIT" value="SUBMIT" class="sbmt_btn">
+    
+    </div>
+    
+    
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+    function setPasswordForm(arg){
+        if(arg){
+            $('current_password').up(3).show();
+            $('current_password').addClassName('required-entry');
+            $('password').addClassName('required-entry');
+            $('confirmation').addClassName('required-entry');
+
+        }else{
+            $('current_password').up(3).hide();
+            $('current_password').removeClassName('required-entry');
+            $('password').removeClassName('required-entry');
+            $('confirmation').removeClassName('required-entry');
+        }
+    }
+
+    //]]>
+</script></div>
+            </div>
+        </div>
+<div class="page-title">
+    <h1><?php echo $this->__('My Child\'s Profile') ?></h1>
+</div>
+<div class="dashboard">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <div class="box-account box-info">
+        <div class="box-head">
+            Has your child grown?  Have they changed their style or preferences?  Do they have a new favorite color?  Let us know!
+        </div>
+		
+		<form id="childProfile" method="POST">
+			<input type="hidden" name="cust" id="cust" value="<?php echo $customer->getEmail(); ?>" />
+    <!-- Start Section 1 -->
+    <section class="start-section-1">
+        <div class="container">
+			<div class="row">
+				<label class="label col col-4">child's name?</label>
+				<section class="col col-5">
+					<label class="input">
+						<input type="text" name="name" id="name" placeholder="first name">
+					</label>
+				</section>				
+			</div>
+					<div class="row">
+                    	<label class="label col col-4">height</label>
+						<section class="col col-5">
+							<label class="select">
+								<select name="height" id="height" >
+									<option value="" selected="">height (see chart)</option>
+									<?php
+										$start = 33;
+										$max = 54;
+										
+										for($i = $start; $i <= $max; $i++):
+									?>
+									<option value="<?php echo $i; ?>"><?php echo $i; ?>"</option>
+									<?php
+										endfor;
+									?>
+								</select>
+								<i></i>
+							</label>
+							<!--<div class="note">see sizing chart</div>-->
+
+						</section>
+					</div>
+                    <div class="row">
+                    	<label class="label col col-4">weight</label>
+						<section class="col col-5">
+							<label class="input">
+								<input type="text" id="weight" name="weight" placeholder="weight  (see chart)">
+							</label>
+							<!--<div class="note">see sizing chart</div>-->
+							
+						</section>
+					</div>
+                    <div class="row">
+					<label class="label col col-4">top size</label>
+					<section class="col col-5">
+						<label class="select">
+							<select name="atop" id="atop">
+								<option value="">tops</option>
+								<option value="2">2T</option>
+								<option value="3">3T</option>
+								<option value="4">4T</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+							</select>
+							<i></i>
+						</label>
+					</section>
+					</div>
+					<div class="row">
+					<label class="label col col-4">bottom size</label>
+					<section class="col col-5">
+						<label class="select">
+							<select name="bottom" id="bottom">
+								<option value="">bottoms</option>
+								<option value="2">2T</option>
+								<option value="3">3T</option>
+								<option value="4">4T</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+							</select>
+							<i></i>
+						</label>
+					</section>
+					</div>
+					<div class="row" id="dressSize">
+						<label class="label col col-4">dress size</label>
+						<section class="col col-5">
+							<label class="select">
+								<select name="dress" id="dress">
+									<option value="">dresses</option>
+									<option value="2">2T</option>
+									<option value="3">3T</option>
+									<option value="4">4T</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+								</select>
+								<i></i>
+							</label>
+						</section>
+					</div>
+					<div class="row" id="dressSize">
+						<label class="label col col-9">any more details you want to share? <br/>&nbsp;</label>
+						<section class="col col-9">
+							<textarea name="details" id="details" cols="30" rows="8" style="height: 80px; "></textarea>
+						</section>
+					</div>			
+					<div class="row">
+						<section class="col col-9 finePrint">
+						This form will be sent to us automatically to make the appropriate changes.  Please submit updates at least 48 hours prior to next scheduled shipment to ensure implemented changes.
+						</section>
+					</div>
+					
+					<div class="row">
+						<section class="col col-9">
+							<a id="childProfileSubmit" href="#" class="lm-button lb fill">Submit</a>
+						</section>
+					</div>
+					
+        </div>
+    </section>		
+		
+		
+		</form>
+			
+    </div>
+</div>

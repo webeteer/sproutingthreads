@@ -33,7 +33,7 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 			exit;
 		}
 		
-		Mage::register( 'current_customer', $customer );
+		Mage::register( 'current_customer', $customer, true );
 		
 		return $this;
 	}
@@ -130,8 +130,9 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 	 */
 	public function saveAction()
 	{
-		$id			= intval( $this->getRequest()->getParam('card_id') );
 		$method		= $this->getRequest()->getParam('method');
+		$input 		= $this->getRequest()->getParam( $method );
+		$id			= intval( $input['card_id'] );
 		
 		if( $this->_formKeyIsValid() === true && $this->_methodIsValid() === true ) {
 			/**
@@ -148,7 +149,7 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 					/**
 					 * Process address data
 					 */
-					$newAddrId	= intval( Mage::app()->getRequest()->getParam('shipping_address_id') );
+					$newAddrId	= isset( $input['shipping_address_id'] ) ? intval( $input['shipping_address_id'] ) : 0;
 					
 					// Existing address
 					if( $newAddrId > 0 ) {
@@ -163,7 +164,7 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 						$newAddr = Mage::getModel('customer/address');
 						$newAddr->setCustomerId( $customer->getId() );
 						
-						$data = Mage::app()->getRequest()->getPost( 'billing', array() );
+						$data = isset( $input['billing'] ) ? $input['billing'] : array();
 						
 						$addressForm    = Mage::getModel('customer/form');
 						$addressForm->setFormCode('customer_address_edit');
@@ -186,7 +187,7 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 					/**
 					 * Process payment data
 					 */
-					$cardData = Mage::app()->getRequest()->getParam('payment');
+					$cardData = isset( $input['payment'] ) ? $input['payment'] : array();
 					$cardData['method']		= $method;
 					$cardData['card_id']	= $card->getId();
 					
@@ -194,9 +195,13 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 						$cardData['cc_last4']	= substr( $cardData['cc_number'], -4 );
 					}
 					
+					$quote = Mage::getModel('sales/quote');
+					$quote->setStoreId( Mage::helper('tokenbase')->getCurrentStoreId() );
+					$quote->setCustomerId( $card->getCustomerId() );
+					
 					$newPayment = Mage::getModel('sales/quote_payment');
-					$newPayment->setQuote( Mage::getSingleton('checkout/session')->getQuote() );
-                    $newPayment->getQuote()->getBillingAddress()->setCountryId( $newAddr->getCountryId() );
+					$newPayment->setQuote( $quote );
+					$newPayment->getQuote()->getBillingAddress()->setCountryId( $newAddr->getCountryId() );
 					$newPayment->importData( $cardData );
 					
 					/**
@@ -208,7 +213,7 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 					$card->importPaymentInfo( $newPayment );
 					$card->save();
 					
-					Mage::getSingleton('customer/session')->unsTokenbaseFormData();
+					Mage::getSingleton('adminhtml/session')->unsTokenbaseFormData();
 				}
 				else {
 					$this->getResponse()->setBody( json_encode( array( 'success' => false, 'message' => $this->__('Invalid Request.') ) ) );
@@ -216,7 +221,7 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 				}
 			}
 			catch( Exception $e ) {
-				Mage::getSingleton('customer/session')->setTokenbaseFormData( Mage::app()->getRequest()->getPost() );
+				Mage::getSingleton('adminhtml/session')->setTokenbaseFormData( $input );
 				
 				Mage::helper('tokenbase')->log( $method, (string)$e );
 				$this->getResponse()->setBody( json_encode( array( 'success' => false, 'message' => $this->__( 'ERROR: %s', $e->getMessage() ) ) ) );
@@ -294,5 +299,13 @@ class ParadoxLabs_TokenBase_Adminhtml_Customer_PaymentinfoController extends Mag
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Check ACP perms
+	 */
+	protected function _isAllowed()
+	{
+		return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
 	}
 }

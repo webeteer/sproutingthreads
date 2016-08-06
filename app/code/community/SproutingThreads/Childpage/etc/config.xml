@@ -1,0 +1,31 @@
+<!-- File: app/code/community/SproutingThreads/Childpage/etc/config.xml -->
+<config>
+    <!-- ... -->
+    <frontend>
+        <layout>
+            <updates>
+                <SproutingThreads_Childpage module="SproutingThreads_Childpage">
+                    <file>sproutingthreads_childpage.xml</file>
+                </SproutingThreads_Childpage>
+            </updates>
+        </layout>    
+		<routers>
+			<SproutingThreads_Childpage>
+				<use>standard</use>
+				<args>
+					<module>SproutingThreads_Childpage</module>
+					<frontName>childprofile</frontName>
+				</args>
+			</SproutingThreads_Childpage>
+		</routers>
+    </frontend>
+	<global>
+        <helpers>
+            <SproutingThreads_Childpage>
+                <class>Sproutingthreads_Childpage_Helper</class>
+            </SproutingThreads_Childpage>
+        </helpers>  
+		      
+    </global>
+	 
+</config>

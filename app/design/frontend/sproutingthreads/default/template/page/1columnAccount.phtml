@@ -50,13 +50,15 @@
 
 <?php echo $this->getChildHtml('global_notices') ?>
 
-<?php echo $this->getChildHtml('global_messages') ?>
+
 
 <div class="contentWrapper sky-form">
+<?php echo $this->getChildHtml('global_messages') ?>
 	<?php if ($_leftContent = $this->getChildHtml('left_first')): ?>
 	<div class="col-left sidebar col-left-first"><?php echo $_leftContent;   ?></div>
 	<?php endif; ?>
-<?php echo $this->getChildHtml('content') ?>
+   
+	<?php echo $this->getChildHtml('content') ?>
 </div>
 
 <?php echo $this->getChildHtml('footer_before') ?>

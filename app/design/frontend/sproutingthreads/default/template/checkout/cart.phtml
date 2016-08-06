@@ -171,26 +171,44 @@ if ($action == "date") {
                         	<div class="column twelve">
                         		<h1>pricing</h1><br/>
                                 <h3>keep what you like, return the rest.<br>  free shipping both ways.  pause anytime.  reThread for credit.</h3>
-                                <div class="row">
-                            <div class="column four">
-                                <div class="table quantity">
-                                    <span class="price quantity">quantity</span>
-                                    <span class="table-title">select how many outfits you would like in each delivery</span>
-                                </div>
-                            </div>
-                            <div class="column four">
-                                <div class="table assortment">
-                                    <span class="price assortment">assortment</span>
-                                    <span class="table-title">choose all new pieces from top brands or<br/>&frac12;&nbsp;new&nbsp;&frac12;&nbsp;reThreads</span>
-                                </div>
-                            </div>
-                            <div class="column four">
-                                <div class="table frequency">
-                                    <span class="price frequency">frequency</span>
-                                    <span class="table-title">receive outfits each season or month</span>
-                                </div>
-                            </div>
-                            </div>
+							<div class="row" id="pricing-row">
+								<div class="column four">
+									<div class="table quantity">
+										<div class="price-text">
+											<span class="price quantity">quantity</span>
+											<span class="table-title">select 2-5 outfits for each delivery</span>
+										</div>
+										<div class="image-holder">
+											<img src="<?php echo $this->getSkinUrl('images/elements/pricing-shirt-shorts.png'); ?>" alt=""/>
+										</div>
+										<span class="table-title">$20 Styling fee waived for 2 or more pieces</span>
+									</div>
+								</div>
+								<div class="column four">
+									<div class="table assortment">
+										<div class="price-text">
+											<span class="price assortment">assortment</span>
+											<span class="table-title">choose all new pieces from top brands or<br/>&frac12;&nbsp;new&nbsp;&frac12;&nbsp;reThreads</span>
+										</div>
+										<div class="image-holder">
+											<img src="<?php echo $this->getSkinUrl('images/elements/pricing-new-rethread.png'); ?>" alt=""/>
+										</div>
+										<span class="table-title">pricing similiar to higher-end retail outfits include 1-2 pieces</span>
+									</div>
+								</div>
+								<div class="column four">
+									<div class="table frequency">
+										<div class="price-text">
+											<span class="price frequency">frequency</span>
+											<span class="table-title">receive outfits each season or month</span>
+										</div>
+										<div class="image-holder">
+											<img src="<?php echo $this->getSkinUrl('images/elements/pricing-5-days.png'); ?>" alt=""/>
+										</div>
+										
+									</div>
+								</div>
+							</div>
                         	</div>
                     </div>
         </div>
@@ -415,27 +433,6 @@ foreach($cart->getItems() as $_item): ?>
 			</div>
 				
 						
-			<div class="row">
-				<div class="column twelve">
-					<div class="list-section">
-						<br>
-						<h1>the details</h1><br/>
-						<ul class="arrow" id="detailsList">
-							<li>our styling fee is $20 per shipment, and is credited toward your purchase of 2 or more new pieces</li>
-							<li>outfits are hand-selected to account for style preferences, child's picture, local climate, order history and other factors</li>
-							<li>outfits include several pieces (e.g., a dress & tights, top & bottom; may include accessories)</li>
-							<li>pieces are priced individually; new pieces range from $25-65+ and reThreads range from $12-30, new outfits average ~$65 and reThread outfits average ~$35</li>
-							<li>return pieces that don't work out within 5 business days using the pre-paid self-addressed envelope</li>
-							<li>pause the service at any time</li>
-							<!--
-							<li>free returns during the "tuning cycle" (see <a href="/faq" class="blue-link" target="_blank">FAQ</a> for details)</li>
-							-->
-							<li>pieces can be <a href="/rethreads" class="blue-link" target="_blank">reThread</a> for sprouting threads <b>credit</b>.</li>
-							
-						</ul>
-					</div>
-				</div>
-			</div>
 		</div>
     </section>
 	
@@ -531,6 +528,12 @@ foreach($cart->getItems() as $_item): ?>
 									</div> 
 								</div>
 								
+                            <div class="column twelve">
+								<strong>Keep what you like & return the rest.  Free shipping both ways!</strong><br><br><br>   
+								<a href="/checkout/onepage/" class="lm-button lb fill">checkout</a><br><br><br><br/>
+                            </div>
+								
+								
 								<!-- Seasonal -->
 								<div class="pricingSection seasonal <?php if ($productId != $productMonthly): ?>active<?php endif; ?>">
 									<h1>our seasons</h1><br>
@@ -557,9 +560,6 @@ foreach($cart->getItems() as $_item): ?>
 									</div> 
 								</div>
 								
-                            <div class="column twelve">                           
-                            <a href="/checkout/onepage/" class="lm-button lb fill">checkout</a><br><br><br>
-                            </div>
                             </div>
 						</div>
         </div>

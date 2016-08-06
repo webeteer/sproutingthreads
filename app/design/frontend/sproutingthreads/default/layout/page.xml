@@ -105,6 +105,8 @@
                 <action method="addItem"><type>skin_css</type><name>css/color.css</name></action>
                 <action method="addItem"><type>skin_css</type><name>css/sky-forms.css</name></action>
 				<action method="addItem"><type>skin_css</type><name>css/main.css</name></action>
+				<action method="addItem"><type>skin_css</type><name>css/custom.css</name></action> 
+				<action method="addItem"><type>skin_css</type><name>css/custom2.css</name></action> 
 
                 <!-- Sets viewport meta tag using text block -->
                 <block type="core/text" name="head.viewport">

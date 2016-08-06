@@ -24,12 +24,13 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+SPRUOTING THREADS ITEM
 <?php $_item = $this->getItem()?>
 <tr>
     <td><h3 class="product-name"><?php echo $this->escapeHtml($this->getProductName()) ?></h3>
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
-            <?php foreach ($_options as $_option) : ?>
+            <?php foreach ($_options as $_option) : ?>TEST
 			<?php 
 				$arValid = array(
 					"name",

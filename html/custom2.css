@@ -1,0 +1,220 @@
+
+.my-account {
+    width: 100% !important;
+    max-width: 750px;
+    padding: 0px;
+	
+	float:left;
+}
+.my-child {
+    width: 100%;
+    max-width: 845px;
+    padding: 0px;
+
+	float:left;
+}
+.mhead2 {
+    margin-bottom: 30px;
+}
+.left_sec_rt {
+    width: 50%;
+    float: left;
+}
+.right_sec_rt {
+    width: 50%;
+    float: right;
+}
+label.label_nentry {
+    font-size: 15px;
+}
+.input_nentry {
+    height: 43px;
+    width: 100%;
+    max-width: 354px;
+    border: 1px solid #ccc;
+    margin-bottom: 11px;
+    background: #f7f7f7;
+}
+.nrow2 {
+    width: 100%;
+    float: left;
+    margin-top: 16px;
+}
+h3.nhead3 {
+    float: left;
+    width: 100%;
+    margin-top: 23px;
+}
+.select_nentry {
+    height: 43px;
+    width: 100%;
+    max-width: 354px;
+    border: 1px solid #ccc;
+    margin-bottom: 11px;
+    background: #f7f7f7;
+}
+a.bk_btn {
+    float: left;
+    margin-right: 13px;
+    padding-left: 11px;
+    background: url('../images/elements/lis1.png') left center no-repeat;
+    margin-top: 15px;
+    padding-top: 3px;
+    padding-bottom: 0px;
+    color: #82c7cf;
+}
+.sbmt_btn {
+    background: #82c7cf ;
+   
+    font-family: 'AvantGardeGothicITCW02Md', sans-serif;
+	    width: 243px;
+    height: 56px;
+    padding-top: 15px;
+    border: 1px solid #82c7cf ;
+    color: white;
+    text-align: center;
+    padding-left: 46px;
+}
+.sbmt_btn:hover
+{
+	 background: white;
+	  color: #82c7cf ;
+}
+.profile-container {
+    max-width: 840px;
+    margin: auto;
+    margin-left: auto;
+    background: #FFFFFF;
+}
+
+.input_nentry3 {
+    height: 110px;
+    width: 100%;
+    max-width: 354px;
+    border: 1px solid #ccc;
+    margin-bottom: 11px;
+    background: #f7f7f7;
+}
+
+
+/*my style*/
+.sub-success {
+    margin-top: 115px;
+    background-color: #f7f7f7;
+    min-height: 290px;
+    padding: 50px 0;
+	padding-bottom: 100px;
+    text-align: left;
+}
+.sub-container {
+    max-width: 1110px;
+    margin: auto;
+    margin-left: auto;
+    border: solid 1px #a6c03c;
+    background: #FFFFFF;
+}
+.sub-inner {
+    max-width: 950px;
+    margin: 50px auto;
+}
+.sub-inner h1 {  color:#444444; }
+.success-inner ul li .list_dot{
+	color: #bb9999;
+    font-size: 9px;
+   padding-right: 10px;
+   height: 12px;
+   vertical-align: middle;
+}
+.success-inner ul li a{
+	color: #a5bf3a;
+    font-size: 14px;
+    
+}
+.success-inner p{ color:#555555; }
+.success-inner p.para1 { font-size:16px; }
+.success-inner p.para2 { font-size:18px; }
+.success-inner a.fb_bttn {
+    background-color: #354f88;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 13px;
+}
+.fb-icn{
+    font-size: 23px;
+    padding: 0 10px;
+    height: 25px;
+    vertical-align: middle;
+}
+.success-inner hr {
+    margin: 40px 0 40px;
+}
+/**/
+.thank p{
+    color: #444444;
+    font-size: 14px;
+}
+a.stop_sub,a.pause_sub {padding: 10px;
+	font-size:13px;
+	color:#ffffff;}
+a.pause_sub {
+    background: #ffc000;
+   margin-right: 5px;
+   border: 1px solid #ffc000;
+}
+a.pause_sub:hover{ color: #ffc000; background:#fff; }
+a.stop_sub {
+    background: #e44d4d;
+	border:1px solid #e44d4d;
+}
+a.stop_sub:hover{ background:#fff; color:#e44d4d; }
+.sel_sub p {
+    color: #6a6a6a;
+    font-size: 22px;
+}
+.sel_sub_bx ul li{
+    padding: 10px 20px;
+	background:#f2f2f2;
+    text-align: center;
+	color:#8a8a8a;
+	font-size:18px;
+	border-bottom: 1px solid #d9d9d9;
+	min-height: 27px;
+    
+}
+.sel_sub_bx ul li.hedi{color: #ffffff;
+    font-size: 22px;
+	background: #ec8a94;
+	border:none;}
+	.sel_sub_bx ul li.hedi_green{background: #a6c03c;font-size: 22px;border:none;color: #ffffff;}
+	
+.sel_sub_bx ul li.last{color: #000000;border:none;}	
+.column.four.sel_sub_bx {
+    width: 32%;
+    margin-right: 10px;
+}
+/*mystyle*/
+
+
+
+
+
+
+
+@media screen and (max-width:820px) and (min-width:705px)
+{
+	.input_nentry,.input_nentry3 ,.select_nentry{
+    max-width: 285px;
+	}
+}
+
+@media screen and (max-width:705px)
+{
+	.right_sec_rt,.left_sec_rt {
+    width: 100%;
+	}
+	.input_nentry ,.input_nentry3,.select_nentry{
+	max-width:90%;
+	}
+}
+
+

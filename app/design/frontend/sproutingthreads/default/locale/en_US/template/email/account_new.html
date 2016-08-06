@@ -1,0 +1,63 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"htmlescape var=$customer.name":"Customer Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var customer.email":"Customer Email",
+"htmlescape var=$customer.password":"Customer Password"}
+@-->
+
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+<body style="background:#63bac3; color:#444444; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-style:normal; font-weight:300; margin:0; padding:0;">
+<div style="background:#63bac3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-style:normal; font-weight:300; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+        <tr>
+            <td align="center" valign="top" style="padding:20px 0 20px 0">
+                <!-- [ header starts here] -->
+                <table bgcolor="FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650">
+                    <tr>
+                		<td valign="top"><center><a href="{{store url=""}}"><img src="{{store url=""}}/skin/frontend/sproutingthreads/default/images/elements/logo.png" alt="{{var logo_alt}}" style="margin: 0;" border="0"/></a></center></td>            		</tr>
+                <!-- [ middle starts here] -->
+                    <tr>
+                        <td valign="top" bgcolor="#EAEAEA" style="background:#EAEAEA;">
+                            <p style="font-size:18px; margin:0; padding-bottom:10px;">dear <strong>{{htmlescape var=$customer.name}}</strong>,</p>
+                            <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">welcome to {{var store.getFrontendName()}} we hope you enjoy it.</br>
+                            We have designed the service to make it as easy as possible for parents to keep their kids clothed in style.</p>
+                            <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">You will receive additional emails regarding your <b>order confirmation</b> and <b>shipping information</b>.</p>    
+                </td>
+            </tr>
+            <tr>
+            	<td valign="top">
+                               <p style="font-size:12px; line-height:16px; margin:0; padding-bottom:10px;">Thank you for completing your child's profile. If you have any edits, you can <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Login</a> to your account at any time. It is particularly important to accurately input your child's height upon joining, as we use this to determine 'true' sizing across our range of brands and to estimate sizing in future seasons.<br/><br/>
+                               Based on your profile, we are now working to pick a unique set of outfits to suit your little one.<br/><br/>
+                                In the meantime, if you have pieces you would like to <a href="https://sproutingthreads.com/rethreads">reThread</a> to build up credit toward future cycles, you can check them against the brands and guidelines on the website.  Your order will automatically include an envelope you can use to send these pieces in. <br/><br/>    
+                                If you have any questions throughout your experience with us, please contact us at any time via <a href="mailto:info@sproutingthreads.com?Subject=My%20inquiry" target="_top">email</a> or visit your "my account" page at anytime to edit your child's profile or any account information. <br/><br/>
+                                
+                                <b>Remember, we want our <b>sprouting threads</b> parents to be as happy and carefree as their kids!</b><br/><br/>
+                                
+                                We look forward to helping you manage your kids' clothing needs.<br/><br/>
+                                
+                                Jennifer & Ripley Martin<br/>
+                                co-founders<br/>
+                                <b>sprouting threads</b><br/>
+                                <a href="https://sproutingthreads.com">sproutingthreads.com</a><br/></p>
+                                <p style="font-size:12px; line-height:16px; margin:0; padding-bottom:10px;">To log in when visiting our site just click <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">Login</a> or <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">My Account</a> at the top of every page, and then enter your e-mail address and password.</p>
+                            <p style="border:3px solid #63bac3; font-size:12px; line-height:16px; margin:0; padding:13px 18px; background:#f9f9f9;">
+                                Use the following values when prompted to log in:<br/>
+                                <strong>E-mail</strong>: {{var customer.email}}<br/>
+                                <strong>Password</strong>: {{htmlescape var=$customer.password}}<p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you again, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>

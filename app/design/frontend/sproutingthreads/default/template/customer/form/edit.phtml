@@ -24,46 +24,163 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();  
+$explode_url	=	explode("/",$currentUrl);
+				?>
 <div class="page-title">
-    <h1><?php echo $this->__('Edit Account Information') ?></h1>
+    <h1><?php if($explode_url[6]==''){ echo $this->__('My Profile'); } else if($explode_url[6]=='changepass'){ echo $this->__('Change Password');} ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<form action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" autocomplete="off" id="form-validate" class="scaffold-form" enctype="multipart/form-data">
-    <div class="fieldset">
-        <?php echo $this->getBlockHtml('formkey')?>
-        <h2 class="legend"><?php echo $this->__('Account Information') ?></h2>
-        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+<?php
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+	$customerData = Mage::getSingleton('customer/session')->getCustomer(); 
+	$customerId = $customerData->getId();
+	$customer = Mage::getModel('customer/customer')->load($customerId); //insert cust ID
+	$customerAddress = array();
+	foreach ($customer->getAddresses() as $address){
+   		$customerAddress = $address->toArray();
+	}
+?> 
+<form name="my-profile-form" method="post" action="<?php echo $this->getUrl('customer/address/formPost/id/'.$customerAddress['entity_id'])?>" id="my-profile-form">
+	<?php echo $this->getBlockHtml('formkey')?>
+       <div class="fieldset for-sp-fields">
         <ul class="form-list">
-            <li class="fields">
-                <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
+            <li class="fields for-names">
+			<?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getCustomer())->toHtml() ?>
             </li>
-            <li>
-                <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+            <li class="fields">
+                <label for="company"><?php echo $this->__('Company') ?></label>
                 <div class="input-box">
-                    <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text required-entry validate-email" />
+                    <input type="text" name="company" id="company" title="<?php echo $this->__('Company') ?>" value="<?php echo $customerAddress['company']?>" class="input-text" />
                 </div>
             </li>
-        <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
-        <?php if ($_dob->isEnabled()): ?>
-            <li><?php echo $_dob->setDate($this->getCustomer()->getDob())->toHtml() ?></li>
-        <?php endif ?>
-        <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
-        <?php if ($_taxvat->isEnabled()): ?>
-            <li><?php echo $_taxvat->setTaxvat($this->getCustomer()->getTaxvat())->toHtml() ?></li>
-        <?php endif ?>
-        <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
-        <?php if ($_gender->isEnabled()): ?>
-            <li><?php echo $_gender->setGender($this->getCustomer()->getGender())->toHtml() ?></li>
-        <?php endif ?>
-            <li class="control">
+            <li class="fields">
+                    <label for="telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
+                    <div class="input-box">
+                        <input type="tel" name="telephone" value="<?php echo $customerAddress['telephone']?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="telephone" />
+                    </div>
+            </li>
+            <li class="fields clear">
+                    <label for="fax"><?php echo $this->__('Fax') ?></label>
+                    <div class="input-box">
+                        <input type="tel" name="fax" id="fax" title="<?php echo $this->__('Fax') ?>" value="<?php echo $customerAddress['fax']?>" class="input-text" />
+                    </div>
+            </li>
+       </ul>
+       </div>
+       <div class="fieldset for-sp-fields">
+             <h2 class="legend"><?php echo $this->__('Address') ?></h2>
+             <ul class="form-list">
+            <?php  for ($_i = 0, $_n = $this->helper('customer/address')->getStreetLines(); $_i < $_n; $_i++): 
+					$customerAddress = Mage::getModel('customer/address')->load($customerAddress['entity_id']);
+					$street = $customerAddress->getStreet();
+
+//echo $street1 = strtolower($street[$_i]);
+
+//set "street0" as customer address...
+						if($street0 == $street1){
+    					$customerAddress->setData('street',$street0);
+				}?>
+            <li class="fields">
+                <label for="billing:street<?php echo $_i+1 ?>"><?php echo $this->__('Street Address %s', $_i+1) ?></label>
+                <div class="input-box">
+                    <input type="text" name="street[]" value="<?php echo strtolower($street[$_i]); ?>"  id="street_<?php echo $_i+1 ?>" class="input-text " />
+                </div>
+            </li>
+        <?php endfor; ?>
+        <li class="fields">
+                <div class="field">
+                    <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="city" value="<?php echo $customerAddress['city'] ?>"   class="input-text" id="city" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                    <div class="input-box">
+                        <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                           <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <script type="text/javascript">
+                        //<![CDATA[
+                            $('region_id').setAttribute('defaultValue',  "<?php echo $customerAddress['region_id'] ?>");
+                        //]]>
+                        </script>
+                        <input type="text" id="region" name="region" value="<?php echo $customerAddress['region'] ?>"  class="input-text" />
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="zip" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="postcode" value="<?php echo $customerAddress['postcode'] ?>" title="<?php echo $this->__('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                    <div class="input-box">
+                       <?php $_countries = Mage::getResourceModel('directory/country_collection')
+									->loadData()
+									->toOptionArray(false) ?>
+<?php if (count($_countries) > 0): ?>
+	<select name="country_id" id="country">
+		<option value="">-- Please Select --</option>
+		<?php foreach($_countries as $_country): ?>
+			<option <?php if($_country['value']== $customerAddress['country_id']){ ?> selected="selected" <?php }?> value="<?php echo $_country['value'] ?>">
+				<?php echo $_country['label'] ?>
+			</option>
+		<?php endforeach; ?>
+	</select>
+<?php endif; ?>
+                    </div>
+                </div>
+            </li>
+           
+		</ul>
+       </div>
+        <div class="buttons-set for-sp-but">
+        	 
+            <input type="button" id="thesubmit" name="thesubmit" value="save" />
+		</div>
+</form>
+<script>
+jQuery( document ).ready(function() {
+	//alert("111");
+	jQuery("#thesubmit").click(function() {
+		//alert("<?php echo $this->getUrl('customer/account/editPost') ?>");
+		var firstname	=	jQuery("#firstname").val();
+		var lastname	=	jQuery("#lastname").val();
+		var myList = jQuery("input[name=form_key]").val();
+		//alert(firstname+lastname+myList);
+		jQuery.ajax({
+            type: 'post',
+            url: '<?php echo $this->getUrl('customer/account/editPost') ?>',
+            data: { firstname: firstname, lastname: lastname, form_key: myList },
+            success: function () {
+              //alert('form was submitted');
+			  document.getElementById("my-profile-form").submit()
+            }
+		});
+	});
+});
+
+    </script> 
+<form action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" autocomplete="off" id="form-validate" class="scaffold-form" enctype="multipart/form-data">
+    <div class="fieldset for-sp-fields">
+    <h2 class="legend">Change Password</h2>
+        <?php echo $this->getBlockHtml('formkey')?>
+        <ul class="form-list">
+            
+            <li class="control" style="display:none">
                 <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" /><label for="change_password"><?php echo $this->__('Change Password') ?></label>
             </li>
         </ul>
     </div>
-    <div class="fieldset" style="display:none;">
-        <h2 class="legend"><?php echo $this->__('Change Password') ?></h2>
+    <div class="fieldset for-sp-fields">
         <ul class="form-list">
-            <li>
+            <li class="fields">
                 <label for="current_password" class="required"><em>*</em><?php echo $this->__('Current Password') ?></label>
                 <div class="input-box">
                     <!-- This is a dummy hidden field to trick firefox from auto filling the password -->
@@ -78,6 +195,8 @@
                         <input type="password" title="<?php echo $this->__('New Password') ?>" class="input-text validate-password" name="password" id="password" />
                     </div>
                 </div>
+            </li>
+            <li class="fields">
                 <div class="field">
                     <label for="confirmation" class="required"><em>*</em><?php echo $this->__('Confirm New Password') ?></label>
                     <div class="input-box">
@@ -109,9 +228,10 @@
             $('confirmation').removeClassName('required-entry');
         }
     }
-
-    <?php if($this->getCustomer()->getChangePassword()): ?>
+ 
         setPasswordForm(true);
-    <?php endif; ?>
+     
 //]]>
 </script>
+
+<?php } ?> 

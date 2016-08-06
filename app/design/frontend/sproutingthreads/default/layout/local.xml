@@ -5,7 +5,6 @@
             <action method="removeLinkByUrl"><url>http://your.site/index.php/contacts/</url></action>
         </reference>
     </default>
-	
 
 	
 	<customer_account_login>

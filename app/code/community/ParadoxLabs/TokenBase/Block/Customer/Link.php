@@ -24,7 +24,7 @@ class ParadoxLabs_TokenBase_Block_Customer_Link extends Mage_Core_Block_Template
 		$navigation	= $this->getParentBlock();
 		
 		if( $navigation && count( Mage::helper('tokenbase')->getActiveMethods() ) > 0 ) {
-			$navigation->addLink( 'tokenbase', 'customer/paymentinfo', $this->__("My Payment Data"), array( '_secure' => true ) );
+		//	$navigation->addLink( 'tokenbase', 'customer/paymentinfo', $this->__("My Payment Data"), array( '_secure' => true ) );
 		}
 	}
 }

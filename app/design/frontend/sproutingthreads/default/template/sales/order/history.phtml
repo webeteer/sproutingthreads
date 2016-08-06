@@ -32,15 +32,15 @@
     <h1><?php echo $this->__('My Orders') ?></h1>
 </div>
 <?php echo $this->getChildHtml('info');?>
-<?php echo $this->getPagerHtml(); ?>
+<?php #echo $this->getPagerHtml(); ?>
 <?php if($_orders->getSize()): ?>
 <table class="data-table orders" id="my-orders-table">
     <col width="1" />
     <col width="1" />
-    <col />
+    <col width="3" />
     <col width="1" />
     <col width="1" />
-    <col width="1" />
+    <col width="2" />
     <thead>
         <tr>
             <th class="number"><?php echo $this->__('Order #') ?></th>
@@ -73,7 +73,7 @@
     </tbody>
 </table>
 <script type="text/javascript">decorateTable('my-orders-table');</script>
-<?php echo $this->getPagerHtml(); ?>
+<?php #echo $this->getPagerHtml(); ?>
 <?php else: ?>
     <p><?php echo $this->__('You have placed no orders.'); ?></p>
 <?php endif ?>

@@ -1,0 +1,976 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
+ * @package Amasty_Rma
+ */ 
+    $_order = $this->getOrder(); 
+	
+	foreach($_order->getShipmentsCollection() as $shipment){
+    /** @var $shipment Mage_Sales_Model_Order_Shipment */
+   		$date= $shipment->getCreatedAt();
+		 foreach($shipment->getAllTracks() as $tracknum)
+            {
+                $tracknums[]=$tracknum->getNumber();
+            }
+		 
+	}
+	
+$date = new Zend_Date(Mage::getModel('core/date')->timestamp(strtotime($date)));
+$date->addDay('10');  
+ $tracknums=(array_filter($tracknums));
+
+?>
+
+<section class="section-checkout">
+    	<div class="checkout-container">
+        	<div class="row">
+            
+            <?php
+			 $hlr = Mage::helper("amrma");
+			  $orderId    = (int)$this->getRequest()->getParam('order_id');
+
+        $order = Mage::getModel('sales/order')->load($orderId);
+    
+        
+        if ($hlr->canViewOrder($order) && $hlr->canCreateRma($orderId)){
+			
+			?>
+            	<div class="column twelve checkout-steps shipping hidesteps"  id="shipping">
+                	<div class="ship-track-inner">
+                		<h1>Hi <?php echo $this->escapeHtml($_order->getCustomerName()) ?>,</h1>
+                        <br>
+                        <p class="para1">Your box is on the way, we hope you love it all!</p>  
+                        <p class="para1">USPS tracking # <?php echo implode(',',$tracknums); ?></p>
+                        <p class="para1">Your order number is: <?php echo $_order->getIncrementId(); ?></p>
+<p class="para2">(You will also receive an email with your tracking information)</p>
+
+
+
+                        <hr>
+                        
+                                	<p class="para3">What’s Next</p>
+                                    <ul>
+                                        <li><i class="fa fa-circle-thin list_dot" aria-hidden="true"></i><a href="#">you have 5 business days to try on outfits</a></li>
+                                        <li><i class="fa fa-circle-thin list_dot" aria-hidden="true"></i><a onClick="continueSelfCheckout()" href="#">complete self checkout</a></li>
+                                        <li><i class="fa fa-circle-thin list_dot" aria-hidden="true"></i><a href="#">all returns &amp; rethreads may be combined in one return bag.</a></li>
+                                    </ul>
+                               
+                    </div>
+                </div>
+            	<div class="column twelve checkout-steps cstep1" id="step1" >
+                	<div class="checkout-inner">
+                		<h1><?php echo $this->escapeHtml($_order->getCustomerName()) ?>, your box of threads has been delivered</h1>
+                       <div class="checkout-msg-box">
+                       		<h3><i class="fa fa-shopping-cart" aria-hidden="true"></i>Please checkout by <?php echo Mage::helper('core')->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, false); ?> <?php /*?>Tuesday, July 22nd<?php */?></h3>
+                            <p class="sprout-green sp-italic">we look forward to receive your feedback!</p>
+                            <a href="#" onClick="nextStep();" class="sprout-button">checkout</a>
+                            <p class="sp-italic">didn't receive your product yet, <a href="#"  onClick="track();">Track your USPS package&gt;&gt;</a></p>
+                       </div>
+                       <hr>
+                       <h3>Or, you can:</h3>
+                       <ul class="or_you_can">
+                       		<li><a href="<?php echo $this->getUrl('subscription.html') ?>">Add a child &gt;&gt;</a></li>
+                            <li><a href="<?php echo $this->getUrl('customer/paymentinfo/') ?>">Change your credit card info &gt;&gt;</a></li>
+                            <li><a href="<?php echo $this->getUrl('customer/account/edit/') ?>">Change profile info &gt;&gt;</a></li>
+                       </ul>
+                    </div>
+                </div>
+                
+                <div class="column twelve checkout-steps cstep2 hidesteps"  id="step2">
+                	<div class="checkout-inner">
+                		<h1>it's time to checkout</h1>
+                        <p><?php echo $this->escapeHtml($_order->getCustomerName()) ?>, let us know what you are keeping,  and what you are sending back. <br><strong>SAVE 10%</strong> when you keep all items.</p><br>
+                        <p>Don't forget to rate your items. Your feedback will make your future shipment even better!</p>
+                        <br>
+                        <hr>
+                        <form id="orderitemsform" action="<?php echo $this->getUrl('amrmafront/customer/summary/') ?>">
+                        
+                        <?php
+						$orderId    = (int)$this->getRequest()->getParam('order_id');  
+							$_items = $this->getItems();
+							$_jsconfig = array();
+               			 ?> 
+                         <input type="hidden" name="order_id" value="<?php echo $orderId; ?>" >
+                        <?php $bundleID     = 0; ?>
+                        <?php $firstId = $i = $productType = $availableQty = 0; ?>
+                        <?php $html         = array(); ?> 
+                        <?php foreach($_items as $_item): ?>
+                            <?php
+                                if ($_item->getParentItemId()) {
+                                    continue;
+                                }
+                            ?>
+                            <?php $_jsconfig[] = array(
+                                'id' => $_item->getId(),
+                                'type' => $_item->getProductType(),
+                                'qty' => $_item->getAvailableQty()
+                            );?>
+                            <?php if ($i == 0): ?>
+                                <?php
+                                    $firstId = $_item->getId();
+                                    $productType = $_item->getProductType();
+                                    $availableQty = $this->getAvailableQty($_item);
+                                    $i = 1;
+                                ?>
+                            <?php endif; ?>
+                            <?php if ($_item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                                <?php $bundleID = $_item->getId(); ?>
+                            <?php endif; ?>
+                            <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
+                              <div class="row p-item">
+                         
+                       
+                            <div class="column six"> 
+                            <h4><?php echo $this->escapeHtml($_item->getSku())?></h4>
+                                <h3><?php echo $this->escapeHtml($_item->getName())?></h3>
+                                <h2 class="price"><?php echo Mage::helper('core')->currency($_item->getRowTotal(), true, false);?></h2>
+                                 <input type="hidden" name="items[<?php echo  $_item->getId() ?>][price]"  value="<?php echo $_item->getRowTotal(); ?>">
+                                   <input type="hidden" name="items[<?php echo  $_item->getId() ?>][sku]"  value="<?php echo $_item->getSku(); ?>">
+                                    <input type="hidden" name="items[<?php echo  $_item->getId() ?>][name]"  value="<?php echo $_item->getName(); ?>">
+                                <div class="checkout-attr">
+                                	<h2>Size</h2>
+                                    <ul>
+                                        <li><input type="radio" id="vsize1<?php echo  $_item->getId() ?>" value="too small" name="items[<?php echo  $_item->getId() ?>][reason][size]">
+                                        <label for="vsize1<?php echo  $_item->getId() ?>">too small</label></li>
+                                        <li><input id="vsize2<?php echo  $_item->getId() ?>" type="radio" value="just right"  name="items[<?php echo  $_item->getId() ?>][reason][size]">
+                                        <label   for="vsize2<?php echo  $_item->getId() ?>">just right</label></li>
+                                        <li class="have-rb">
+                                        <input  id="vsize3<?php echo  $_item->getId() ?>" type="radio" value="too big"  name="items[<?php echo  $_item->getId() ?>][reason][size]">
+                                        <label for="vsize3<?php echo  $_item->getId() ?>" for="button">too big</label></li>
+                                    </ul>
+                                </div>
+                                <div class="checkout-attr">
+                                	<h2>Price</h2>
+                                    <ul>
+                                        <li><input id="button21<?php echo  $_item->getId() ?>" type="radio" value="too low"  name="items[<?php echo  $_item->getId() ?>][reason][price]">
+                                        <label for="button21<?php echo  $_item->getId() ?>">too low</label></li>
+                                        <li><input id="button22<?php echo  $_item->getId() ?>" type="radio" value="just right price"  name="items[<?php echo  $_item->getId() ?>][reason][price]">
+                                        <label for="button22<?php echo  $_item->getId() ?>">just right</label><a href="#"></a></li>
+                                        <li class="have-rb">
+                                        <input id="button23<?php echo  $_item->getId() ?>" type="radio" value="too high"  name="items[<?php echo  $_item->getId() ?>][reason][price]">
+                                        <label for="button23<?php echo  $_item->getId() ?>">too high</label></li>
+                                    </ul>
+                                </div>
+                                <div class="checkout-attr">
+                                	<h2>Quality/Brand</h2>
+                                    <ul class="qty_brand">
+                                        <li><input id="button1<?php echo  $_item->getId() ?>" type="radio" value="too high"   name="items[<?php echo  $_item->getId() ?>][reason][quality]">
+                                        <label for="button1<?php echo  $_item->getId() ?>">love it</label></li>
+                                        <li><input id="button2<?php echo  $_item->getId() ?>" type="radio" value="love it"   name="items[<?php echo  $_item->getId() ?>][reason][quality]">
+                                        <label for="button2<?php echo  $_item->getId() ?>">like it</label></li>
+                                        <li><input id="button3<?php echo  $_item->getId() ?>" type="radio" value="just ok"   name="items[<?php echo  $_item->getId() ?>][reason][quality]">
+                                        <label for="button3<?php echo  $_item->getId() ?>">just ok</label></li>
+                                        <li class="have-rb">
+                                        <input type="radio" id="button4<?php echo  $_item->getId() ?>" value="no way"   name="items[<?php echo  $_item->getId() ?>][reason][quality]">
+                                        <label for="button4<?php echo  $_item->getId() ?>">no way</label></li>
+                                    </ul>
+                                </div>
+                                <div class="checkout-attr">
+                                	<h2>Comments?</h2>
+                                    <textarea   id="comments" name="items[<?php echo  $_item->getId() ?>][reason][comments]"></textarea>
+                                </div>
+                            </div>
+                            <div class="column six">
+                            	<div class="check_buttons">
+                               
+                                <input type="radio"  class="yes" name="items[<?php echo  $_item->getId() ?>][order_item_id]" id="yes<?php echo $_item->getId() ?>" checked="" value="<?php echo  $_item->getId() ?>">
+                                  <input type="radio" class="no" name="items[<?php echo  $_item->getId() ?>][order_item_id]" id="no<?php echo $_item->getId() ?>" value="no">
+                                  <div class="switch">
+                                    <div class="keep"><label class="yes" for="yes<?php echo $_item->getId() ?>">Keep It</label><span class="keepsp"></span></div>
+                                    <div class="return"><label class="no" for="no<?php echo $_item->getId() ?>">Return it</label><span class="returnsp"></span></div>
+                                  </div>
+                                </div>
+                                <div class="checkout-attr">
+                                	<h2>Style</h2>
+                                    <ul class="qty_brand">
+                                        <li><input id="button5<?php echo  $_item->getId() ?>" type="radio" value="love high"  name="items[<?php echo  $_item->getId() ?>][reason][style]">
+                                        <label for="button5<?php echo  $_item->getId() ?>">love it</label></li>
+                                        <li><input id="button6<?php echo  $_item->getId() ?>" type="radio" value="like it"  name="items[<?php echo  $_item->getId() ?>][reason][style]">
+                                        <label for="button6<?php echo  $_item->getId() ?>">like it</label></li>
+                                        <li><input id="button7<?php echo  $_item->getId() ?>" type="radio" value="just ok"  name="items[<?php echo  $_item->getId() ?>][reason][style]">
+                                        <label for="button7<?php echo  $_item->getId() ?>">just ok</label></li>
+                                        <li class="have-rb">
+                                        <input id="button8<?php echo  $_item->getId() ?>" type="radio" value="no way"  name="items[<?php echo  $_item->getId() ?>][reason][style]">
+                                        <label for="button8<?php echo  $_item->getId() ?>">no way</label></li>
+                                    </ul>
+                                </div>
+                                <div class="checkout-attr">
+                                	<h2>Fit/Cut</h2>
+                                    <ul class="qty_brand">
+                                        <li><input id="button9<?php echo  $_item->getId() ?>" type="radio" value="love it"  name="items[<?php echo  $_item->getId() ?>][reason][fit]">
+                                        <label for="button9<?php echo  $_item->getId() ?>">love it</label></li>
+                                        <li><input id="button10<?php echo  $_item->getId() ?>" type="radio" value="like it "  name="items[<?php echo  $_item->getId() ?>][reason][fit]">
+                                        <label for="button10<?php echo  $_item->getId() ?>">like it</label></li>
+                                        <li><input id="button11<?php echo  $_item->getId() ?>" type="radio" value="just ok"  name="items[<?php echo  $_item->getId() ?>][reason][fit]">
+                                        <label for="button11<?php echo  $_item->getId() ?>">just ok</label></li>
+                                        <li class="have-rb">
+                                        <input id="button123<?php echo  $_item->getId() ?>" type="radio" value="no way"  name="items[<?php echo  $_item->getId() ?>][reason][fit]">
+                                        <label for="button123<?php echo  $_item->getId() ?>">no way</label></li>
+                                    </ul>
+                                </div>
+                            </div> 
+                             </div>
+                 
+                            <?php endif; ?>
+                            <?php if ($_item->getParentItemId()!= null && $_item->getParentItemId() == $bundleID): ?>
+                                <?php if ($_item->getIsOrdered()): ?>
+                                    <?php
+                                        $html[$bundleID][] = array(
+                                            $_item->getId(),
+                                            $this->escapeHtml($_item->getName()),
+                                            $_item->getAvailableQty(),
+                                            1
+                                        );
+                                    ?>
+                                <?php else: ?>
+                                    <?php
+                                        $html[$bundleID][] = array(
+                                            $_item->getId(),
+                                            $this->escapeHtml($_item->getName()),
+                                            $_item->getAvailableQty(),
+                                            0
+                                        );
+                                    ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                           
+                            
+                         
+                      
+                        <div class="row">
+                       		 <div class="column twelve">
+                             
+                            	<input type="button" value="submit" onClick="showSummary()" name="checkout_submit">
+                                <div id="loader" class="fl hidesteps"><img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif') ?>" width="30"></div>
+                            </div>
+                        </div>
+                      </form>  
+                    </div>
+                </div>
+                
+                <div class="column twelve cstep3 hidesteps"  id="step3">
+                	<div class="success-inner">
+                		<div class="column nine"><h1>order summary</h1></div><div class="column three green_feed"><a href="#"  onClick="nextStep()">Show Feedback &gt;&gt;</a></div>
+                        
+                        <div class="column twelve order_head"><h4>keeping</h4></div>
+                         
+                         
+                        <div class="column twelve order_head"><h4>returning</h4></div>
+                          
+                        <hr>
+                        
+                        <div class="column twelve order_price">
+                          <ul>
+                           <li>Subtotal</li><li>$58.00</li>
+                           <li>Styling Fee</li><li>-$8.00<br><span>(Applied when<br>
+keeping &gt;$60)</span></li>
+                           <li>( 10%)</li><li><span>(Applied when<br>
+keeping all items)</span></li>
+                           <li>Discount</li><li>-$ ----------</li>
+                           <li>ReThread/giftcard</li><li>-$ ----------</li>
+                           <li>Rewards</li><li>-$ ----------</li>
+                           <li class="last">Total</li><li class="last">-$ ----------</li>
+                          </ul>
+                        </div>
+                                	
+                               
+                    </div>
+                     <div class="row">
+                       		 <div class="column twelve">
+                            	<input type="button" value="submit"  name="checkout_submit">
+                                
+                            </div>
+                        </div>
+                </div>
+                
+                
+                <div class="column twelve cstep4 hidesteps" id="step4">
+                	<div class="success-inner">
+                    <div id="mmes">
+                		<h1>Success!</h1>
+                        <br>
+                        <p class="para1">Thanks, enjoy your new threads!  For order details please vist<a class="spl_link" href="#"> MyOrders</a> in your <a class="spl_link" href="#">MyAccount section</a>.</p><br><br>
+                         </div>
+                        <a class="fb_bttn" href="#"><i class="fa fa-facebook fb-icn" aria-hidden="true"></i>TELL YOUR FRIENDS ABOUT SPOURTING THREAD</a>
+                       
+                        <hr>
+                        
+                                	<p class="para2">Or, you can:</p>
+                                    
+                                    <ul class="or_you_can">
+                       		<li><a href="<?php echo $this->getUrl('subscription.html') ?>">Add a child &gt;&gt;</a></li>
+                            <li><a href="<?php echo $this->getUrl('customer/paymentinfo/') ?>">Change your credit card info &gt;&gt;</a></li>
+                            <li><a href="<?php echo $this->getUrl('customer/account/edit/') ?>">Change profile info &gt;&gt;</a></li>
+                       </ul>
+                                    
+                                  
+                    </div>
+                </div>
+            <?php
+		}
+		else
+		{
+			?>
+               <div class="column twelve cstep4">
+                	<div class="success-inner">
+                    <div id="mmes">
+                		<h1>Sorry!</h1>
+                        <br>
+                        <p class="para1">You have already completed the self checkout!. For order details please vist<a class="spl_link" href="<?php echo $this->getUrl('sales/order/history') ?>"> MyOrders</a> in your <a class="spl_link" href="<?php echo $this->getUrl('customer/account') ?>">MyAccount section</a>.</p><br><br>
+                         </div>
+                        <a class="fb_bttn" href="#"><i class="fa fa-facebook fb-icn" aria-hidden="true"></i>TELL YOUR FRIENDS ABOUT SPOURTING THREAD</a>
+                       
+                        <hr>
+                        
+                                	<p class="para2">Or, you can:</p>
+                                    
+                                    <ul class="or_you_can">
+                       		<li><a href="<?php echo $this->getUrl('subscription.html') ?>">Add a child &gt;&gt;</a></li>
+                            <li><a href="<?php echo $this->getUrl('customer/paymentinfo/') ?>">Change your credit card info &gt;&gt;</a></li>
+                            <li><a href="<?php echo $this->getUrl('customer/account/edit/') ?>">Change profile info &gt;&gt;</a></li>
+                       </ul>
+                                    
+                                  
+                    </div>
+                </div>
+            <?php
+		}
+			?>
+            
+            
+                
+                
+            </div>
+        </div>
+    </section>
+<style>
+.col-left.sidebar.col-left-first { display:none;}
+.customer-account .my-account{
+    display: inline-block;
+    width: 100%;
+	 max-width: 100%;
+}
+.section-checkout, .section-full {
+      margin-top: 0; 
+      background-color: #fff;
+    min-height: 290px;
+      padding: 0; 
+    text-align: left;
+}
+.hidesteps{ display:none;} 
+.my-account a.sprout-button{ color:#fff;}
+.my-account a{color:#a5bf3a;}
+.checkout .sky-form .radio, .checkout .sky-form input[type=radio] {
+	display:none;
+}
+.checkout .sky-form input[type=checkbox] {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+.customer-account h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.checkout-inner h3 {
+    font-size: 18px;
+    color: #555555;
+    line-height: 35px;
+    margin: 0px;
+}
+.customer-account h2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: 30px;
+}
+.sky-form hr {
+    border: solid #e6e6e6;
+    border-width: 1px 0 0;
+    clear: both;
+    margin: 20px 0 40px;
+    height: 0;
+    display: block;
+} 
+label.yes{
+    position: absolute;
+    left: 0px;
+    height: 40px;
+    line-height: 40px;
+    background: #a5bf3a;
+    width: 50%;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+label.no {
+    position: absolute;
+    right: 0px;
+    height: 40px;
+    background: #c4d57d;
+    width: 50%;
+    line-height: 40px;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+.checkout .p-item {
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.section-ship-track {
+    margin-top: 115px;
+    background-color: #f7f7f7;
+    min-height: 290px;
+    padding: 50px 0;
+	padding-bottom: 100px;
+    text-align: left;
+}
+.ship-track-container {
+    max-width: 845px;
+    margin: auto;
+    margin-left: auto;
+    border: solid 1px #a6c03c;
+    background: #FFFFFF;
+}
+.ship-track-inner {
+    max-width: 700px;
+    margin: 50px auto;
+}
+.ship-track-inner h1 { font-size:32px; color:#444444; }
+.ship-track-inner ul li .list_dot{
+	color: #bb9999;
+    font-size: 9px;
+   padding-right: 10px;
+   height: 12px;
+   vertical-align: middle;
+}
+.ship-track-inner ul li a{
+	color: #a5bf3a;
+    font-size: 14px;
+    
+}
+.ship-track-inner p{ color:#555555; }
+.ship-track-inner p.para1 { font-size:19px; color:#a5bf3a;}
+.ship-track-inner p.para2 { font-size:13px; color:#777777;}
+.ship-track-inner p.para3 { font-size:18px; color:#555555;}
+ .green_feed a{
+    color: #a5bf3a;
+    line-height: 35px;
+	font-size:13px;
+	float: right;
+	text-decoration:none;
+}
+.order_head h4{ font-size:20px;
+color:#444444;
+padding: 30px 0;
+}
+.order_des span, .order_des_last span{ color:#666666; font-size:14px;}
+.order_des,.order_des_last { color:#777777; font-size:16px;}
+.order_des_last,.list_price_last{ margin-bottom:50px; margin-top:10px}
+.success-inner .order_price ul li{ text-align:right; color:#777777; font-size:18px;line-height: 30px; float:left;}
+.success-inner .order_price ul li:nth-child(odd){ width:70%;}
+.success-inner .order_price ul li:nth-child(even){width:30%; text-align:right; padding-left: 90px;}
+.success-inner .order_price ul li span.price {
+     font-size: 18px; 
+    float: right;
+    line-height: 30px;
+}
+.success-inner .order_price ul li span{
+    font-size: 12px;
+	line-height: 23px;
+}
+.success-inner .order_price{ margin-bottom:80px; }
+.success-inner .order_price ul li.last{ font-weight:bold; }
+.list_price,.list_price_last{    text-align: right; color:#777777; font-size:20px;  line-height: 75px; }
+/**/
+.section-success {
+    margin-top: 115px;
+    background-color: #f7f7f7;
+    min-height: 290px;
+    padding: 50px 0;
+	padding-bottom: 100px;
+    text-align: left;
+}
+.success-container {
+    max-width: 845px;
+    margin: auto;
+    margin-left: auto;
+    border: solid 1px #a6c03c;
+    background: #FFFFFF;
+}
+.success-inner {
+    max-width: 700px;
+    margin: 50px auto;
+}
+.success-inner h1 { font-size:32px; color:#444444; }
+.success-inner ul li .list_dot{
+	color: #bb9999;
+    font-size: 9px;
+   padding-right: 10px;
+   height: 12px;
+   vertical-align: middle;
+}
+.success-inner ul li {
+	color: #a5bf3a;
+    font-size: 14px;
+    
+}
+.success-inner p{ color:#555555; }
+.success-inner p.para1 { font-size:16px; }
+.success-inner p.para2 { font-size:18px; }
+.success-inner a.fb_bttn {
+    background-color: #354f88;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 13px;
+}
+.fb-icn{
+    font-size: 23px;
+    padding: 0 10px;
+    height: 25px;
+    vertical-align: middle;
+}
+.success-inner hr {
+    margin: 40px 0 40px;
+}
+.selfcheckout input[type="button"]{ float:right;}
+.checkout-container input[type="button"] {
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+    border: none;
+    background: #a5bf3a;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    font-size: 13px;
+    margin-top: 15px;
+}
+.switch label {
+    padding-left: 0%;
+}
+</style>
+ <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data">
+<?php if(isset($_GET['debug'])){ ?>
+<div class="page-title">
+    <h1><?php echo $this->__('New Return for Order'); ?>&nbsp;<?php print $_order->getIncrementId();?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="fieldset">
+   
+        <div xclass="fieldset">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <div>
+                <ul class="form-list">
+                    <li>
+                        <label><?php echo $this->__('Order ID') ?></label>
+                        <h5 style="float:left;"><?php echo $_order->getIncrementId() ?></h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Customer Name') ?></label>
+                        <h5 style="float:left;"><?php echo $this->escapeHtml($_order->getCustomerName()) ?></h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Order Shipping Address') ?></label>
+                        <h5 style="float:left;"><?php echo $_order->getShippingAddress()->format('html') ?></h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Email Address') ?></label>
+                        <h5 style="float:left;"><?php echo $_order->getCustomerEmail()?></h5>
+                    </li>
+                </ul>
+            </div>
+            <?php
+                $_resolutions = $this->getResolutions();
+                $_conditions = $this->getConditions();
+                $_reasons = $this->getReasons();
+            ?>
+            <?php if ($this->getIsEnablePerItem()) {?>
+            <div id="template_container" style="display: none;">
+                <?php 
+                    $_items = $this->getItems();
+                    $_jsconfig = array();
+                ?>
+                <ul class="amrma form-list">
+                    <li class="fields">
+                        <div class="field">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Item') ?></label>
+                            <div class="input-box">
+                        <?php $bundleID     = 0; ?>
+                        <?php $firstId = $i = $productType = $availableQty = 0; ?>
+                        <?php $html         = array(); ?>
+                            <select name="items[_index_][order_item_id]" class="input-text required-entry" id="item">
+                        <?php foreach($_items as $_item): ?>
+                            <?php
+                                if ($_item->getParentItemId()) {
+                                    continue;
+                                }
+                            ?>
+                            <?php $_jsconfig[] = array(
+                                'id' => $_item->getId(),
+                                'type' => $_item->getProductType(),
+                                'qty' => $_item->getAvailableQty()
+                            );?>
+                            <?php if ($i == 0): ?>
+                                <?php
+                                    $firstId = $_item->getId();
+                                    $productType = $_item->getProductType();
+                                    $availableQty = $this->getAvailableQty($_item);
+                                    $i = 1;
+                                ?>
+                            <?php endif; ?>
+                            <?php if ($_item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE): ?>
+                                <?php $bundleID = $_item->getId(); ?>
+                            <?php endif; ?>
+                            <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
+                                <option value="<?php echo $_item->getId()?>"><?php echo $this->escapeHtml($_item->getName())?></option>
+                            <?php endif; ?>
+                            <?php if ($_item->getParentItemId()!= null && $_item->getParentItemId() == $bundleID): ?>
+                                <?php if ($_item->getIsOrdered()): ?>
+                                    <?php
+                                        $html[$bundleID][] = array(
+                                            $_item->getId(),
+                                            $this->escapeHtml($_item->getName()),
+                                            $_item->getAvailableQty(),
+                                            1
+                                        );
+                                    ?>
+                                <?php else: ?>
+                                    <?php
+                                        $html[$bundleID][] = array(
+                                            $_item->getId(),
+                                            $this->escapeHtml($_item->getName()),
+                                            $_item->getAvailableQty(),
+                                            0
+                                        );
+                                    ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                            </select>
+                            </div>
+                            <?php if(!empty($html)): ?>
+                            <?php foreach($html as $bundleID=>$node): ?>
+                                <div class="field" id="bundle_items" style="display: none;">
+                                    <label class="required"></label>
+                                    <div class="input-box">
+                                        <div >
+                                            <table class="data-table" >
+                                                <colgroup>
+                                                    <col width="10" />
+                                                    <col width="143" />
+                                                    <col width="82" />
+                                                    <col width="65" />
+                                                </colgroup>
+                                                <thead>
+                                                    <th colspan="2"><?php echo $this->__('Sub-items:') ?></th>
+                                                    <th class="a-center"><?php echo $this->__('Remaining Qty:') ?></th>
+                                                    <th class="a-center"><?php echo $this->__('Qty:') ?></th>
+                                                </thead>
+                                                <tbody>
+                                            <?php foreach($node as $item): ?>
+                                                <tr>
+                                                    <td>
+                                                    <?php if ($item[3]): ?>
+                                                        <input type="checkbox" disabled />
+                                                    <?php else: ?>
+                                                        <input id="bundle_checkbox" rel="bundle_checkbox_<?php echo $bundleID ?>" type="checkbox" value="<?php echo $item[0]?>" class="checkbox validate-one-checkbox-<?php echo $bundleID ?>" />
+                                                    <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        <label for="items[_index_][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" style="float: none !important;padding:0;margin:0;width:0;<?php echo ($item[3]) ? 'color:#999999;' : ''?>display:inline;"><?php echo $item[1]?></label>
+                                                    </td>
+                                                    <td class="a-center"><?php echo $item[2] ?></td>
+                                                    <td width="65">
+                                                        <?php if (!$item[3]): ?>
+                                                            <input id="bundle_qty" name="items[_index_][items][<?php echo $item[0]?>]" size="7" class="validate-greater-than-zero required-entry" style="display:none;" disabled="disabled"/>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                            <script type="text/javascript">decorateTable('return-items-table-<?php echo $bundleID?>');</script>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        </div>
+                        <div class="field" id="qty_requested_block__index_">
+                            <label for="items:qty_requested_index_" class="amrma-required"><em>*</em><?php echo $this->__('Quantity To Return') ?></label>
+                            <div class="input-box">
+                                <input type="text" class="validate-digits-range input-text validate-greater-than-zero required-entry" value="" name="items[_index_][qty_requested]" id="items:qty_requested_index_">
+                            </div>
+                        </div>
+                        <div class="field" id="remaining_quantity_block__index_">
+                            <label class="required"></label>
+                            <div class="input-box">
+                                <?php echo $this->__('Remaining quantity');?>: <span id="remaining_quantity__index_"></span>
+                            </div>
+                        </div>
+                        <div class="field" id="">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Resolution') ?></label>
+                            <div class="input-box">
+                                <select name="items[_index_][resolution]" class="input-text required-entry" >
+                                <?php
+                                    foreach($_resolutions as $_label){
+                                        ?><option><?php echo $_label?></option><?php
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field" id="">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Item Condition') ?></label>
+                            <div class="input-box">
+                                <select name="items[_index_][condition]" class="input-text required-entry" >
+                                <?php
+                                    foreach($_conditions as $_label){
+                                        ?><option><?php echo $_label?></option><?php
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field" id="">
+                            <label class="amrma-required"><em>*</em><?php echo $this->__('Reason to Return') ?></label>
+                            <div class="input-box">
+                                <select name="items[_index_][reason]" class="input-text required-entry" >
+                                <?php
+                                    foreach($_reasons as $_label){
+                                        ?><option><?php echo $_label?></option><?php
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                        </div>
+                        <div style="text-align:right">
+                            <a id="add_item" href="javascript:void(0)"><?php echo $this->__('Add Item To Return')?></a>&nbsp;|&nbsp;<a id="remove_item" href="javascript:void(0)"><?php echo $this->__('Remove')?></a>
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            <?php } else {?>
+                <ul class="form-list">
+                    <li>
+                        <label><?php echo $this->__('Resolution') ?></label>
+                        <h5 style="float:left;">
+                            <select name="resolution" class="input-text required-entry" >
+                            <?php
+                                foreach($_resolutions as $_label){
+                                    ?><option><?php echo $_label?></option><?php
+                                }
+                            ?>    
+                            </select>
+                        </h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Item Condition') ?></label>
+                        <h5 style="float:left;">
+                            <select name="condition" class="input-text required-entry" >
+                            <?php
+                                foreach($_conditions as $_label){
+                                    ?><option><?php echo $_label?></option><?php
+                                }
+                            ?>    
+                            </select>
+                        </h5>
+                    </li>
+                    <li>
+                        <label><?php echo $this->__('Reason to Return') ?></label>
+                        <h5 style="float:left;">
+                            <select name="reason" class="input-text required-entry" >
+                            <?php
+                                foreach($_reasons as $_label){
+                                    ?><option><?php echo $_label?></option><?php
+                                }
+                            ?>    
+                            </select>
+                        </h5>
+                    </li>
+                </ul>
+            <?php }?>
+            
+        </div> 
+        <div id="products"></div>
+        <?php
+        if ($this->hasExtraFields()){
+        ?>
+            <h3><?php echo $this->__($this->getExtraTitle());?></h3>
+            <ul class="amrma form-list">
+                <li class="fields">
+                    <?php for ($field = 1; $field <= 5; $field++){
+                            $title = $this->getExtraField($field);
+                            if (!empty($title)) {
+                                ?>
+                                <div class="field" id="">
+                                    <label class="amrma-required"><em>*</em><?php echo $this->__($title);?></label>
+                                    <div class="input-box">
+                                        <input name="field_<?php echo $field;?>" class="input-text required-entry">
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                    }?>
+                    <div style="text-align:right">&nbsp;</div>
+                </li>
+            </ul>
+        <?php
+        }
+        ?>
+        <div>
+            <ul class="amrma form-list" style="border-bottom: 0px;">
+                <li class="fields">
+                    <div class="field">
+                        <label class="amrma-required"><?php echo $this->__('Comment') ?></label>
+                        <div class="input-box">
+                            <textarea name="comment"  style="height:6em;" cols="5" rows="3" class="input-text"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="amrma-required"><?php echo $this->__('File') ?></label>
+                        <div class="input-box">
+                            <input type="file" name="file"/>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="buttons-set">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+        </div>
+   
+</div>
+<?php } ?>
+ </form>
+<script>
+var dataForm = new VarienForm('form-validate', true);
+
+Element.addMethods({
+    show : function(element) {
+        element = $(element);
+        element.removeClassName('hidesteps') // should be enough to show Element, but set the display attribute
+                 .setStyle({display: ''}); // as well, in case the element was hidden with inline script
+    },
+    hide : function(element) {
+        element = $(element);
+        element.addClassName('hidesteps'); // hide element with CSS
+    },
+	hideclass : function(element) {
+        element = $$(element);
+        element.addClassName('hidesteps'); // hide element with CSS
+    }
+});
+function continueSelfCheckout()
+{
+	Element.hide('step2');
+	Element.hide('shipping');
+	Element.show('step1');
+	Element.hide('step3');
+	Element.hide('step4');
+}
+function track()
+{
+	Element.hide('step1');
+	Element.hide('step2');
+	Element.show('shipping');
+	Element.hide('step3');
+	Element.hide('step4');
+}
+function nextStep()
+{
+	Element.show('step2');
+	Element.hide('step1');
+	 Element.hide('step3');
+	 Element.hide('loader');
+	 Element.hide('step4');
+}
+function showSummary()
+{
+	Element.show('loader');
+	$('orderitemsform').request({
+	  parameters: $('orderitemsform').serialize(),
+	  onComplete: function(response){
+		 
+			 if (200 == response.status)
+			 {
+			  	$('step3').replace(response.responseText); 
+				Element.hide('step1');
+				Element.hide('step2');
+				Element.show('step3');
+				$('step3').scrollTo();
+				Element.hide('loader');
+				Element.hide('step4');
+			 }
+			 else
+			 {
+				  console.log(response);
+			 }
+		   }
+	})
+	
+	
+}
+function submitCheckout()
+{
+	Element.show('loader1');
+	$('submitcheckout').request({
+	  parameters: $('submitcheckout').serialize(),
+	  onComplete: function(response){
+		 console.log(response);
+			 if (200 == response.status)
+			 {
+			  	//$('step4').replace(response.responseText); 
+				Element.hide('step1');
+				Element.hide('step2');
+				Element.hide('step3');
+				Element.show('step4');
+				$('step4').scrollTo();
+				Element.hide('loader');
+				Element.hide('loader1');
+			 }
+			 else
+			 {
+				  console.log(response);
+			 }
+		   }
+	})
+	
+	
+}
+
+<?php if(!empty($html)): ?>
+    <?php foreach($html as $key=>$value): ?>
+    Validation.add('validate-one-checkbox-<?php echo $key?>', '<?php echo $this->__('Please select one of the options.')?>', function(value, entity) {
+        var error = 1;
+        $$('[rel=bundle_checkbox_<?php echo $key?>').each(function(input) {
+            if(input.checked == true) {
+                error = 0;
+            }
+        });
+        if(error == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+    <?php endforeach; ?>
+<?php endif; ?>
+//]]>
+</script>
+
+</script>
+<script>
+    <?php if ($this->getIsEnablePerItem()) {?>
+    var amRmaCreateObject = new amRmaCreate(<?php
+        print Mage::helper('core')->jsonEncode($_jsconfig);
+    ?>);
+    <?php }?>
+</script>
+

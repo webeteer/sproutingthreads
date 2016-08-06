@@ -26,9 +26,14 @@ class ParadoxLabs_TokenBase_Block_Recurringprofile_Edit extends ParadoxLabs_Toke
 		if( is_null( $this->_address ) ) {
 			$this->_address = Mage::getModel('sales/quote_address');
 			
-			if( $this->getProfile()->getShippingAddressInfo() != array() ) {
-				$this->_address->load( $this->getProfile()->getInfoValue('shipping_address_info', 'address_id') );
+			if( !is_array( $this->getProfile()->getShippingAddressInfo() ) ) {
+				$shippingAddr = unserialize( $this->getProfile()->getShippingAddressInfo() );
 			}
+			else {
+				$shippingAddr = $this->getProfile()->getShippingAddressInfo();
+			}
+			
+			$this->_address->setData( $shippingAddr );
 		}
 		
 		return $this->_address;

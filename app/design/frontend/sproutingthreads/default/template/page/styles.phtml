@@ -1,1 +1,108 @@
-styles
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+
+<!DOCTYPE html>
+
+<!--[if lt IE 7 ]> <html lang="en" id="top" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" id="top" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" id="top" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" id="top" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" id="top" class="no-js"> <!--<![endif]-->
+
+<head>
+<?php echo $this->getChildHtml('head') ?>
+
+	
+</head>
+<!-- 1 column -->
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+
+<?php echo $this->getChildHtml('header') ?>
+
+<?php echo $this->getChildHtml('global_notices') ?>
+
+<?php echo $this->getChildHtml('global_messages') ?>
+
+<?php echo $this->getChildHtml('content') ?>
+
+<?php echo $this->getChildHtml('footer_before') ?>
+
+<?php echo $this->getChildHtml('footer') ?>
+
+<?php echo $this->getChildHtml('global_cookie_notice') ?>
+
+<?php echo $this->getChildHtml('before_body_end') ?>
+
+<?php echo $this->getAbsoluteFooter() ?>
+
+	<script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/lib/lightbox2/dist/js/lightbox.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl(); ?>js/lib/lightbox2/dist/css/lightbox.css" media="all" />
+	<script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>js/styles.js"></script>
+	
+	<div class="lookbookListing">
+	<?php
+		function loadLookbook($name, $arDir) {
+			
+			$rootUrl = "/var/lookbooks";
+			$root = $_SERVER['DOCUMENT_ROOT'].$rootUrl;
+			
+			$arValid = array("jpg", "png");
+		
+			foreach($arDir as $dir) {
+				$folder = $root."/".$dir;
+				
+				$arFiles = scandir($folder);
+				
+				foreach($arFiles as $file) {
+					$fullPath = $folder."/".$file;
+					
+					$url = $rootUrl."/".$dir."/".$file;
+					
+					$info = new SplFileInfo($fullPath);
+					$extension = $info->getExtension();
+					
+					if (in_array($extension, $arValid)) {
+						echo "<a class='lightbox-image' data-lightbox='$name' href='$url'></a>";
+					}
+				}
+			}
+		};
+		
+		loadLookbook("lookbook", array("lookbook"));
+		
+	?>
+	</div>
+	
+</body>
+</html>
+

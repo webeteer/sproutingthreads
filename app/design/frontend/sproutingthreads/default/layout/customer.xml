@@ -50,7 +50,13 @@ Default layout, loads most of the pages
 
         <!-- Mage_Customer -->
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>My Account</label><url helper="customer/getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>10</position></action>
+            <action method="addLink" translate="label title" module="customer">
+			<label>My Account</label>
+			<url helper="customer/getAccountUrl"/><title>My Account</title>
+			<prepare/>
+			<urlParams/>
+			<position>10</position>
+			</action>
             <action method="addLink" translate="label title before_text" module="customer"><label>Register</label><url helper="customer/getRegisterUrl" /><title>Register</title><prepare/><urlParams/><position>100</position><li/><a/></action>
         </reference>
         <reference name="footer_links2">
@@ -204,6 +210,7 @@ New customer registration
         </reference>
         <reference name="my.account.wrapper">
             <block type="customer/form_edit" name="customer_edit" template="customer/form/edit.phtml"/>
+			
         </reference>
 
         <reference name="left">
@@ -237,9 +244,18 @@ Customer account pages, rendered for all tabs in dashboard
 
         <reference name="left_first">
             <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
-                <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>myAccount overview</label></action>
-                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>myAccount information</label></action>
-                <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>myAddress book</label></action>
+                <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>my Account overview</label></action>
+				
+				<!--
+				<action method="addLink" translate="label" module="customer"><name>self_checkout</name><path>customer/account/</path><label>mySelfCheckout</label></action>-->
+                <!--<action method="addLink" translate="label" module="customer"><name>newpage</name><path>customer/newpage/</path><label>myAccount newpage</label></action>-->
+				
+                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>my Account information</label></action>
+				 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>my Address book</label></action>				
+               <action method="addLink" translate="label" module="tokenbase"><name>account_customer_paymentinfo</name><path>customer/paymentinfo/</path><label>my Payment data</label></action> 
+			    <action method="addLink" ifconfig="giftvoucher/general/active" translate="label" module="giftvoucher"><name>giftvoucher</name><path>giftvoucher/index/index</path><label>my Gift cards and reThread Credits</label></action>
+				<action method="addLink" translate="label" module="amrma" ifconfig="amrma/general/enabled"><name>amrma</name><path>amrmafront/customer/history</path><label>my Returns</label></action>
+				 
             </block>
         </reference>
         <reference name="left">
@@ -306,4 +322,14 @@ Customer account address edit page
         </reference>
     </customer_address_form>
 
+	<!--
+	<customer_newpage_index translate="label">
+		<label>Customer My newpage</label>
+		<update handle="newpage"/>
+		<reference name="my.account.wrapper">
+			<block type="customer/newpage" name="newpage" before="-" template="customer/newpage.phtml"/>
+		</reference>
+	</customer_newpage_index>	
+	-->
+	
 </layout>

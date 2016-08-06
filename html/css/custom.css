@@ -1,0 +1,489 @@
+/* Table of Content
+==================================================
+  #Reset CSS
+  #Clearfix
+  #Basic Styles
+  #Forms
+  #Grid */
+
+/* Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+================================================== */
+.section-checkout,.section-full{    margin-top: 115px;background-color: #f7f7f7;min-height: 290px;padding: 50px 0;text-align: left;}
+.checkout-container {
+    max-width: 840px;
+    margin: auto;
+    margin-left: auto; border: solid 1px #a5bf3a; background:#FFFFFF;
+}
+.checkout-inner {
+    max-width: 700px;
+    margin: 50px auto;
+}
+.checkout-inner h1 {
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    font-size: 31px; margin-bottom:20px;
+}
+.checkout-inner h4 {
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    font-size: 12px;
+    color: #555555;
+}
+.checkout-inner h3 {
+    font-size: 18px;
+    color: #555555;
+}
+.price {
+    font-size: 20px;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+.checkout-attr {
+    width: 100%;
+    height: auto;
+    float: left;margin: 5px 0;
+}
+.checkout-attr ul li {
+    width: 110px;
+    border: solid 1px #bbbbbb;
+    margin: 0;
+    float: left;
+    text-align: center;
+    height: 35px;
+    line-height: 35px; border-right:none; background:#f7f7f7;
+}
+.checkout-attr ul li.have-rb {
+    border-right: solid 1px #bbbbbb;
+}
+.checkout-attr ul li label {
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #555555;
+}
+.checkout-attr h2 {
+    font-size: 16px;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    color: #555555;
+}
+.checkout-attr ul.qty_brand li {
+    width: 82px;
+}
+.checkout-attr textarea {
+    border: solid 1px #bbbbbb;
+}
+.checkout-container input[type="submit"] {
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+    border: none;
+    background: #a5bf3a;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+.check_buttons{ position:relative; width:100%; height:auto; float:left; margin-bottom:50px;margin-top: 35px;}
+.switch {
+	max-width:220px;
+	width:100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 40px;
+  text-align: center;
+  margin: -30px 0 0 -75px;
+  
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.switch span.keepsp {
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  top: 0%;
+  left: 8%;
+  margin: 18px 0px 0px -4px;
+  background: #fff;
+  display: block;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.switch span.returnsp {
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  top: 0%;
+  left: 58%;
+  margin: 18px 0px 0px -4px;
+  background: #fff;
+  display: block;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.switch span:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 2px;
+  height: 6px;
+  margin-top: -5px;
+  background: #fff;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+input[type=radio] {
+  display: none;
+}
+.switch label {
+  cursor: pointer;
+  color: rgba(0,0,0,0.2);
+  width: 60px;
+  line-height: 50px;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  font-size: 13px;
+    text-transform: uppercase;
+	    padding-left: 25px;
+}
+label[for=yes] {
+  position: absolute;
+  left: 0px;
+  height: 40px;
+  line-height:40px;
+  background: #a5bf3a;
+  width:50%;
+  font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+label[for=no] {
+  position: absolute;
+  right: 0px;
+   height: 40px;
+  background: #c4d57d;
+  width:50%;
+  line-height:40px;
+  font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+#no:checked ~ .switch {
+  background: #ff3b30;
+}
+#no:checked ~ .switch span {
+  background: #fff;
+  margin-left: -5px;
+}
+#no:checked ~ .switch span.keepsp:after {
+  background: #fff;
+  height: 14px;
+  margin-top: -6px;
+  margin-left: 6px;
+}
+#yes:checked ~ .switch span.returnsp:after {
+  background: #fff;
+  height: 14px;
+  margin-top: -6px;
+  margin-left: 6px;
+}
+#yes:checked ~ .switch label[for=yes] {
+  color: #fff;
+}
+#no:checked ~ .switch label[for=no] {
+  color: #fff;
+}
+.keep,.return{ position:relative;}
+#no:checked ~ .switch label[for=yes] {
+    background: #c4d57d;
+}
+#no:checked ~ .switch label[for=no] {
+    background: #a5bf3a;
+}
+.checkout-msg-box {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 40px;
+	border: solid 1px #a5bf3a;
+    border-radius: 3px;
+    padding: 35px 55px;
+}
+.checkout-msg-box h3 {
+    font-size: 17px;font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+.checkout-msg-box .fa-shopping-cart{ padding-right:10px;}
+.sprout-green {
+    color: #a5bf3a;
+}
+.sp-italic {
+    font-style: italic;
+}
+.checkout-msg-box p{ font-size:13px;}
+.sprout-button {
+    width: 140px;
+    height: 40px;
+    display: block;
+    background: #a5bf3a;
+    color: #FFFFFF;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    margin: 10px 0;
+}
+.or_you_can li {
+    list-style: initial;
+    list-style-type: circle;
+    color: #bd9c9c;
+    font-size: 20px;
+}
+.or_you_can li a{ font-size:14px;font-family: 'ITCAvantGardeW04-Book', sans-serif;}
+.or_you_can {
+    margin-left: 20px;
+}
+.container-big {
+    max-width: 1110px;
+    width: 100%;
+    height: auto;
+    margin: auto;
+	    margin-left: auto;
+    border: solid 1px #a5bf3a;
+    background: #FFFFFF; padding:50px;
+	margin-bottom: 78px;
+}
+.container-big ul.form-list li .no-display {
+    display: none !important;
+}
+.container-big ul.form-list li.fields{ width:100%;}
+.container-big ul.form-list li .field{ width:50%; float:left;}
+.container-big h2.legend {
+    font-size: 36px;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+.container-big ul.form-list {
+    margin-top: 20px;width: 100%;
+    height: auto;
+    float: left;
+}
+.container-big ul.form-list label {
+    font-size: 15px;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+}
+.container-big input[type="password"] {
+    border: solid 1px #dadada;
+    max-width: 354px;
+    width: 100%;
+    height: 40px;
+    padding: 10px; outline:none;
+}
+.container-big .buttons-set {
+    clear: both;
+	margin:20px 0;
+}
+.container-big .back-link {
+    display: inline-block;
+    margin-right: 20px;
+}
+.container-big .back-link a {
+    color: #63bac3;
+}
+.container-big .buttons-set button.button {
+    width: 143px;
+    height: 55px;
+    background: #82c7cf;
+    border: none;
+    color: #ffffff;
+}
+
+
+
+/*06-july*/
+
+.first_ch label {
+    display: inline-block;
+    background-color: #efefef;
+    padding: 2px 32px;
+    font-family: Arial;
+    font-size: 14px;
+	margin-left: -4px;
+	border:solid 1px #cbcbcb;
+	font-family: 'ITCAvantGardeW04-Book', sans-serif;
+	}
+
+.first_ch input[type="radio"]:checked + label { 
+    background-color:#e9e5e5;
+}
+
+label.firstlab {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+label.seclab  {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+
+.first_ch {
+    float: left;
+    width: 100%;
+    margin-top: 12px;
+}
+.subsr {
+    margin-bottom: 39px;
+}
+.current-sub-full {
+    float: left;
+    width: 100%;
+	    margin-bottom: 60px;
+}
+.squaredOne {
+    width: 20px;
+    margin: 0 auto;
+}
+
+
+.first_ch input[type="radio"]:checked + label { 
+    background-color:#e9e5e5;
+}
+
+
+input#squaredOne {
+    display: none;
+}
+
+.org_bg
+{
+	background:url(../images/bg/check.png)0px 0px no-repeat;
+}
+
+.squaredOne input[type=checkbox]:checked + label
+{
+background:url(../images/bg/activecheck.png)0px 0px no-repeat;	
+}
+
+.subscr_sub
+{
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+    border: none;
+    background: #a5bf3a;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'ITCAvantGardeW04-Book', sans-serif;
+    font-size: 13px;
+    margin-top: 15px;
+	
+}.squaredOne {
+    width: 20px;
+    margin: 0 auto;
+}
+
+
+.first_ch input[type="radio"]:checked + label { 
+    background-color:#e9e5e5;
+}
+
+.nrdcheck{
+    display: none;
+}
+
+.org_bg
+{
+	background:url(../images/bg/check.png)0px 0px no-repeat;
+	width:20px;
+	height:20px;
+	float:left;
+}
+
+.squaredOne input[type=checkbox]:checked + label
+{
+background:url(../images/bg/activecheck.png)0px 0px no-repeat;	
+}
+
+.subscr_sub {
+   width: 223px;
+   height: 50px;
+   padding: 0;
+   text-align: center;
+   border: none;
+   background: #a5bf3a;
+   color: #ffffff;
+   text-transform: capitalize;
+   font-family: 'ITCAvantGardeW04-Book', sans-serif!important;
+   font-size: 20px!important;
+   margin: 0 auto;
+   border-radius:3px;
+   margin-bottom: 102px;
+       margin-top: 22px;
+}
+.nbutton
+{
+	text-align:center;
+}
+.iten2 .squaredOne
+{
+	float:right;
+}
+.iten2 ul li {
+    text-align: left !important;
+}
+.mysubsinner_left {
+    max-width: 311px;
+    float: left;
+    padding-left: 68px;
+    padding-top: 83px;
+    width: 100%;
+}
+.mysubsinner_right {
+    float: right;
+    max-width: 791px;
+}
+.nrtsec
+{
+	min-height:870px;
+}
+ .current-sub-full p {
+   font-family: 'ITCAvantGardeW04-Book', sans-serif;
+   font-size: 14px;
+   color: #444;
+   font-weight: 700;
+}
+.sel_sub_bx ul {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.18);
+}

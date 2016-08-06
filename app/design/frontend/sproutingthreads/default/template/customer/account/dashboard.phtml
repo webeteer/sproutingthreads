@@ -31,16 +31,59 @@ global $productMonthly, $productSeasonal;
         <h1><?php echo $this->__('My Dashboard') ?></h1>
     </div>
 	
-	
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+	<!-- Check for SELF CHECKOUT -->
+	
+	<?php 
+	$_orders= $this->getLayout()
+          ->createBlock('amrma/guest_history')
+           ->getSelfCheckoutOrders();
+	 
+	 ?>
+	<div id="selfCheckout" class="box-account box-info">
+		<h2>Self Checkout</h2>
+		<?php /*?>you will have 5 business days to try on your items and have your at home fashion show to see what works!
+		<ul class="account-list">
+			<li>* place a check next to all items to be kept</li>
+			<li>* click button &quot;keep these items&quot; to submit &amp; finalize your order.  Any applicable discounts will be applied.</li>
+			<li>* Any items you wish to return should be placed prepaid envelope &amp; sent via USPS by the end of the 5th business day.</li>
+		</ul><?php */?>
+		
+		<br clear="all" />
+<?php if($_orders) { ?>
+<div class="accountOrder" >
+   
+        <?php
+            foreach ($_orders as $orderId => $incrementId){
+                ?> <button type="button" class="button" onclick="window.location='<?php echo $this->getUrl('amrmafront/customer/new/', array('order_id' => $orderId))?>'">
+        <span><span><?php
+            print $this->__("SELF CHECKOUT")
+        ?></span></span>
+    </button><br/><?php
+            }
+        ?>
+    
+  
+    <div></div>
+    </div>
+<?php } ?>
+		 
+		
+	</div>	
+	
+	 
+	<!-- End SELF CHECKOUT -->
+	
+
 	
 	
+	
+	
+	<!-- Next Shipment -->
 	<?php
 	$customer = Mage::getSingleton('customer/session')->getCustomer();
-	
-	
 	$customerId = $customer->getId();
-	
 	$profiles = Mage::getModel('sales/recurring_profile')->getCollection()->addFieldToSelecT('*')->addFieldToFilter('customer_id', $customerId);
 	
 	$numProfiles = count($profiles);
@@ -84,6 +127,8 @@ global $productMonthly, $productSeasonal;
 				
 				$orderDate = $orderData['created_at'];
 				
+				$orderDate = "2016-05-31 00:00:01";
+				
 				if ($productId == $productMonthly) {
 					$type = "monthly";
 				} else {
@@ -104,13 +149,14 @@ global $productMonthly, $productSeasonal;
 			}
 			?>
 		</div>
-	<? endif; ?>
-	</div>	
+	<? endif; ?>	
+	<!-- End Next Shipment -->
+	
     <?php echo $this->getChildHtml('hello') ?>
 
     <!--<?php echo $this->getChildHtml('top') ?>-->
-	
-
+	<br/>
+	<a href="/subscription.html" class="lm-button ls fill" id="headerNext">Add Another Child</a>
 	
 	<div id="return" class="box-account box-info">
 		<h2>Rethreading or Returning?</h2>
@@ -152,3 +198,12 @@ global $productMonthly, $productSeasonal;
 	</div>	
 	
 </div>
+
+<style>
+#selfCheckout { 
+    padding: 0 20px 0px 20px; width:100%;
+}
+.accountOrder { 
+    padding: 20px 20px 0px 20px; 
+}
+</style>

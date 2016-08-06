@@ -65,7 +65,12 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 	 */
 	public function setStore( $id )
 	{
-		$this->_storeId	= $id;
+		// Whelp.
+		if( $id instanceof Mage_Core_Model_Store ) {
+			$id = $id->getId();
+		}
+		
+		$this->_storeId	= intval( $id );
 		$this->_gateway	= null;
 		
 		return $this;
@@ -135,39 +140,31 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 	/**
 	 * Load the given card by ID, authenticate, and store with the object.
 	 */
-	public function loadAndSetCard( $cardId )
+	public function loadAndSetCard( $cardId, $byHash=false )
 	{
-		$this->_log( sprintf( 'loadAndSetCard(%s)', $cardId ) );
+		$this->_log( sprintf( 'loadAndSetCard(%s, %s)', $cardId, var_export( $byHash, 1 ) ) );
 		
 		$card = Mage::getModel( $this->_code . '/card' );
-		$card->load( $cardId );
 		
-		if( $card && $card->getId() == $cardId ) {
-			if( ( $this->getCustomer() && $card->hasOwner( $this->getCustomer()->getId() ) ) 
-				|| Mage::app()->getStore()->isAdmin() ) {
-				$this->setCard( $card );
-				
-				return $card;
-			}
-			else {
-				$this->_log( sprintf( 'No permission to use card %s (%s, customer is %s)', $cardId, (Mage::app()->getStore()->isAdmin() ? 'admin' : 'not admin'), $this->getCustomer()->getId() ) );
-			}
+		if( $byHash === true ) {
+			$card->loadByHash( $cardId );
 		}
 		else {
-			Mage::throwException( Mage::helper('tokenbase')->__('Could not load card %s', $cardId) );
+			$card->load( $cardId );
+		}
+		
+		if( $card && $card->getId() > 0 ) {
+			$this->setCard( $card );
+			
+			return $card;
 		}
 		
 		/**
 		 * This error will be thrown if the card does not exist OR if we don't have permission to use it.
 		 */
-		try {
-			Mage::throwException( Mage::helper('tokenbase')->__('Unable to load payment data. Please check the form and try again.') );
-		}
-		catch( Exception $e ) {
-			$this->_log( (string)$e );
-			
-			throw $e;
-		}
+		$this->_log( Mage::helper('tokenbase')->__('Unable to load payment data. Please check the form and try again.') );
+		
+		throw Mage::exception( 'Mage_Payment_Model_Info', Mage::helper('tokenbase')->__('Unable to load payment data. Please check the form and try again.') );
 	}
 	
 	/**
@@ -199,18 +196,6 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 	}
 	
 	/**
-	 * Payment method available?
-	 */
-	public function isAvailable( $quote=null )
-	{
-		if( $this->getConfigData('active') && parent::isAvailable() ) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
 	 * Allow zero-subtotal checkout with card storage by forcing the test bit to zero.
 	 */
 	public function isApplicableToQuote( $quote, $checksBitMask )
@@ -230,8 +215,21 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		parent::assignData( $data );
 		
 		if( $data->hasCardId() && $data->getCardId() != '' ) {
-			$card = $this->loadAndSetCard( $data->getCardId() );
+			/**
+			 * Load and validate the chosen card.
+			 * 
+			 * If we are in checkout, force load by hash rather than numeric ID. Bit harder to guess.
+			 */
+			if( Mage::helper('tokenbase')->getIsCheckout() || !is_numeric( $data->getCardId() ) ) {
+				$card = $this->loadAndSetCard( $data->getCardId(), true );
+			}
+			else {
+				$card = $this->loadAndSetCard( $data->getCardId() );
+			}
 			
+			/**
+			 * Overwrite data if necessary
+			 */
 			if( $data->hasCcType() && $data->getCcType() != '' ) {
 				$this->getInfoInstance()->setCcType( $data->getCcType() );
 			}
@@ -240,7 +238,7 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 				$this->getInfoInstance()->setCcLast4( $data->getCcLast4() );
 			}
 			
-			if( $data->getCcExpYear() > date('Y') || ( $data->getCcExpYear() == date('Y') && $data->getCcExpMonth() >= date('n') ) ) {
+			if( $data->getCcExpYear() != ''  && $data->getCcExpMonth() != '' ) {
 				$this->getInfoInstance()->setCcExpYear( $data->getCcExpYear() )
 										->setCcExpMonth( $data->getCcExpMonth() );
 			}
@@ -291,8 +289,32 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 	{
 		$this->_log( sprintf( 'validate(%s)', $this->getInfoInstance()->getCardId() ) );
 		
+		/**
+		 * If no tokenbase ID, we must have a new card. Make sure all the details look valid.
+		 */
 		if( $this->getInfoInstance()->hasTokenbaseId() === false ) {
 			return parent::validate();
+		}
+		/**
+		 * If there is an ID, this might be an edit. Validate there too, as much as we can.
+		 */
+		else {
+			if( $this->getInfoInstance()->getCcNumber() != '' && substr( $this->getInfoInstance()->getCcNumber(), 0, 4 ) != 'XXXX' ) {
+				// remove credit card number delimiters such as "-" and space
+				$this->getInfoInstance()->setData( 'cc_number', preg_replace( '/[\-\s]+/', '', $this->getInfoInstance()->getCcNumber() ) );
+				
+				if( strlen( $this->getInfoInstance()->getCcNumber() ) < 13
+					|| !is_numeric( $this->getInfoInstance()->getCcNumber() )
+					|| !$this->validateCcNum( $this->getInfoInstance()->getData('cc_number') ) ) {
+					throw Mage::exception( 'Mage_Payment_Model_Info', Mage::helper('payment')->__('Invalid Credit Card Number') );
+				}
+			}
+			
+			if( $this->getInfoInstance()->getCcExpYear() != '' && $this->getInfoInstance()->getCcExpMonth() != '' ) {
+				if( !$this->_validateExpDate( $this->getInfoInstance()->getCcExpYear(), $this->getInfoInstance()->getCcExpMonth() ) ) {
+					throw Mage::exception( 'Mage_Payment_Model_Info', Mage::helper('payment')->__('Incorrect credit card expiration date.') );
+				}
+			}
 		}
 		
 		return $this;
@@ -312,8 +334,18 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		}
 		
 		/**
+		 * Check for existing authorization, and void it if so.
+		 */
+		$transactionId = explode( ':', $payment->getOrder()->getExtOrderId() );
+		if( !empty( $transactionId[1] ) ) {
+			$this->void( $payment );
+		}
+		
+		/**
 		 * Process transaction and results
 		 */
+		$this->_resyncStoredCard( $payment );
+		
 		if( $this->getAdvancedConfigData('send_line_items') ) {
 			$this->gateway()->setLineItems( $payment->getOrder()->getAllVisibleItems() );
 		}
@@ -374,7 +406,14 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		 * Grab transaction ID from the invoice in case partial invoicing.
 		 */
 		$realTransactionId	= null;
-		$invoice			= Mage::registry('current_invoice');
+		
+		if( $payment->hasInvoice() && $payment->getInvoice() instanceof Mage_Sales_Model_Order_Invoice ) {
+			$invoice	= $payment->getInvoice();
+		}
+		else {
+			$invoice	= Mage::registry('current_invoice');
+		}
+		
 		if( !is_null( $invoice ) ) {
 			if( $invoice->getTransactionId() != '' ) {
 				$realTransactionId = $invoice->getTransactionId();
@@ -391,6 +430,8 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		/**
 		 * Process transaction and results
 		 */
+		$this->_resyncStoredCard( $payment );
+		
 		$this->_beforeCapture( $payment, $amount );
 		$response = $this->gateway()->capture( $payment, $amount, $realTransactionId );
 		$this->_afterCapture( $payment, $amount, $response );
@@ -427,6 +468,10 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		$this->_log( sprintf( 'refund(%s %s, %s)', get_class( $payment ), $payment->getId(), $amount ) );
 		
 		$this->_loadOrCreateCard( $payment );
+		
+		if( $amount <= 0 ) {
+			return $this;
+		}
 		
 		/**
 		 * Grab transaction ID from the order
@@ -614,16 +659,8 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		 * Run billing if the profile is starting immediately or if we have an initial charge.
 		 */
 		if( $profile->getInitAmount() > 0 || strtotime( $profile->getStartDatetime() ) <= time() ) {
-			if( $profile->getInitMayFail() || $profile->getSuspensionThreshold() > 1 ) {
-				try {
 					Mage::helper('tokenbase/recurringProfile')->bill( $profile );
 				}
-				catch( Exception $e ) {}
-			}
-			else {
-				Mage::helper('tokenbase/recurringProfile')->bill( $profile );
-			}
-		}
 		
 		return $this;
 	}
@@ -678,7 +715,7 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 	{
 		$this->_log( sprintf( '_loadOrCreateCard(%s %s)', get_class( $payment ), $payment->getId() ) );
 		
-		if( !is_null( $this->_card ) ) {
+		if( !is_null( $this->getCard() ) ) {
 			$this->setCard( $this->getCard() );
 			
 			return $this->getCard();
@@ -686,7 +723,7 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		elseif( $payment->hasTokenbaseId() ) {
 			return $this->loadAndSetCard( $payment->getTokenbaseId() );
 		}
-		elseif( $payment->hasCcNumber() && $payment->hasCcExpYear() && $payment->hasCcExpMonth() ) {
+		elseif( $this->_paymentContainsCard( $payment ) === true ) {
 			$card = Mage::getModel( $this->_code . '/card' );
 			$card->setMethod( $this->_code )
 				 ->setMethodInstance( $this )
@@ -700,9 +737,9 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 				$card->setAddress( $payment->getBillingAddress() );
 			}
 			else {
-				Mage::throwException( Mage::helper('tokenbase')->__('Could not find billing address.') );
+				throw Mage::exception( 'Mage_Payment_Model_Info', Mage::helper('tokenbase')->__('Could not find billing address.') );
 			}
-				 
+			
 			$card->save();
 			
 			$this->setCard( $card );
@@ -713,13 +750,71 @@ class ParadoxLabs_TokenBase_Model_Method extends Mage_Payment_Model_Method_Cc
 		/**
 		 * This error will be thrown if we were unable to load a card and had no data to create one.
 		 */
-		try {
-			Mage::throwException( Mage::helper('tokenbase')->__('Invalid payment data provided. Please check the form and try again.') );
+		$this->_log( Mage::helper('tokenbase')->__('Invalid payment data provided. Please check the form and try again.') );
+		
+		throw Mage::exception( 'Mage_Payment_Model_Info', Mage::helper('tokenbase')->__('Invalid payment data provided. Please check the form and try again.') );
+	}
+	
+	/**
+	 * Return boolean whether given payment object includes new card info.
+	 */
+	protected function _paymentContainsCard( Varien_Object $payment )
+	{
+		if( $payment->hasCcNumber() && $payment->hasCcExpYear() && $payment->hasCcExpMonth() ) {
+			return true;
 		}
-		catch( Exception $e ) {
-			$this->_log( (string)$e );
-			Mage::throwException( $e->getMessage() );
+		
+		return false;
+	}
+	
+	/**
+	 * Resync billing address et al. before auth/capture.
+	 */
+	protected function _resyncStoredCard( $payment )
+	{
+		$this->_log( sprintf( '_resyncStoredCard(%s %s)', get_class( $payment ), $payment->getId() ) );
+		
+		if( $this->getCard() instanceof ParadoxLabs_TokenBase_Model_Card && $this->getCard()->getId() > 0 ) {
+			$haveChanges = false;
+			
+			/**
+			 * Any changes that we can see? Check the payment info and main address fields.
+			 */
+			if( $this->getCard()->getOrigData('additional') != null && $this->getCard()->getOrigData('additional') != $this->getCard()->getData('additional') ) {
+				$haveChanges = true;
+			}
+			
+			if( $payment->getOrder() ) {
+				$address = $payment->getOrder()->getBillingAddress();
+			}
+			elseif( $payment->getBillingAddress() ) {
+				$address = $payment->getBillingAddress();
+			}
+			
+			if( isset( $address ) && $address instanceof Mage_Customer_Model_Address_Abstract ) {
+				foreach( array( 'firstname', 'lastname', 'company', 'street', 'city', 'country_id', 'region', 'region_id', 'postcode' ) as $field ) {
+					if( $this->getCard()->getAddress( $field ) != $address->getData( $field ) ) {
+						$this->getCard()->setAddress( $address );
+						
+						$haveChanges = true;
+						break;
+					}
+				}
+			}
+			
+			if( $haveChanges === true ) {
+				if( $this->hasInfoInstance() !== true ) {
+					$this->setInfoInstance( $payment );
+				}
+				
+				$this->getCard()->setMethodInstance( $this );
+				$this->getCard()->setInfoInstance( $payment );
+				
+				$this->getCard()->save();
+			}
 		}
+		
+		return $this;
 	}
 	
 	/**

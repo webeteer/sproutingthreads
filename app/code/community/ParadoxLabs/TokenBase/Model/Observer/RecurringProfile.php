@@ -100,4 +100,56 @@ class ParadoxLabs_TokenBase_Model_Observer_RecurringProfile
 		
 		return $this;
 	}
+	
+	/**
+	 * When a card is saved, update billing address on any associated profiles.
+	 */
+	public function updateBillingAddresses( $observer )
+	{
+		$card = $observer->getEvent()->getObject();
+		
+		if( $card instanceof ParadoxLabs_TokenBase_Model_Card && $card->getId() > 0 ) {
+			/**
+			 * Load any profiles that might be related; we'll check each one.
+			 */
+			$profiles	= Mage::getModel('sales/recurring_profile')->getCollection()
+								->addFieldToFilter( 'method_code', $card->getMethod() )
+								->addFieldToFilter( 'additional_info', array( 'like' => '%' . $card->getId() . '%' ) );
+			
+			$count		= 0;
+			foreach( $profiles as $profile ) {
+				$profile	= Mage::getModel('sales/recurring_profile')->loadByInternalReferenceId( $profile->getInternalReferenceId() );
+				$adtl		= $profile->getAdditionalInfo();
+				
+				if( $adtl['tokenbase_id'] == $card->getId() ) {
+					/**
+					 * Update billing address to match the card
+					 */
+					$billingAddr	= $profile->getBillingAddressInfo();
+					$changes		= false;
+					
+					$copyKeys		= array( 'street', 'firstname', 'lastname', 'city', 'region', 'region_id', 'postcode', 'country_id', 'telephone', 'fax' );
+					foreach( $copyKeys as $key ) {
+						if( $billingAddr[ $key ] != $card->getAddress( $key ) ) {
+							$changes				= true;
+							$billingAddr[ $key ]	= $card->getAddress( $key );
+						}
+					}
+					
+					if( $changes === true ) {
+						$profile->setBillingAddressInfo( $billingAddr );
+						$profile->save();
+						
+						$count++;
+					}
+				}
+			}
+			
+			if( $count > 0 ) {
+				Mage::helper('tokenbase')->log( $card->getMethod(), sprintf( 'Updated billing address for %s RPs on card edit (%s)', $count, $card->getId() ) );
+			}
+		}
+		
+		return $this;
+	}
 }

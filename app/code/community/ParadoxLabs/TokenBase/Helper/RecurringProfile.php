@@ -17,7 +17,7 @@
  * @license		http://store.paradoxlabs.com/license.html
  */
 
-class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abstract
+class ParadoxLabs_TokenBase_Helper_RecurringProfile extends ParadoxLabs_TokenBase_Helper_Data
 {
 	/**
 	 * Process the given recurring profile for billing.
@@ -62,7 +62,7 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 		$method->setStore( $profile->getStoreId() );
 		
 		if( $method->getConfigData( 'active' ) == 0 || ( !is_null( $customerId ) && $customer->getId() != $customerId ) ) {
-			continue;
+			return $profile;
 		}
 		
 		/**
@@ -158,7 +158,7 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 					$order->setCustomerId( null );
 				}
 				
-				$paymentData = new Varien_Object( array( 'card_id' => $card->getId(), 'method' => $profile->getMethodCode() ) );
+				$paymentData = new Varien_Object( array( 'card_id' => $card->getHash(), 'method' => $profile->getMethodCode() ) );
 				
 				$order->getPayment()->getMethodInstance()->setCustomer( $customer );
 				$order->getPayment()->getMethodInstance()->assignData( $paymentData );
@@ -179,7 +179,7 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 				
 				$profile->addOrderRelation( $order->getId() );
 				
-				if( $order->getCanSendNewEmailFlag() ) {
+				if( $order->getCanSendNewEmailFlag() && $adtl['billed_count'] > 0 ) {
 					try {
 						$order->sendNewOrderEmail();
 					}
@@ -223,8 +223,12 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 				
 				Mage::helper('tokenbase')->log( $profile->getMethodCode(), sprintf( 'Recurring profile billing error: %s', $e->getMessage() ) );
 				
-				if( !is_null( $profile->getSuspensionThreshold() ) && $adtl['failure_count'] >= $profile->getSuspensionThreshold() ) {
-					Mage::helper('tokenbase')->log( $profile->getMethodCode(), sprintf( 'Recurring profile #%s failed on payment (%s/%s); profile suspended.', $profile->getReferenceId(), $adtl['failure_count'], $profile->getSuspensionThreshold() ) );
+				$suspensionThreshold	= intval( $profile->getSuspensionThreshold() );
+				
+				if( $suspensionThreshold > 0 && $adtl['failure_count'] >= $suspensionThreshold ) {
+					$profile->setState( Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED );
+					
+					Mage::helper('tokenbase')->log( $profile->getMethodCode(), sprintf( 'Recurring profile #%s failed on payment (%s/%s); profile suspended.', $profile->getReferenceId(), $adtl['failure_count'], $suspensionThreshold ) );
 				}
 				else {
 					if( $profile->getBillFailedLater() ) {
@@ -232,7 +236,7 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 						$adtl['outstanding'] = $amount;
 					}
 					
-					Mage::helper('tokenbase')->log( $profile->getMethodCode(), sprintf( 'Recurring profile #%s failed on payment (%s/%s).', $profile->getReferenceId(), $adtl['failure_count'], $profile->getSuspensionThreshold() ) );
+					Mage::helper('tokenbase')->log( $profile->getMethodCode(), sprintf( 'Recurring profile #%s failed on payment (%s/%s).', $profile->getReferenceId(), $adtl['failure_count'], $suspensionThreshold ) );
 				}
 				
 				$adtl['billing_log'][]	= array(
@@ -242,16 +246,16 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 				);
 				
 				$profile->setAdditionalInfo( $adtl )
-						->setState( Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED )
 						->save();
 				
 				Mage::logException( $e );
-				Mage::throwException( Mage::helper('tokenbase')->__( $e->getMessage() ) );
+				
+				throw $e;
 			}
 			catch( Exception $e ) {
 				Mage::helper('tokenbase')->log( $profile->getMethodCode(), sprintf( 'Recurring profile #%s failed: %s', $profile->getReferenceId(), $e->getMessage() ) );
 				
-				Mage::throwException( Mage::helper('tokenbase')->__( $e->getMessage() ) );
+				throw $e;
 			}
 			
 			/**
@@ -283,7 +287,17 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 		$customer = Mage::helper('tokenbase')->getCurrentCustomer();
 		
 		if( $profile->getShippingAddressInfo() != array() ) {
-			$origAddr	= Mage::getModel('sales/quote_address')->load( $profile->getInfoValue('shipping_address_info', 'address_id') );
+			$origAddr = Mage::getModel('sales/quote_address');
+			
+			if( !is_array( $profile->getShippingAddressInfo() ) ) {
+				$shippingAddr = unserialize( $profile->getShippingAddressInfo() );
+			}
+			else {
+				$shippingAddr = $profile->getShippingAddressInfo();
+			}
+			
+			$origAddr->setData( $shippingAddr );
+			
 			$newAddrId	= intval( $input->getData('shipping_address_id') );
 			
 			/**
@@ -347,7 +361,7 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 				$origAddr->importCustomerAddress( $newAddr );
 				
 				$shippingAddr = $origAddr->getData();
-				$this->_cleanupArray( $shippingAddr );
+				$this->cleanupArray( $shippingAddr );
 				$profile->setShippingAddressInfo( $shippingAddr );
 			}
 		}
@@ -401,24 +415,5 @@ class ParadoxLabs_TokenBase_Helper_RecurringProfile extends Mage_Core_Helper_Abs
 		$profile->save();
 		
 		return $profile;
-	}
-	
-	/**
-	 * Recursively remove objects from an array
-	 */
-	protected function _cleanupArray(&$array)
-	{
-		if( !$array ) {
-			return;
-		}
-		
-		foreach( $array as $key => $value ) {
-			if( is_object( $value ) ) {
-				unset( $array[ $key ] );
-			}
-			elseif( is_array( $value ) ) {
-				$this->_cleanupArray( $array[ $key ] );
-			}
-		}
 	}
 }

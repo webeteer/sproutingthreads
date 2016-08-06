@@ -67,7 +67,7 @@ class ParadoxLabs_TokenBase_Model_Cron_Clean extends Mage_Core_Model_Abstract
 				 */
 				$profiles	= Mage::getModel('sales/recurring_profile')->getCollection()
 									->addFieldToFilter( 'method_code', $cardMethod )
-									->addFieldToFilter( 'additional_info', array( 'like' => '%"' . $cardPaymentId . '"%' ) )
+									->addFieldToFilter( 'additional_info', array( 'like' => '%' . $cardPaymentId . '%' ) )
 									->addFieldToFilter( 'state', array( 'in' => array( 'active', 'pending' ) ) );
 				
 				$count = 0;

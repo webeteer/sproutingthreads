@@ -70,8 +70,8 @@ abstract class ParadoxLabs_TokenBase_Model_Gateway extends Mage_Core_Model_Abstr
 			'password'	=> $parameters['password']
 		);
 		
-		if( isset( $parameters['_endpoint'] ) ) {
-			$this->_endpoint = $_endpoint;
+		if( isset( $parameters['endpoint'] ) ) {
+			$this->_endpoint = $parameters['endpoint'];
 		}
 		else {
 			$this->_endpoint = ( $this->_testMode === true ? $this->_endpointTest : $this->_endpointLive );

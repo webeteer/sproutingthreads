@@ -36,9 +36,10 @@ require($_SERVER['DOCUMENT_ROOT'].'/config-20.php');
 <header id="header-section">
 	<div class="container">
 		<div class="row">
-			<div class="column three">
+			<div class="column three" id="headerLogo">
 					<a href="/">
-						<img src="<?php echo $this->getSkinUrl('images/elements/logo.png'); ?>" alt="Sprouting Threads">
+						<img class="hide-on-mobile" src="<?php echo $this->getSkinUrl('images/elements/logo.png'); ?>" alt="Sprouting Threads">
+						<img id="headerLogoMobile" src="<?php echo $this->getSkinUrl('images/elements/logo-horizontal.png'); ?>" alt="Sprouting Threads">
 					</a>
 			</div>
 			<nav role="custom-dropdown">

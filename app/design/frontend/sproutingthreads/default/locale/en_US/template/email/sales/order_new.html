@@ -1,0 +1,122 @@
+<!--@subject {{var store.getFrontendName()}}: New Order # {{var order.increment_id}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"htmlescape var=$order.getCustomerName()":"Customer Name",
+"var store.getFrontendName()":"Store Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var order.increment_id":"Order Id",
+"var order.getCreatedAtFormated('long')":"Order Created At (datetime)",
+"var order.getBillingAddress().format('html')":"Billing Address",
+"var payment_html":"Payment Details",
+"var order.getShippingAddress().format('html')":"Shipping Address",
+"var order.getShippingDescription()":"Shipping Description",
+"layout handle=\"sales_email_order_items\" order=$order":"Order Items Grid",
+"var order.getEmailCustomerNote()":"Email Order Note"}
+@-->
+<!--@styles
+body,td { color:#2f2f2f; font:13px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+
+<body style="background:#63bac3; color:#444444; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-style:normal; font-weight:300; margin:0; padding:0;">
+<div style="background:#63bac3; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-style:normal; font-weight:300; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+    <td align="center" valign="top" style="padding:20px 0 20px 0">
+        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650">
+            <!-- [ header starts here] -->
+            <tr>
+                <td valign="top"><center><a href="{{store url=""}}"><img src="{{store url=""}}/skin/frontend/sproutingthreads/default/images/elements/logo.png" alt="{{var logo_alt}}" style="margin: 0;" border="0"/></a></center></td>
+            </tr>
+            <!-- [ middle starts here] -->
+            <tr>
+                <td valign="top" bgcolor="#EAEAEA" style="background:#EAEAEA;">
+                    <p style="display: block; font-size:18px; margin:0 0 10px 0; padding-bottom:10px;">hello, {{htmlescape var=$order.getCustomerName()}}</p>
+                    <p style="font-size:18px; margin:0; padding-bottom:5px;">Thank you for your order from {{var store.getFrontendName()}}.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h2 style="font-size:18px; font-weight:normal; margin:0;">Your Order number is: #{{var order.increment_id}}<br><small>(placed on {{var order.getCreatedAtFormated('long')}})</small></h2>
+                </td>
+            </tr>
+            <tr>
+            	<td valign="top">
+                    <p style="display: block; font-size:12px; line-height:16px; margin:0; padding-bottom:10px;">
+                        You will receive an email with your tracking info once your package has shipped.<br>Then just sit back and relax until your <strong>sprouting threads</strong> box arrives.</p>
+                    <p style="display: block; font-size:12px; line-height:16px; margin:0; padding-bottom:10px;">
+                        Please visit the <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">my account page</a> at anytime to update your <!--profile or -->account info.</p>
+                    <p style="font-size:12px; line-height:16px; margin:0; padding-bottom:10px;">
+                        If you have any questions please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a></p>
+                    <p style="font-size:12px; line-height:16px; margin:0; padding-bottom:10px;">or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm EST.
+                    </p>
+                    <p style="display: block; font-size:18px; margin:10px 0 10px 0; padding-bottom:10px;padding-top: 10px;">Thank you! :)
+                    </p>
+                    <p style="font-size:12px; line-height:16px; margin:0;">Jennifer & Ripley Martin<br/>
+co-founders<br/>
+<b>sprouting threads</b><br/>
+<a href="https://sproutingthreads.com">sproutingthreads.com</a><br/><br/></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="0" border="0" width="650">
+                        <thead>
+                        <tr>
+                            <th align="left" width="325" bgcolor="#63bac3" style="color:#ffffff; font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">billing Information:</th>
+                            <th width="10"></th>
+                            <th align="left" width="325" bgcolor="#63bac3" style="color:#ffffff; font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">payment Method:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td valign="top" style="font-size:12px; padding:7px 9px 9px 9px; border-left:3px solid #63bac3; border-bottom:3px solid #63bac3; border-right:3px solid #63bac3;">
+                                {{var order.getBillingAddress().format('html')}}
+                            </td>
+                            <td>&nbsp;</td>
+                            <td valign="top" style="font-size:12px; padding:7px 9px 9px 9px; border-left:3px solid #63bac3; border-bottom:3px solid #63bac3; border-right:3px solid #63bac3;">
+                                {{var payment_html}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    {{depend order.getIsNotVirtual()}}
+                    <table cellspacing="0" cellpadding="0" border="0" width="650">
+                        <thead>
+                        <tr>
+                            <th align="left" width="325" bgcolor="#63bac3" style="color:#ffffff; font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">shipping Information:</th>
+                            <th width="10"></th>
+                            <th align="left" width="325" bgcolor="#63bac3" style="color:#ffffff; font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">shipping Method:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td valign="top" style="font-size:12px; padding:7px 9px 9px 9px; border-left:3px solid #63bac3; border-bottom:3px solid #63bac3; border-right:3px solid #63bac3;">
+                                {{var order.getShippingAddress().format('html')}}
+                                &nbsp;
+                            </td>
+                            <td>&nbsp;</td>
+                            <td valign="top" style="font-size:12px; padding:7px 9px 9px 9px; border-left:3px solid #63bac3; border-bottom:3px solid #63bac3; border-right:3px solid #63bac3;">
+                                {{var order.getShippingDescription()}}
+                                &nbsp;
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    {{/depend}}
+                    {{layout handle="sales_email_order_items" order=$order}}
+                    <p style="font-size:12px; margin:0 0 10px 0">{{var order.getEmailCustomerNote()}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>
+</body>

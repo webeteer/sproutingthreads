@@ -78,7 +78,13 @@ class ParadoxLabs_TokenBase_Model_Card extends Mage_Core_Model_Abstract
 	 */
 	public function setAddress( Mage_Customer_Model_Address_Abstract $address )
 	{
-		return parent::setAddress( serialize( $address->getData() ) );
+		$addressData = $address->getData();
+		
+		Mage::helper('tokenbase')->cleanupArray( $addressData );
+		
+		$this->_address = null;
+		
+		return parent::setAddress( serialize( $addressData ) );
 	}
 	
 	/**
@@ -340,6 +346,16 @@ class ParadoxLabs_TokenBase_Model_Card extends Mage_Core_Model_Abstract
 	}
 	
 	/**
+	 * Load card by security hash.
+	 */
+	public function loadByHash( $hash )
+	{
+		$this->_getResource()->loadByHash( $this, $hash );
+		
+		return $this;
+	}
+	
+	/**
 	 * Finalize before saving. Instances should sync with the gateway here.
 	 * 
 	 * Set $this->_dataSaveAllowed to false or throw exception to abort.
@@ -382,6 +398,13 @@ class ParadoxLabs_TokenBase_Model_Card extends Mage_Core_Model_Abstract
 		 */
 		if( Mage::app()->getStore()->isAdmin() == false ) {
 			$this->setCustomerIp( Mage::helper('core/http')->getRemoteAddr() );
+		}
+		
+		/**
+		 * Create unique hash for security purposes.
+		 */
+		if( $this->getHash() == '' ) {
+			$this->setHash( sha1( 'tokenbase' . time() . $this->getCustomerId() . $this->getCustomerEmail() . $this->getMethod() . $this->getProfileId() . $this->getPaymentId() ) );
 		}
 		
 		/**

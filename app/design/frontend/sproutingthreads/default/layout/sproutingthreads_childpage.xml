@@ -1,0 +1,17 @@
+<layout>
+     <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink">
+                <name>childpage</name>
+                <path>childprofile/</path>
+                <label>my Child's Profile</label>
+            </action>
+        </reference>
+    </customer_account>
+	<sproutingthreads_childpage_index_index>
+		<update handle="customer_account" />
+		<reference name="my.account.wrapper">
+			<block type="core/template" name="sproutingthreads_childpage_content" template="customer/childprofile.phtml" />
+		</reference>
+	</sproutingthreads_childpage_index_index>
+</layout>   

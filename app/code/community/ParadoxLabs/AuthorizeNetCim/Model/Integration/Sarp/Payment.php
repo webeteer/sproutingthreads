@@ -115,7 +115,7 @@ class ParadoxLabs_AuthorizeNetCim_Model_Integration_Sarp_Payment extends AW_Sarp
 			
 			// Try to find a card
 			$card = Mage::getModel('tokenbase/card')->getCollection()
-							->addFieldToFilter( 'method', 'authnetcim' )
+							->addFieldToFilter( 'method', self::PAYMENT_METHOD_CODE )
 							->addFieldToFilter( 'profile_id', $this->getSubscription()->getRealId() )
 							->addFieldToFilter( 'payment_id', $this->getSubscription()->getRealPaymentId() )
 							->getFirstItem();
