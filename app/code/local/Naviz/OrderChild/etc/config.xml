@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Naviz_OrderChild>
+      <version>0.1.0</version>
+    </Naviz_OrderChild>
+  </modules>
+  <global>
+   <fieldsets>
+            <sales_convert_quote>                           
+                <child><to_order>*</to_order></child>
+            </sales_convert_quote>
+
+            <sales_convert_order>                                              
+                <child><to_quote>*</to_quote></child>
+            </sales_convert_order>
+        </fieldsets>
+    <helpers>
+      <orderchild>
+        <class>Naviz_OrderChild_Helper</class>
+      </orderchild>
+    </helpers>
+	<models>
+	  <orderchild>
+		<class>Naviz_OrderChild_Model</class>
+		<resourceModel>orderchild_mysql4</resourceModel>
+	  </orderchild>
+	</models>
+	<resources>
+	  <salesattribute1474613767_setup>
+		<setup>
+		  <module>Naviz_OrderChild</module>
+		  <class>Mage_Sales_Model_Mysql4_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </salesattribute1474613767_setup>
+	  <salesattribute1474613767_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </salesattribute1474613767_write>
+	  <salesattribute1474613767_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </salesattribute1474613767_read>
+	</resources>
+    
+  </global>
+  <adminhtml>
+  <events> 
+	  <sales_order_save_after> <!-- identifier of the event we want to catch -->
+        <observers>
+          <adminhtml_sales_order_create_process_data_before_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>orderchild/observer</class> <!-- observers class alias -->
+            <method>saveChildData</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </adminhtml_sales_order_create_process_data_before_handler>
+        </observers>
+      </sales_order_save_after>
+    </events>
+  </adminhtml>
+</config> 

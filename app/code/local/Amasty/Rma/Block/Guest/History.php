@@ -128,15 +128,17 @@ class Amasty_Rma_Block_Guest_History extends Mage_Core_Block_Template
         
         
         $collection->addOrder('entity_id', 'desc');
-         
+       
         $tpl = Mage::helper('amrma')->__('Order #%s - %s - %s');
 		     //  print_r($collection->getData());
         foreach($collection as $item){
+			
             $ret[$item->getOrderId()] = sprintf($tpl, 
 		$item->getIncrementId(), 
 		Mage::helper('core')->formatDate($item->getOrderCreatedAt()),
                 Mage::helper('core')->formatPrice($item->getOrderGrandTotal())
             );
+			 
         }
         
         return $ret;
@@ -155,7 +157,7 @@ class Amasty_Rma_Block_Guest_History extends Mage_Core_Block_Template
                     array('increment_id', 'created_at as order_created_at', 'grand_total as order_grand_total')
                 );
                
-        $collection->addFieldToFilter('qty_shipped', array("gt" => 0)); 
+      $collection->addFieldToFilter('qty_shipped', array("gt" => 0)); 
 		$collection->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomerId());
         $collection->getSelect()->limit(1);
         $collection->getSelect()->group('order.entity_id');
@@ -163,15 +165,17 @@ class Amasty_Rma_Block_Guest_History extends Mage_Core_Block_Template
         
         
         $collection->addOrder('entity_id', 'desc');
-         
+          $hlr = Mage::helper("amrma"); 
         $tpl = Mage::helper('amrma')->__('Order #%s - %s - %s');
-		     //  print_r($collection->getData());
+		#print_r($collection->getData());
         foreach($collection as $item){
+			//if($hlr->canCreateRma($item->getOrderId())){
             $ret[$item->getOrderId()] = sprintf($tpl, 
 		$item->getIncrementId(), 
 		Mage::helper('core')->formatDate($item->getOrderCreatedAt()),
                 Mage::helper('core')->formatPrice($item->getOrderGrandTotal())
             );
+			//}
         }
         
         return $ret;

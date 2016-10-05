@@ -119,15 +119,31 @@ $date->addDay('10');
                             <?php endif; ?>
                             <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
                               <div class="row p-item">
-                         
-                       
-                            <div class="column six"> 
+                              <div class="column six"> 
                             <h4><?php echo $this->escapeHtml($_item->getSku())?></h4>
                                 <h3><?php echo $this->escapeHtml($_item->getName())?></h3>
+                                
                                 <h2 class="price"><?php echo Mage::helper('core')->currency($_item->getRowTotal(), true, false);?></h2>
                                  <input type="hidden" name="items[<?php echo  $_item->getId() ?>][price]"  value="<?php echo $_item->getRowTotal(); ?>">
                                    <input type="hidden" name="items[<?php echo  $_item->getId() ?>][sku]"  value="<?php echo $_item->getSku(); ?>">
                                     <input type="hidden" name="items[<?php echo  $_item->getId() ?>][name]"  value="<?php echo $_item->getName(); ?>">
+                                    </div>
+                          <div class="column six"> 
+                       <div class="check_buttons">
+                               
+                                <input type="radio"  class="yes" name="items[<?php echo  $_item->getId() ?>][order_item_id]" id="yes<?php echo $_item->getId() ?>" checked="" value="<?php echo  $_item->getId() ?>">
+                                  <input type="radio" class="no" name="items[<?php echo  $_item->getId() ?>][order_item_id]" id="no<?php echo $_item->getId() ?>" value="no">
+                                  <div class="switch">
+                                    <div class="keep"><label class="yes" for="yes<?php echo $_item->getId() ?>">Keep It</label><span class="keepsp"></span></div>
+                                    <div class="return"><label class="no" for="no<?php echo $_item->getId() ?>">Return it</label><span class="returnsp"></span></div>
+                                  </div>
+                                </div>
+                                </div>
+                                </div>
+                                <div class="row p-item">
+                            <div class="column six"> 
+                             
+                                    
                                 <div class="checkout-attr">
                                 	<h2>Size</h2>
                                     <ul>
@@ -172,15 +188,7 @@ $date->addDay('10');
                                 </div>
                             </div>
                             <div class="column six">
-                            	<div class="check_buttons">
-                               
-                                <input type="radio"  class="yes" name="items[<?php echo  $_item->getId() ?>][order_item_id]" id="yes<?php echo $_item->getId() ?>" checked="" value="<?php echo  $_item->getId() ?>">
-                                  <input type="radio" class="no" name="items[<?php echo  $_item->getId() ?>][order_item_id]" id="no<?php echo $_item->getId() ?>" value="no">
-                                  <div class="switch">
-                                    <div class="keep"><label class="yes" for="yes<?php echo $_item->getId() ?>">Keep It</label><span class="keepsp"></span></div>
-                                    <div class="return"><label class="no" for="no<?php echo $_item->getId() ?>">Return it</label><span class="returnsp"></span></div>
-                                  </div>
-                                </div>
+                            	
                                 <div class="checkout-attr">
                                 	<h2>Style</h2>
                                     <ul class="qty_brand">
@@ -293,7 +301,7 @@ keeping all items)</span></li>
                         <br>
                         <p class="para1">Thanks, enjoy your new threads!  For order details please vist<a class="spl_link" href="#"> MyOrders</a> in your <a class="spl_link" href="#">MyAccount section</a>.</p><br><br>
                          </div>
-                        <a class="fb_bttn" href="#"><i class="fa fa-facebook fb-icn" aria-hidden="true"></i>TELL YOUR FRIENDS ABOUT SPOURTING THREAD</a>
+                        <a class="fb_bttn" href="#"><i class="fa fa-facebook fb-icn" aria-hidden="true"></i>TELL YOUR FRIENDS ABOUT SPROUTING THREADS</a>
                        
                         <hr>
                         
@@ -312,7 +320,16 @@ keeping all items)</span></li>
 		}
 		else
 		{
+			if($_GET['from']=='dashboard')
+			{
+				?>
+                <script type="text/javascript">
+	window.location='<?php echo $this->getUrl('amrmafront/customer/history') ?>';
+                </script>
+                <?php
+			}
 			?>
+            
                <div class="column twelve cstep4">
                 	<div class="success-inner">
                     <div id="mmes">
@@ -549,6 +566,19 @@ padding: 30px 0;
 }
 .switch label {
     padding-left: 0%;
+}
+ul#payment_form_authnetcim li, ul#payment_form_authnetcim li label {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+	text-align:left;
+}
+ul#payment_form_authnetcim .input-box { 
+    width: 100%;
+}
+#payment_form_authnetcim {
+    width: 60%;
+    float: right;
 }
 </style>
  <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data">
@@ -919,6 +949,10 @@ function showSummary()
 }
 function submitCheckout()
 {
+	 
+	var formToValidate = $('submitcheckout');
+	var validator = new Validation(formToValidate);
+	if(validator.validate()) {  
 	Element.show('loader1');
 	$('submitcheckout').request({
 	  parameters: $('submitcheckout').serialize(),
@@ -926,14 +960,24 @@ function submitCheckout()
 		 console.log(response);
 			 if (200 == response.status)
 			 {
+				 
+				 if('ok'==response.responseText)
+				 {
+					 Element.hide('step1');
+					Element.hide('step2');
+					Element.hide('step3');
+					Element.show('step4');
+					$('step4').scrollTo();
+					Element.hide('loader');
+					Element.hide('loader1');
+				 }
+				 else
+				 {
+					 Element.hide('loader1');
+					 $('msg4res').replace(response.responseText);
+				 }
 			  	//$('step4').replace(response.responseText); 
-				Element.hide('step1');
-				Element.hide('step2');
-				Element.hide('step3');
-				Element.show('step4');
-				$('step4').scrollTo();
-				Element.hide('loader');
-				Element.hide('loader1');
+				
 			 }
 			 else
 			 {
@@ -941,7 +985,8 @@ function submitCheckout()
 			 }
 		   }
 	})
-	
+	    // Here is your code for showing Next step or Do whatever you want.
+        }
 	
 }
 
@@ -973,4 +1018,75 @@ function submitCheckout()
     ?>);
     <?php }?>
 </script>
+
+<style>
+@media only screen  
+and (max-device-width : 568px) {
+	.checkout-container {
+     
+    width: 90%;
+} 
+.checkout-inner {
+  max-width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+}
+.checkout-msg-box {
+    max-width: auto;
+    width: auto;padding: 15px 15px;
+}
+.checkout .row {
+    text-align: left;
+    margin: 0px;
+}
+.ship-track-inner {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 10px;
+}
+.checkout-attr ul li {
+    width: 32%; 
+}
+.checkout-attr ul.qty_brand li {
+    width: 24%;
+}
+div#step3 {
+    padding: 10px;
+}
+#payment_form_authnetcim {
+    width: 100%;
+    float: right;
+}
+.row.selfcheckout p {
+    width: 100%;
+    display: block;
+    float: none;
+    clear: both;
+    margin: auto;
+    font-size: 13px;
+}
+.checkout-container input[type="button"] {
+    width: 100%; 
+    margin-bottom: 10px;
+}
+#loader1 { 
+    width: 100%;
+    text-align: center;
+}
+div#loader {
+    width: 100%;
+    text-align: center;
+}
+div#step4 {
+    padding: 10px;
+}
+.success-inner a.fb_bttn {
+    background-color: #354f88;
+    padding: 15px 5px;
+    color: #ffffff;
+    font-size: 10px;
+}
+}
+
+</style>
 

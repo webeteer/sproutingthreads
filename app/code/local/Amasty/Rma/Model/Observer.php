@@ -26,7 +26,7 @@ class Amasty_Rma_Model_Observer
 
                 $thead = $domx->evaluate("//table[@id='my-orders-table']/thead/tr");
                 if ($thead && $thead->item(0)) {
-                    $thead->item(0)->appendChild($dom->createElement('th', '&nbsp;'));
+                    $thead->item(0)->appendChild($dom->createElement('th', 'Selfcheckout'));
 
 
                     $entries = $domx->evaluate("//table[@id='my-orders-table']/tbody/*");
@@ -45,15 +45,33 @@ class Amasty_Rma_Model_Observer
 
                         if ($incrementId){
                             $order = Mage::getModel('sales/order')->load($incrementId, 'increment_id');
+							$Shipments=$order->getShipmentsCollection();
+							if(count($Shipments->getData())>0){
                             if ($order->getId() && $hlr->canCreateRma($order->getId())){
-                                $a = $dom->createElement('a', $hlr->__("Return"));
+                                $a = $dom->createElement('a', $hlr->__("Self Checkout"));
                                 $a->setAttribute("href", Mage::getUrl('amrmafront/customer/new', 
                                         array(
                                             'order_id' => $order->getId()
                                         )
                                 ));
+								
                                 $td->appendChild($a);
                             }
+							else
+							{
+								$a = $dom->createElement('a', $hlr->__("Completed"));
+                                $a->setAttribute("href", '#');
+								
+                                $td->appendChild($a);
+							}
+							}
+							else
+							{
+								$a = $dom->createElement('a', $hlr->__("Shipment Pending"));
+                                $a->setAttribute("href", '#');
+								
+                                $td->appendChild($a);
+							}
                         }
 
                         $entry->appendChild($td);

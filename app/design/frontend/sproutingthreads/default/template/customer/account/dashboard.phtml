@@ -50,13 +50,17 @@ global $productMonthly, $productSeasonal;
 			<li>* Any items you wish to return should be placed prepaid envelope &amp; sent via USPS by the end of the 5th business day.</li>
 		</ul><?php */?>
 		
-		<br clear="all" />
-<?php if($_orders) { ?>
+		
+<?php 
+ 
+
+if($_orders) { ?>
+<br clear="all" />
 <div class="accountOrder" >
    
         <?php
             foreach ($_orders as $orderId => $incrementId){
-                ?> <button type="button" class="button" onclick="window.location='<?php echo $this->getUrl('amrmafront/customer/new/', array('order_id' => $orderId))?>'">
+                ?> <button type="button" class="button" onclick="window.location='<?php echo $this->getUrl('amrmafront/customer/new/', array('order_id' => $orderId))?>?from=dashboard'">
         <span><span><?php
             print $this->__("SELF CHECKOUT")
         ?></span></span>
@@ -67,7 +71,14 @@ global $productMonthly, $productSeasonal;
   
     <div></div>
     </div>
-<?php } ?>
+<?php }
+else
+{
+	?> 
+    <p class="hello">You have no orders pending for self checkout</p><br clear="all" />
+    <?php
+}
+ ?>
 		 
 		
 	</div>	
@@ -81,68 +92,60 @@ global $productMonthly, $productSeasonal;
 	
 	
 	<!-- Next Shipment -->
+    
 	<?php
-	$customer = Mage::getSingleton('customer/session')->getCustomer();
-	$customerId = $customer->getId();
-	$profiles = Mage::getModel('sales/recurring_profile')->getCollection()->addFieldToSelecT('*')->addFieldToFilter('customer_id', $customerId);
 	
-	$numProfiles = count($profiles);
+	$_customer = Mage::getSingleton('customer/session')->getCustomer(); 
+	$profiles=Mage::helper('child')->getChildProfiles($_customer->getId(),'true');
+	  
+	$numProfiles = count($profiles); 
 	if ($numProfiles > 0): 
 	?>
 		<div id="profileShipList">
 			<?
 			foreach($profiles as $profile) {
 				
-				$data = $profile->getOrigData();
-				
-				$order = unserialize($data['order_info']);
-				$orderItems = unserialize($data['order_item_info']);
-				$buyRequest = unserialize($orderItems['info_buyRequest']);
-				$schedule = $profile->exportScheduleInfo();
-				
-				
-				if (isset($buyRequest['product'])) {
-					$productId = $buyRequest['product'];
-				} else {
-					$productId = $buyRequest['product_id'];
-				}
-				
-				
-				//print_r($buyRequest);
-				
-				
-
-				
-				$nameFieldId = getConfigField($productId, "name");
-				$name = $buyRequest['options'][$nameFieldId];
-				
-				$childOrders = $profile->getChildOrderIds();
-				$numShipped = count($childOrders);
-				$startdate = "";
-				
-				
-				$recentOrder = array_pop($childOrders);
-				
-				$orderData = Mage::getModel('sales/order')->load($recentOrder)->getOrigData();
-				
-				$orderDate = $orderData['created_at'];
-				
-				$orderDate = "2016-05-31 00:00:01";
-				
-				if ($productId == $productMonthly) {
-					$type = "monthly";
-				} else {
-					$type = "seasonal";
-				}
-				
-				
-				
-				
-				$shipDate = getShipDate($type, "current", $orderDate);
-				$shipDateDisplay = date("l F jS", strtotime($shipDate));
+	$orders = Mage::getResourceModel('sales/order_collection')
+    ->addFieldToSelect('*')
+    ->addFieldToFilter('customer_id', $_customer->getId())
+	 ->addFieldToFilter('child', $profile['profile_id'])
+    ->addAttributeToSort('created_at', 'DESC')
+    ->setPageSize(1);
+	$orderId=$orders->getFirstItem()->getId();
+	if($orderId){
+	
+	 $orderObject = Mage::getModel('sales/order')->load($orderId);  
+	 $invoiceCollection = $orderObject->getInvoiceCollection();
+		 foreach($invoiceCollection as $invoice):
+			//var_dump($invoice);
+			$invoices=  $invoice->getData();
+			$invoiceIncrementId =  $invoice->getIncrementId();
+		 endforeach; 
+		 
+		 if($profile['period_frequency']==3)
+		 {
+			 $days=90;
+		 }
+		 else
+		 {
+			 $days=30;
+		 } 
+		 $sdate = new Zend_Date(Mage::getModel('core/date')->timestamp(strtotime($invoices['created_at'])));
+		 $ndate = new Zend_Date(Mage::getModel('core/date')->timestamp(strtotime($sdate)));
+			$ndate->addDay($days);
+			$shipped=Mage::helper('core')->formatDate($sdate, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, false);
+			$ship=Mage::helper('core')->formatDate($ndate, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, false);
+	}
+	else
+	{
+		$shipped=$ship='---';
+	}
+	
 				?>
 					<div class="profileShip">
-						<b><?php echo $name; ?>'s</b> next shipment is scheduled for:<br/><b><?php echo $shipDateDisplay; ?></b>
+						<b><?php echo $profile['Name'][0]; ?>'s</b><br>  
+                        CURRENT SHIPMENT-shipped <b><?php  echo $shipped;  ?> </b><br>
+						NEXT SHIPMENT-will ship <b><?php  echo $ship;  ?> </b>
 					</div>
 				<?
 				//echo "Name: $name / $numShipped / $orderDate / $type / $shipDate";

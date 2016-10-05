@@ -254,7 +254,7 @@ Customer account pages, rendered for all tabs in dashboard
 				 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>my Address book</label></action>				
                <action method="addLink" translate="label" module="tokenbase"><name>account_customer_paymentinfo</name><path>customer/paymentinfo/</path><label>my Payment data</label></action> 
 			    <action method="addLink" ifconfig="giftvoucher/general/active" translate="label" module="giftvoucher"><name>giftvoucher</name><path>giftvoucher/index/index</path><label>my Gift cards and reThread Credits</label></action>
-				<action method="addLink" translate="label" module="amrma" ifconfig="amrma/general/enabled"><name>amrma</name><path>amrmafront/customer/history</path><label>my Returns</label></action>
+				<action method="addLink" translate="label" module="amrma" ifconfig="amrma/general/enabled"><name>amrma</name><path>amrmafront/customer/history</path><label>my mySelfCheckout</label></action>
 				 
             </block>
         </reference>

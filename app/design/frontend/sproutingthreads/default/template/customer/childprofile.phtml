@@ -1,54 +1,17 @@
 <?php
 	$customer = Mage::getSingleton('customer/session')->getCustomer(); 
-	$allprofiles=Mage::getModel('sales/recurring_profile')->getCollection()
-            ->addFieldToFilter('customer_id',  Mage::getSingleton('customer/session')->getId())
-			->addFieldToFilter('state','active')
-			->addFieldToSelect('*')
-            ->setOrder('profile_id', 'desc');
-			$allprof=$allprofiles->getData(); 
-			
-			if(!empty($_GET['child'])){
-			$profiles=Mage::getModel('sales/recurring_profile')->getCollection()
-            ->addFieldToFilter('customer_id',  Mage::getSingleton('customer/session')->getId())
-			->addFieldToFilter('state','active')
-			->addFieldToFilter('profile_id',$_GET['child'])
-			->addFieldToSelect('*')
-            ->setOrder('profile_id', 'desc');
-			$prof=$profiles->getData();  
+	
+	
+	$allprofiles=Mage::helper('child')->getChildProfiles(Mage::getSingleton('customer/session')->getId());
+		if(!empty($_GET['child'])){
+			   $profile=Mage::helper('child')->getChildProfile(Mage::getSingleton('customer/session')->getId(),$_GET['child']);  
 			}
 			else
-			{
-				$prof=$allprof;	
+			{  
+				$profile=$allprofiles[0];	
 			}
-			
-					 
-			$info=unserialize($prof[0]['order_item_info']);
-			$child=unserialize($info['info_buyRequest']); 
-			$child1=unserialize($info['options']); 
-			$product=$child['product']?$child['product']:$child['product_id'];
-			
-         $options = Mage::getModel('catalog/product')->load($product)->getProductOptionsCollection();
-         foreach ($options as $o) 
-             {  
-			  
-				$firstchilddetails[$o->getData('title')][]=$child['options'][$o->getData('option_id')]; 
-				$values = $o->getValues();
-				$mydata='';
-				foreach($values as $v)
-                  {
-                     $mydata[] = $v->getData();
-                                         
-				  }
-				 $firstchilddetails[$o->getData('title')][]=$mydata; 
-               } 
-			
-			 if(isset($_GET['debug']))
-			{
-			print_r($child);
-			print_r($child1);
-			print_r($prof);	
-			print_r($firstchilddetails);
-			}
+			 
+			 
 ?>
 
 <div class="profile-container">
@@ -60,20 +23,11 @@
 	<div class="first_ch">
     <?php 
 	$i=0;
-	foreach($allprof as $pr){ 
-		$childdetails='';
-		$info=unserialize($pr['order_item_info']);
-		$child=unserialize($info['info_buyRequest']);
-		
-			$unser=(unserialize($info['options'])); 
-			$opt=$unser['options'];
-			foreach($opt as $opf)
-			{
-				if($opf['label']=='Name')
-				{
-					$name=$opf['value'];
-				}
-			}
+	foreach($allprofiles as $pr){ 
+	 
+		 
+					$name=$pr['Name'][0];
+			 
 		 ?>
     <a href="<?php echo $this->getUrl('childprofile') ?>?child=<?php echo $pr['profile_id']; ?>">
     <label for="child1" class="firstlab <?php echo ((empty($_GET['child'])&&$i==0)||($pr['profile_id']==str_replace('/','',$_GET['child'])))?'active':'' ?>">
@@ -84,10 +38,10 @@
      </div>
            </div>
 <form action="<?php echo $this->getUrl('childprofile/index/save/') ?>" method="post" autocomplete="off" id="form-validate" class="scaffold-form" enctype="multipart/form-data">
-    <input type="hidden" name="profile" value="<?php echo $prof[0]['profile_id'];  ?>" />
+    <input type="hidden" name="profile" value="<?php echo $profile['profile_id'];  ?>" />
     <div class="left_sec_rt">
     <label class="label_nentry">*child's name</label>
-   <input  type="text" id="name" name="name" value="<?php echo $firstchilddetails['Name'][0]  ?>"  title="First Name" maxlength="255" class="input-text required-entry input_nentry">
+   <input  type="text" id="name" name="name" value="<?php echo $profile['Name'][0]  ?>"  title="First Name" maxlength="255" class="input-text required-entry input_nentry">
     </div>
     
      <div class="right_sec_rt">
@@ -95,11 +49,11 @@
      <select name="gender" disabled id="gender"  class="input-text required-entry input_nentry">
 		<option value="">boy or girl</option>
         <?php
-		$gndrs=$firstchilddetails['Gender'][1];
+		$gndrs=$profile['Gender'][1];
 		foreach($gndrs as $gndr)
 		{
 			?>
-            <option <?php echo $firstchilddetails['Gender'][0]==$gndr['option_type_id']?'selected':'' ?> value="<?php echo $gndr['option_type_id'] ?>"><?php echo $gndr['default_title'] ?></option>
+            <option <?php echo $profile['Gender'][0]==$gndr['option_type_id']?'selected':'' ?> value="<?php echo $gndr['option_type_id'] ?>"><?php echo $gndr['default_title'] ?></option>
             <?php
 		}
 		?>
@@ -118,7 +72,7 @@
 										
 										for($i = $start; $i <= $max; $i++):
 									?>
-									<option <?php echo $firstchilddetails['Height'][0]==$i?'selected':'' ?> value="<?php echo $i; ?>"><?php echo $i; ?>"</option>
+									<option <?php echo $profile['Height'][0]==$i?'selected':'' ?> value="<?php echo $i; ?>"><?php echo $i; ?>"</option>
 									<?php
 										endfor;
 									?>
@@ -127,23 +81,23 @@
     
      <div class="right_sec_rt">
     <label class="label_nentry">*weight</label>
-   <input  type="text" id="weight" name="weight" value="<?php echo $firstchilddetails['Weight'][0]  ?>"  title="weight" class="input-text required-entry input_nentry">
+   <input  type="text" id="weight" name="weight" value="<?php echo $profile['Weight'][0]  ?>"  title="weight" class="input-text required-entry input_nentry">
     </div>
     <div class="left_sec_rt">
     <label class="label_nentry">*top size</label>
     <select name="atop" id="atop"  class="input-text required-entry input_nentry">
 		<option value="">tops</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==2?'selected':'' ?> value="2">2T</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==3?'selected':'' ?> value="3">3T</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==4?'selected':'' ?> value="4">4T</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==5?'selected':'' ?> value="5">5</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==6?'selected':'' ?> value="6">6</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==7?'selected':'' ?> value="7">7</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==8?'selected':'' ?> value="8">8</option>
-        <option <?php echo $firstchilddetails['Top Size'][0]==9?'selected':'' ?> value="9">9</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==10?'selected':'' ?> value="10">10</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==11?'selected':'' ?> value="11">11</option>
-		<option <?php echo $firstchilddetails['Top Size'][0]==12?'selected':'' ?> value="12">12</option>
+		<option <?php echo $profile['Top Size'][0]==2?'selected':'' ?> value="2">2T</option>
+		<option <?php echo $profile['Top Size'][0]==3?'selected':'' ?> value="3">3T</option>
+		<option <?php echo $profile['Top Size'][0]==4?'selected':'' ?> value="4">4T</option>
+		<option <?php echo $profile['Top Size'][0]==5?'selected':'' ?> value="5">5</option>
+		<option <?php echo $profile['Top Size'][0]==6?'selected':'' ?> value="6">6</option>
+		<option <?php echo $profile['Top Size'][0]==7?'selected':'' ?> value="7">7</option>
+		<option <?php echo $profile['Top Size'][0]==8?'selected':'' ?> value="8">8</option>
+        <option <?php echo $profile['Top Size'][0]==9?'selected':'' ?> value="9">9</option>
+		<option <?php echo $profile['Top Size'][0]==10?'selected':'' ?> value="10">10</option>
+		<option <?php echo $profile['Top Size'][0]==11?'selected':'' ?> value="11">11</option>
+		<option <?php echo $profile['Top Size'][0]==12?'selected':'' ?> value="12">12</option>
 	</select> 
     </div>
     
@@ -151,45 +105,45 @@
     <label class="label_nentry">*bottom size</label>
     <select name="bottom" id="bottom"  class="input-text required-entry input_nentry">
 		<option value="">bottoms</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==2?'selected':'' ?> value="2">2T</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==3?'selected':'' ?> value="3">3T</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==4?'selected':'' ?> value="4">4T</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==5?'selected':'' ?> value="5">5</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==6?'selected':'' ?> value="6">6</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==7?'selected':'' ?> value="7">7</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==8?'selected':'' ?> value="8">8</option>
-        <option <?php echo $firstchilddetails['Bottom Size'][0]==9?'selected':'' ?> value="9">9</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==10?'selected':'' ?> value="10">10</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==11?'selected':'' ?> value="11">11</option>
-		<option <?php echo $firstchilddetails['Bottom Size'][0]==12?'selected':'' ?> value="12">12</option>
+		<option <?php echo $profile['Bottom Size'][0]==2?'selected':'' ?> value="2">2T</option>
+		<option <?php echo $profile['Bottom Size'][0]==3?'selected':'' ?> value="3">3T</option>
+		<option <?php echo $profile['Bottom Size'][0]==4?'selected':'' ?> value="4">4T</option>
+		<option <?php echo $profile['Bottom Size'][0]==5?'selected':'' ?> value="5">5</option>
+		<option <?php echo $profile['Bottom Size'][0]==6?'selected':'' ?> value="6">6</option>
+		<option <?php echo $profile['Bottom Size'][0]==7?'selected':'' ?> value="7">7</option>
+		<option <?php echo $profile['Bottom Size'][0]==8?'selected':'' ?> value="8">8</option>
+        <option <?php echo $profile['Bottom Size'][0]==9?'selected':'' ?> value="9">9</option>
+		<option <?php echo $profile['Bottom Size'][0]==10?'selected':'' ?> value="10">10</option>
+		<option <?php echo $profile['Bottom Size'][0]==11?'selected':'' ?> value="11">11</option>
+		<option <?php echo $profile['Bottom Size'][0]==12?'selected':'' ?> value="12">12</option>
 	</select> 
     </div>
     
     <div class="left_sec_rt">
     <label class="label_nentry">*comments</label>
-   <textarea name="details" id="details" class="input_nentry3"> <?php echo $firstchilddetails['Picky'][0]  ?></textarea>
+   <textarea name="details" id="details" class="input_nentry3"> <?php echo $profile['Picky'][0]  ?></textarea>
     </div>
     
-    
+    <?php if($profile['Gender'][2]=='Girl'){ ?>
     <div class="right_sec_rt">
     <label class="label_nentry">*dress size</label>
     <select name="dress" id="dress"  class="input-text required-entry input_nentry">
 		<option value="">dresses</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==2?'selected':'' ?>  value="2">2T</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==3?'selected':'' ?>  value="3">3T</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==4?'selected':'' ?>  value="4">4T</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==5?'selected':'' ?>  value="5">5</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==6?'selected':'' ?>  value="6">6</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==7?'selected':'' ?>  value="7">7</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==8?'selected':'' ?>  value="8">8</option>
-        <option <?php echo $firstchilddetails['Dress Size'][0]==9?'selected':'' ?> value="9">9</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==10?'selected':'' ?> value="10">10</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==11?'selected':'' ?> value="11">11</option>
-		<option <?php echo $firstchilddetails['Dress Size'][0]==12?'selected':'' ?> value="12">12</option>
+		<option <?php echo $profile['Dress Size'][0]==2?'selected':'' ?>  value="2">2T</option>
+		<option <?php echo $profile['Dress Size'][0]==3?'selected':'' ?>  value="3">3T</option>
+		<option <?php echo $profile['Dress Size'][0]==4?'selected':'' ?>  value="4">4T</option>
+		<option <?php echo $profile['Dress Size'][0]==5?'selected':'' ?>  value="5">5</option>
+		<option <?php echo $profile['Dress Size'][0]==6?'selected':'' ?>  value="6">6</option>
+		<option <?php echo $profile['Dress Size'][0]==7?'selected':'' ?>  value="7">7</option>
+		<option <?php echo $profile['Dress Size'][0]==8?'selected':'' ?>  value="8">8</option>
+        <option <?php echo $profile['Dress Size'][0]==9?'selected':'' ?> value="9">9</option>
+		<option <?php echo $profile['Dress Size'][0]==10?'selected':'' ?> value="10">10</option>
+		<option <?php echo $profile['Dress Size'][0]==11?'selected':'' ?> value="11">11</option>
+		<option <?php echo $profile['Dress Size'][0]==12?'selected':'' ?> value="12">12</option>
 	</select>
    
     </div>
-    
+    <?php } ?>
      <div class="nrow2">
     
     <input type="submit" name="SUBMIT" value="SUBMIT" class="sbmt_btn">
@@ -204,6 +158,14 @@
 }
 .left_sec_rt { 
    /*height: 80px;*/
+}
+.my-child {
+    
+    margin-bottom: 50px;
+}
+.input_nentry {
+    
+    padding: 0px 10px !important;
 }
 </style>
 

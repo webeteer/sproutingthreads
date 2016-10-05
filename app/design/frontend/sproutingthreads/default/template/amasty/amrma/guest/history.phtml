@@ -9,8 +9,10 @@
 <?php $_requests = $this->getRequests(); ?>
 <div class="page-title title-buttons">
     <h1><?php echo $this->__('My Return Requests') ?></h1>
-<?php $_orders = $this->getAvailableOrders(); ?>
-<?php if($_orders) { ?>  
+<?php $_orders = $this->getSelfCheckoutOrders(); ?>
+<?php 
+ 
+if($_orders) { ?>  
     <select id="orders">
         <?php
         $i=0;
@@ -29,7 +31,15 @@
     </button><br/>
     <div><?php echo $this->__("
 Only current order may be returned. Items from older shipments (over 15 days) may be sent in as rethreads.")?></div>
-<?php } ?>
+<?php } else
+{
+	?> 
+    <p class="hello">You have no orders pending for self checkout</p><br clear="all" />
+    <?php echo $this->__("
+Only current order may be returned. Items from older shipments (over 15 days) may be sent in as rethreads.")?>
+    <?php
+}
+ ?>
     
 </div>
 <div class="dashboard">

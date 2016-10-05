@@ -38,97 +38,36 @@ class SproutingThreads_Childpage_IndexController extends Mage_Core_Controller_Fr
 		$writeConnection = $resource->getConnection('core_write');
 		
 		$sales_recurring_profile=$resource->getTableName('sales_recurring_profile');
-		 
-		$order_item_info = $readConnection->fetchOne('SELECT order_item_info FROM ' . $sales_recurring_profile.' WHERE profile_id="'.$profileId.'"');
-		 
-		$order_item_info=unserialize($order_item_info); 
-		 
-		$sales_recurring_profile_order=$resource->getTableName('sales_recurring_profile_order');
 		
-		
-		$orderIdArray = $readConnection->fetchCol('SELECT order_id FROM ' . $sales_recurring_profile_order.' WHERE profile_id="'.$profileId.'"');
-		$orderId=$orderIdArray[0]; 
-		$sales_flat_order_item=$resource->getTableName('sales_flat_order_item');
-		$orderDetailsArray = $readConnection->fetchCol('SELECT product_options FROM ' . $sales_flat_order_item.' WHERE order_id="'.$orderId.'"'); 
-		$options=unserialize($orderDetailsArray[0]);
-	 
-		$info_buyRequest=$options['info_buyRequest']['options'];
-		$info_options=$options['options'];
-		foreach($info_options as $key=>$inf)
-		{
-				if($inf['label']=='Name')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$Name;
-					$options['options'][$key]['value']=$Name;
-					$options['options'][$key]['print_value']=$Name;
-					$options['options'][$key]['option_value']=$Name;
-				}
-				if($inf['label']=='Top Size')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$TopSize;
-					$options['options'][$key]['value']=$TopSize;
-					$options['options'][$key]['print_value']=$TopSize;
-					$options['options'][$key]['option_value']=$TopSize;
-				}	
-				if($inf['label']=='Height')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$Height;
-					$options['options'][$key]['value']=$Height;
-					$options['options'][$key]['print_value']=$Height;
-					$options['options'][$key]['option_value']=$Height;
-				}	
-				if($inf['label']=='Weight')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$Weight;
-					$options['options'][$key]['value']=$Height;
-					$options['options'][$key]['print_value']=$Height;
-					$options['options'][$key]['option_value']=$Height;
-				}	
-				if($inf['label']=='Bottom Size')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$BottomSize;
-					$options['options'][$key]['value']=$BottomSize;
-					$options['options'][$key]['print_value']=$BottomSize;
-					$options['options'][$key]['option_value']=$BottomSize;
-				}	
-				if($inf['label']=='Dress Size')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$DressSize;
-					$options['options'][$key]['value']=$DressSize;
-					$options['options'][$key]['print_value']=$DressSize;
-					$options['options'][$key]['option_value']=$DressSize;
-				}	
-				if($inf['label']=='Picky')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$Details;
-					$options['options'][$key]['value']=$Details;
-					$options['options'][$key]['print_value']=$Details;
-					$options['options'][$key]['option_value']=$Details;
-				}	
-				/*if($inf['label']=='Gender')
-				{ 
-					$options['info_buyRequest']['options'][$inf['option_id']]=$DressSize;
-					$options['options'][$key]['value']=$DressSize;
-					$options['options'][$key]['print_value']=$DressSize;
-					$options['options'][$key]['option_value']=$DressSize;
-				}		*/
-				
-		} 
+		/*$order_item_info = $readConnection->fetchOne('SELECT order_item_info FROM ' . $sales_recurring_profile.' WHERE profile_id="245"');
+		$query = "UPDATE {$sales_recurring_profile} SET order_item_info = '{$order_item_info}' WHERE profile_id = ".(int)$profileId; 
+		$writeConnection->query($query); */
+	
 		 
-		$order_item_info['info_buyRequest']=serialize($options['info_buyRequest']);
-		$order_item_info['options']=serialize($options);
-		$newRecurring=serialize($order_item_info);
-		//$newRecurring=str_replace('?','',$newRecurring); 
-		$newRecurring=addslashes($newRecurring); 
-	 	$newData=serialize($options);
-		//$newData=str_replace('?','',$newData); 
-		$newData=addslashes($newData);
-		$query = "UPDATE {$sales_flat_order_item} SET product_options = '{$newData}' WHERE order_id = "
-            . (int)$orderId; 
-		 $writeConnection->query($query);
-		 $query = "UPDATE {$sales_recurring_profile} SET order_item_info = '{$newRecurring}' WHERE profile_id = "
-            . (int)$profileId; 
-		 $writeConnection->query($query);
+		$order_item_info_db = $readConnection->fetchOne('SELECT order_item_info FROM ' . $sales_recurring_profile.' WHERE profile_id="'.$profileId.'"');
+		
+		$order_item_info=unserialize($order_item_info_db);  
+		$info_buyRequest=unserialize($order_item_info['info_buyRequest']);  
+		$childoptions=$info_buyRequest['options']; 
+		$product=$info_buyRequest['product_id']?$info_buyRequest['product_id']:$info_buyRequest['product'];
+		$options = Mage::getModel('catalog/product')->load($product)->getProductOptionsCollection();
+		foreach ($options as $o) 
+		 { 
+		 	if('Name'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$Name;}
+			if('Top Size'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$TopSize;}
+			if('Height'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$Height;}
+			if('Weight'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$Weight;}
+			if('Bottom Size'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$BottomSize;}
+			if('Dress Size'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$DressSize;}
+			if('Picky'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$Details;}
+			 
+			 
+		 }
+		 $order_item_info['info_buyRequest']=serialize($info_buyRequest);
+		 $updated_order_item_info=serialize($order_item_info);
+	 	 $updated_order_item_info=addslashes($updated_order_item_info);
+		  $query = "UPDATE {$sales_recurring_profile} SET order_item_info = '{$updated_order_item_info}' WHERE profile_id = ".(int)$profileId; 
+		 $writeConnection->query($query); 
 		 Mage::getSingleton('core/session')->addSuccess('Your child profile has been updated');
 		 $this->_redirect('childprofile/?child='.$profileId);
 		}
@@ -156,6 +95,7 @@ class SproutingThreads_Childpage_IndexController extends Mage_Core_Controller_Fr
 				$period_frequency = 3;
 				$period_max_cycles =8;
 				$schedule_description = 'Season Subscription';
+				$product_name='Seasonal 20 Subscription';
 				
 			}
 			else 
@@ -163,6 +103,7 @@ class SproutingThreads_Childpage_IndexController extends Mage_Core_Controller_Fr
 				$period_frequency = 1;
 				$period_max_cycles =24;
 				$schedule_description = 'Monthly 20 Subscription';
+				$product_name='Monthly 20 Subscription';
 				
 			}
 			$query = "UPDATE {$sales_recurring_profile} SET period_frequency = '{$period_frequency}',
@@ -172,99 +113,29 @@ class SproutingThreads_Childpage_IndexController extends Mage_Core_Controller_Fr
             . (int)$profileId; 
 		 	$writeConnection->query($query);
 			
-			$sales_recurring_profile=$resource->getTableName('sales_recurring_profile');
-		 
-		$order_item_info = $readConnection->fetchOne('SELECT order_item_info FROM ' . $sales_recurring_profile.' WHERE profile_id="'.$profileId.'"');
-		 
-		$order_item_info=unserialize($order_item_info); 
-		 
-		$sales_recurring_profile_order=$resource->getTableName('sales_recurring_profile_order');
+			$order_item_info_db = $readConnection->fetchOne('SELECT order_item_info FROM ' . $sales_recurring_profile.' WHERE profile_id="'.$profileId.'"'); 
+			
+		$order_item_info=unserialize($order_item_info_db);  
+		$order_item_info['name']=$product_name;
 		
-		
-		$orderIdArray = $readConnection->fetchCol('SELECT order_id FROM ' . $sales_recurring_profile_order.' WHERE profile_id="'.$profileId.'"');
-		$orderId=$orderIdArray[0]; 
-		$sales_flat_order_item=$resource->getTableName('sales_flat_order_item');
-		$orderDetailsArray = $readConnection->fetchCol('SELECT product_options FROM ' . $sales_flat_order_item.' WHERE order_id="'.$orderId.'"'); 
-		$options=unserialize($orderDetailsArray[0]);
-	 
-		$info_buyRequest=$options['info_buyRequest']['options'];
-		$info_options=$options['options'];
-		foreach($info_options as $key=>$inf)
-		{
-			
-				if($inf['label']=='SubType')
-				{ 
-					 
-		$profiles=Mage::getModel('sales/recurring_profile')->getCollection() 
-			->addFieldToFilter('profile_id',$profileId)
-			->addFieldToSelect('*')
-            ->setOrder('profile_id', 'desc');
-			$prof=$profiles->getData();  
-			 
-					 
-			$info=unserialize($prof[0]['order_item_info']);
-			$child=unserialize($info['info_buyRequest']); 
-			$child1=unserialize($info['options']); 
-			 
-		$opt=$child1['options'];
-		 echo '<pre>';
-			print_r($opt);
-			
-			
-			$product=$child['product']?$child['product']:$child['product_id'];
-					$child=unserialize($info['info_buyRequest']); 
-					$poptions = Mage::getModel('catalog/product')->load($product)->getProductOptionsCollection();
-         foreach ($poptions as $o) 
-             {  
-			  
-				$firstchilddetails[$o->getData('title')][]=$child['options'][$o->getData('option_id')]; 
-				$values = $o->getValues();
-				$mydata='';
-				foreach($values as $v)
-                  {
-                     $mydata[] = $v->getData();
-                                         
-				  }
-				 $firstchilddetails[$o->getData('title')][]=$mydata; 
-               } 
-			   
-			   foreach($firstchilddetails['SubType'][1] as $cats)
-						{
-							 
-	 					if($cats['option_type_id']==$check)
-						{
-							//print_r($cats);
-						 $options['info_buyRequest']['options'][$inf['option_id']]=$check;
-							$options['options'][$key]['value']=$cats['default_title'];
-							$options['options'][$key]['print_value']=$cats['default_title'];
-							$options['options'][$key]['option_value']=$check;
-						}
-						 
-						}
-			   
-					 
-				}
-				 	
-			 
-				
-		} 
+		$info_buyRequest=unserialize($order_item_info['info_buyRequest']);  
+		$childoptions=$info_buyRequest['options']; 
+		$product=$info_buyRequest['product_id']?$info_buyRequest['product_id']:$info_buyRequest['product'];
+		$options = Mage::getModel('catalog/product')->load($product)->getProductOptionsCollection();
 		 
-		$order_item_info['info_buyRequest']=serialize($options['info_buyRequest']);
-		$order_item_info['options']=serialize($options);
-		$newRecurring=serialize($order_item_info);
-		//$newRecurring=str_replace('?','',$newRecurring); 
-		$newRecurring=addslashes($newRecurring); 
-	 	$newData=serialize($options);
-		//$newData=str_replace('?','',$newData); 
-		$newData=addslashes($newData);
-		$query = "UPDATE {$sales_flat_order_item} SET product_options = '{$newData}' WHERE order_id = "
-            . (int)$orderId; 
+		foreach ($options as $o) 
+		 { 
+		 
+		 	if('SubType'==$o['title']) {$info_buyRequest['options'][$o['option_id']]=$check;}
+			   
+		 }
+		 $order_item_info['info_buyRequest']=serialize($info_buyRequest);
+		 $updated_order_item_info=serialize($order_item_info);
+		  $updated_order_item_info=addslashes($updated_order_item_info);
+		 $query = "UPDATE {$sales_recurring_profile} SET order_item_info = '{$updated_order_item_info}' WHERE profile_id = ".(int)$profileId; 
+		 
 		 $writeConnection->query($query);
-		 $query = "UPDATE {$sales_recurring_profile} SET order_item_info = '{$newRecurring}' WHERE profile_id = "
-            . (int)$profileId; 
-		 $writeConnection->query($query);
-		//	 $this->_redirect('sales/recurring_profile/?child='.$profileId);
-			
+		$this->_redirect('sales/recurring_profile/?child='.$profileId);
 			
 		}
 		catch (Exception $e)

@@ -4,6 +4,10 @@
  * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
  * @package Amasty_Rma
  */ 
+ 
+require Mage::getBaseDir('lib').'/authorizenet/autoload.php';
+	use net\authorize\api\contract\v1 as AnetAPI;
+	use net\authorize\api\controller as AnetController; 
 class Amasty_Rma_GuestController extends Mage_Core_Controller_Front_Action
 {
     public function loginAction(){
@@ -203,8 +207,8 @@ class Amasty_Rma_GuestController extends Mage_Core_Controller_Front_Action
 		 
 		$orderId    = (int)$params['order_id']; 
 		$orderdetails=Mage::getModel('sales/order')->load($orderId);
-		$orderdetails=$orderdetails->getData();
-		 
+		$orderdetails=$orderdetails->getData();  
+		 $cards=Mage::helper('tokenbase')->getActiveCustomerCardsByMethod('authnetcim');
 		echo ' 
                 <div class="column twelve cstep3 hidesteps"  id="step3">
 				<form action="'.Mage::getUrl('amrmafront/customer/create/').'" id="submitcheckout">
@@ -289,20 +293,22 @@ class Amasty_Rma_GuestController extends Mage_Core_Controller_Front_Action
                         
                         <div class="column twelve order_price">
                           <ul>
-                           <li>Subtotal</li><li>'.Mage::helper('core')->currency($total).'<input type="hidden" name="linetotal" value="'.$total.'"></li>
-						   
-						   ';
-                        
-						   if($orderdetails['gift_voucher_discount']>0)
+                           <li>Subtotal</li><li>'.Mage::helper('core')->currency($total).'<input type="hidden" name="linetotal" value="'.$total.'"></li> 
+						   '; 
+						   $allgift_voucher_discount=$orderdetails['gift_voucher_discount']+$orderdetails['giftcard_credit_amount'];
+						   if($allgift_voucher_discount>0)
 						   {
-							   $giftcard=$orderdetails['gift_voucher_discount'];
+							   $giftcard=$allgift_voucher_discount;
 							   $total=$total-$giftcard; 
 							   $totalrefund=$giftcard;
 							   echo '<li>Gift Card</li>
 							   <li>-'.Mage::helper('core')->currency($giftcard).'
-							   <input type="hidden" name="giftcard" value="'.$giftcard.'">  
-							   <br><span>('.$orderdetails['gift_codes'].')</span>
-							   </li>';
+							   <input type="hidden" name="giftcard" value="'.$giftcard.'"> 
+							   ' ;
+							   if($orderdetails['gift_codes']){
+							   echo '<br><span>('.$orderdetails['gift_codes'].')</span>';
+							   }
+							   echo '</li>';
 						   }
 						   
 						   if(abs($orderdetails['discount_amount'])>0)
@@ -348,28 +354,264 @@ keeping &gt;$60)</span>
                          <!--  <li>Discount</li><li>-$ ----------</li>
                            <li>ReThread/giftcard</li><li>-$ ----------</li>
                            <li>Rewards</li><li>-$ ----------</li>-->
-                           <li class="last">Total</li><li class="last"> <input type="hidden" name="alltotalcalc" value="'.$refund.'"> <input type="hidden" name="subtotal" value="'.$total.'">   '.Mage::helper('core')->currency($total).'</li>
+                           <li class="last">Total</li><li class="last">
+						    <input type="hidden" name="alltotalcalc" value="'.$refund.'">
+							 <input type="hidden" name="subtotal" value="'.$total.'">   '.Mage::helper('core')->currency($total).'</li>
                           </ul>
+						   
                         </div>
+						';
+						if($total>0){
+                        echo '<div class="column twelve card_form">
+						  
+						  ';
+					
+					?>
+	<?php $requireClass	= ( $this->haveStoredCards() ? $this->getMethodCode() . '_require' : 'required-entry' ); ?>
+	<?php $newClass		= $this->getMethodCode() . '_new'; ?>
+	<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode(); ?>" >
+	 
+	<?php if( $this->haveStoredCards() ): ?>
+		<li>
+			<label for="<?php echo $this->getMethodCode(); ?>_payment_id"><?php echo $this->__('Pay with credit card on file'); ?></label>
+			<div class="input-box">
+				<select name="payment[card_id]" id="<?php echo $this->getMethodCode(); ?>_card_id" class="<?php echo $this->getMethodCode(); ?>_require required-entry">
+					<option value=""><?php echo $this->__('-- Select One --'); ?></option>
+					<?php foreach( $this->getStoredCards() as $card ): ?>
+						<?php $card = $card->getTypeInstance(); ?>
+						<option value="<?php echo $card->getHash(); ?>" <?php if(count( $this->getStoredCards() ) == 1 ): ?>selected="selected"<?php endif; ?>><?php echo $card->getLabel(); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</li> 
+		<li>
+			<div class="input-box">
+				<?php echo $this->__('Or,'); ?> <a href="#" id="<?php echo $this->getMethodCode(); ?>_add_new"><?php echo $this->__('use a different card.'); ?></a>
+			</div>
+		</li>
+	<?php endif; ?>
+	<li <?php if( $this->haveStoredCards() ): ?>style="display:none"<?php endif; ?> class="<?php echo $newClass; ?>">
+    <label for="<?php echo $this->getMethodCode(); ?>_payment_id"><?php echo $this->__('Pay with credit card'); ?></label>
+	  <label for="<?php echo $this->getMethodCode(); ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
+		<div class="input-box">
+			<select id="<?php echo $this->getMethodCode(); ?>_cc_type" name="payment[cc_type]" class="<?php echo $requireClass; ?>">
+				<option value=""><?php echo $this->__('-- Select One --')?></option>
+				<?php foreach( Mage::helper('tokenbase')->getCcAvailableTypes($this->getMethodCode()) as $k => $v ): ?>
+					<option value="<?php echo $k; ?>" ><?php echo $v; ?></option>
+				<?php endforeach ?>
+			</select>
+		</div>
+	</li>
+	<li <?php if( $this->haveStoredCards() ): ?>style="display:none"<?php endif; ?> class="<?php echo $newClass; ?>">
+		<label for="<?php echo $this->getMethodCode(); ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+		<div class="input-box">
+			<input type="text" id="<?php echo $this->getMethodCode(); ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text <?php echo $requireClass; ?> validate-cc-number" autocomplete="off" value="" />
+		</div>
+	</li>
+	<li <?php if( $this->haveStoredCards() ): ?>style="display:none"<?php endif; ?> class="<?php echo $newClass; ?>" id="<?php echo $this->getMethodCode(); ?>_cc_type_exp_div">
+		<label for="<?php echo $this->getMethodCode(); ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+		<div class="input-box">
+			<div class="v-fix">
+				<select id="<?php echo $this->getMethodCode(); ?>_expiration" name="payment[cc_exp_month]" class="month <?php echo $requireClass; ?>">
+					<?php foreach( Mage::helper('tokenbase')->getCcMonths() as $k => $v ): ?>
+						<option value="<?php echo $k?$k:''; ?>"  ><?php echo $v; ?></option>
+					<?php endforeach ?>
+				</select>
+			</div>
+			<div class="v-fix">
+				<select id="<?php echo $this->getMethodCode(); ?>_expiration_yr" name="payment[cc_exp_year]" class="year <?php echo $requireClass; ?>">
+					<?php foreach( Mage::helper('tokenbase')->getCcYears() as $k => $v ): ?>
+						<option value="<?php echo $k?$k:''; ?>"  ><?php echo $v; ?></option>
+					<?php endforeach ?>
+				</select>
+			</div>
+		</div>
+	</li> 
+	 
+		<li <?php if( $this->haveStoredCards() ): ?>style="display:none"<?php endif; ?> class="<?php echo $newClass; ?>" id="<?php echo $this->getMethodCode(); ?>_cc_type_cvv_div">
+			<label for="<?php echo $this->getMethodCode(); ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+			<div class="input-box">
+				<div class="v-fix">
+					<input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv <?php echo $requireClass; ?> <?php if( !$this->haveStoredCards() ): ?>validate-cc-cvn<?php endif; ?>" id="<?php echo $this->getMethodCode(); ?>_cc_cid" name="payment[cc_cid]" autocomplete="off" value="" maxlength="4" />
+				</div> 
+			</div>
+		</li>
+	 
+	 
+		<li <?php if( $this->haveStoredCards() ): ?>style="display:none"<?php endif; ?> class="<?php echo $newClass; ?>">
+			<?php echo $this->__('<strong>Note:</strong> For your convenience, this data will be stored securely by our payment processor.'); ?>
+		</li>
+ 
+</ul>
+<?php if( $this->haveStoredCards() ): ?>
+	<script type="text/javascript">
+	//<![CDATA[
+		$('<?php echo $this->getMethodCode(); ?>_add_new').observe( 'click', function(e) {
+			e.preventDefault();
+			
+			$$('.<?php echo $newClass; ?>').each(function(el) {
+				el.show();
+			});
+			
+			$$('.<?php echo $this->getMethodCode(); ?>_require').each(function(el) {
+				el.toggleClassName('required-entry');
+				if( el.hasClassName('cvv') ) {
+					el.toggleClassName('validate-cc-cvn');
+				}
+			});
+			
+			$('<?php echo $this->getMethodCode(); ?>_card_id').setValue(0);
+			
+			return false;
+		});
+		
+		$('<?php echo $this->getMethodCode(); ?>_card_id').observe( 'change', function(e) {
+			$$('.<?php echo $newClass; ?>').each(function(el) {
+				el.hide();
+			});
+			
+			$$('.<?php echo $newClass; ?> .<?php echo $this->getMethodCode(); ?>_require').each(function(el) {
+				el.removeClassName('required-entry');
+				if( el.hasClassName('cvv') ) {
+					el.removeClassName('validate-cc-cvn');
+				}
+			});
+			
+			$$('#<?php echo $this->getMethodCode(); ?>_saved_cc_cid, #<?php echo $this->getMethodCode(); ?>_card_id').each(function(el) {
+				el.addClassName('required-entry');
+				if( el.hasClassName('cvv') ) {
+					el.addClassName('validate-cc-cvn');
+				}
+			});
+			
+			return false;
+		});
+	//]]>
+	</script>
+<?php endif; ?>
+                 <?php
+					
+					
+				echo '
+						  
+                        </div>';
+						}
                                 	
-                         <div class="row selfcheckout">
+                        echo' <div class="row selfcheckout">
                        		 <div class="column twelve">
                             	<input type="button" value="submit" onClick="submitCheckout()"  name="checkout_submit"><br>
 								<p>Clicking submit will automatically credit or debit the card we have on file. <br>Gift Card Credits will be automatically adjusted & placed into your balance<br> history in myAccount</p>
 								<div id="loader1" class="fl hidesteps"><img src="'.Mage::getDesign()->getSkinUrl('images/ajax-loader.gif').'" width="30"></div>
+								<div style="color:red;"><span id="msg4res"></span></div>
                             </div>
                         </div>       
                     </div>
-				</form>	  
+					
+					</form>	  
                    
 						 
                 </div>';
+		
+				 
 			exit;
 	}
+	public function getCcAvailableTypes( $method )
+	{
+		$config	= Mage::getConfig()->getNode('global/payment/cc/types')->asArray();
+		$avail	= explode( ',', Mage::helper('payment')->getMethodInstance( $method )->getConfigData('cctypes') );
+		
+		$types	= array();
+		foreach( $config as $data ) {
+			if( in_array( $data['code'], $avail ) !== false ) {
+				$types[ $data['code'] ] = $data['name'];
+			}
+		}
+		
+		return $types;
+	}
+	public function getMethodCode()
+	{
+		return 'authnetcim';
+	}
+	public function getStoredCards()
+	{
+		if( is_null( $this->_cards ) ) {
+			/**
+			 * If logged in, fetch the method cards for the current customer.
+			 * If not, short circuit / return empty array.
+			 */
+			$customer = Mage::helper('tokenbase')->getCurrentCustomer();
+			
+			if( Mage::app()->getStore()->isAdmin() || $customer && $customer->getId() > 0 ) {
+				$this->_cards = Mage::helper('tokenbase')->getActiveCustomerCardsByMethod( $this->getMethodCode() );
+			}
+			else {
+				$this->_cards = array();
+			}
+		}
+		
+		return $this->_cards;
+	}
+	
+	/**
+	 * Check whether we have any cards stored.
+	 */
+	public function haveStoredCards()
+	{
+		$cards = $this->getStoredCards();
+		return false;
+		return ( count( $cards ) > 0 ? true : false );
+	}
+	public function getCardsByCustomer( $customerId )
+	{
+		$cards		= Mage::getModel('tokenbase/card')->getCollection()
+						->addFieldToFilter( 'customer_id', (int)$customerId )
+						->addFieldToFilter( 'active', 1 );
+		
+		$results	= array();
+		foreach( $cards as $card ) {
+			$results[] = $this->_prepareCard( $card );
+		}
+		
+		return $results;
+	}
+	protected function _prepareCard( ParadoxLabs_TokenBase_Model_Card $card )
+	{
+		$card		= $card->getTypeInstance();
+		$address	= $card->getAddress();
+		
+		/**
+		 * Basic payment record data
+		 */
+		$result		= array();
+		foreach( $this->_cardMap as $key ) {
+			$result[ $key ]		= $card->getData( $key );
+		}
+		
+		/**
+		 * Address data
+		 */
+		$result['address']		= array();
+		foreach( $this->_addrMap as $key ) {
+			$result['address'][ $key ] = $address[ $key ];
+		}
+		
+		/**
+		 * Additional (common) information
+		 */
+		$result['label']		= $card->getLabel();
+		$result['cc_type']		= $card->getAdditional('cc_type');
+		$result['cc_last4']		= $card->getAdditional('cc_last4');
+		
+		return $result;
+	}
+	
      public function createAction()
     {
-        $orderId    = (int)$this->getRequest()->getParam('order_id'); 
+		 
+		$orderId    = (int)$this->getRequest()->getParam('order_id'); 
 		$params=Mage::app()->getRequest()->getParams();
+		
 		$order = Mage::getModel("sales/order")->load($orderId);
 		$totalg=Mage::app()->getRequest()->getParam('totalg');
 		$returningg=Mage::app()->getRequest()->getParam('returningg');
@@ -377,6 +619,20 @@ keeping &gt;$60)</span>
 		$dis=Mage::app()->getRequest()->getParam('dis');
 		$alltotal=Mage::app()->getRequest()->getParam('subtotal');
 		$totaldiscount=$totalg+$returningg;
+		 // Common setup for API credentials
+      $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+      $merchantAuthentication->setName(Mage::getStoreConfig('payment/authnetcim/login'));
+      $merchantAuthentication->setTransactionKey(Mage::getStoreConfig('payment/authnetcim/trans_key'));
+      $refId = $lastOrderId = $order->getIncrementId(); 
+	 
+      // Create the payment data for a credit card
+      $creditCard = new AnetAPI\CreditCardType();
+      $creditCard->setCardNumber($params['payment']['cc_number']);
+      $creditCard->setExpirationDate(str_pad($params['payment']['cc_exp_month'],2,0,STR_PAD_LEFT).$params['payment']['cc_exp_year']);
+      $creditCard->setCardCode($params['payment']['cc_cid']);
+      $paymentOne = new AnetAPI\PaymentType();
+      $paymentOne->setCreditCard($creditCard); 
+        
 		if($totalg!='')
 		{
 		 $order->addStatusHistoryComment(
@@ -412,11 +668,8 @@ keeping &gt;$60)</span>
 		} 
 		
   try {
-		if(!$order->canInvoice())
-		{
-		echo (('Cannot create an invoice.'));
-		}
-		 $orderItem = $order->getItemsCollection();
+		 
+		$orderItem = $order->getItemsCollection();
 		foreach($orderItem as $itms)
 		{
 			 
@@ -432,14 +685,12 @@ keeping &gt;$60)</span>
 			}
 			
 		}  
-		$invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice($qtys);
 		 
-		if (!$invoice->getTotalQty()) {
-		echo (('Cannot create an invoice without products.'));
-		}
-		{ 
-		
-		
+		 foreach ($order->getInvoiceCollection() as $invoice) {
+                        $invoiceIncId[] = $invoice->getIncrementId();
+                 }
+		if(count($invoiceIncId)==0){
+			
 		$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::NOT_CAPTURE);
 		$invoice->register();
 		$transactionSave = Mage::getModel('core/resource_transaction')
@@ -451,20 +702,80 @@ keeping &gt;$60)</span>
 		$data = array(
 			'qtys' => $qrtys
 		); 
-		
 		}
-		
+		 
 		foreach ($order->getInvoiceCollection() as $invoice) {
                         $invoiceIncId[] = $invoice->getIncrementId();
                  }
+		
 				 
 		$totaltoinvoice=$invoice->getSubtotal()-$totaldiscount;		 
-				 if($totaltoinvoice<=0)
+			if($totaltoinvoice<=0)
 				 {
 					$totaltoinvoice=0; 
 				 }
 		  	 
 		$incrementId = $invoiceIncId[0];
+		
+		if($alltotal>0){		
+	//echo Mage::helper('core')->decrypt('bc7cf09f4e440bf00f10219439684c2dfdc4e6e9');
+		 //create a transaction
+	  $selforder = new AnetAPI\OrderType();
+      $selforder->setDescription("Selfcheckout for order#".$refId);
+      $transactionRequestType = new AnetAPI\TransactionRequestType();
+      $transactionRequestType->setTransactionType( "authCaptureTransaction"); 
+      $transactionRequestType->setAmount($alltotal);
+      $transactionRequestType->setOrder($selforder);
+      $transactionRequestType->setPayment($paymentOne); 
+
+      $request = new AnetAPI\CreateTransactionRequest();
+      $request->setMerchantAuthentication($merchantAuthentication);
+      $request->setRefId( $refId);
+      $request->setTransactionRequest( $transactionRequestType);
+      $controller = new AnetController\CreateTransactionController($request);
+      $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+      $flag=false;
+	  if ($response != null)
+      {
+        $tresponse = $response->getTransactionResponse(); 
+        if (($tresponse != null) && ($tresponse->getResponseCode()== 1) )   
+        {
+			
+			$order->addStatusHistoryComment('Captured amount of $'.$alltotal.'. Transaction ID: "'.$tresponse->getTransId().'".'); 
+			$order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
+			$order->setData('state', Mage_Sales_Model_Order::STATE_COMPLETE);
+			$order->save(); 
+			$flag=true;
+         
+        }
+        else
+        {
+			$flag=false; 
+			
+            echo  "This transaction has been declined\n";
+			exit;
+        }
+        
+      }
+      else
+      {
+		   $flag=false; 
+           echo  "Charge Credit card Null response returned";
+			exit;
+       
+      }
+		}
+		else
+		{
+			$order->addStatusHistoryComment('Balance was $'.$alltotal.'.'); 
+			$order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
+			$order->setData('state', Mage_Sales_Model_Order::STATE_COMPLETE);
+			$order->save(); 
+			$flag=true;
+		}
+       if($flag)
+	   {
+		
 		$invoiveF = Mage::getModel('sales/order_invoice')->loadByIncrementId($incrementId); 
 		$invoiveF->setGrandTotal($alltotal);
         $invoiveF->setBaseGrandTotal($alltotal);
@@ -520,12 +831,12 @@ keeping &gt;$60)</span>
 		
 		
 		
-		$invoiveG = Mage::getModel('sales/order_invoice')->loadByIncrementId($incrementId);
+		/*$invoiveG = Mage::getModel('sales/order_invoice')->loadByIncrementId($incrementId);
 		$invoiveG->capture()->save(); 
 		$transactionSave = Mage::getModel('core/resource_transaction')
             ->addObject($invoiveG)
             ->addObject($invoiveG->getOrder());
-		$transactionSave->save();
+		$transactionSave->save();*/
 		 
 		
 		$order = Mage::getModel('sales/order')->load($orderId); 
@@ -565,33 +876,28 @@ keeping &gt;$60)</span>
                 $request->saveRmaItems();
                 
                 $request->sendNotificaitionRmaCreated($comment);
-                echo 'no';
+               
+				 
                 //$this->_forward('history');
 
             } else {
-				echo 'nopost';
+				//echo 'nopost';
                 //$this->_forward('form');
             }
-	$_order = Mage::getModel("sales/order")->load($orderId);
-	$_order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
-	$_order->setData('state', Mage_Sales_Model_Order::STATE_COMPLETE);
-	$_order->save();
 			
-        } else {
-			echo 'cannot create';
-			//$this->_forward('form');
-            //$error = $hlr->getFailReason($orderId);
-            
-            //Mage::getSingleton('core/session')->addError($error);
-            
-           // $this->_redirect('*/*/history');
-        }
+					echo 'ok';
+        } 
 		
+		else {
+			echo 'Your request cannot be processed at this time,Please contact customer support'; 
+        }
+	   }
+	   
 		
 		}
 		catch (Mage_Core_Exception $e) {
 	 
-	}
+		}
 		
 		
        

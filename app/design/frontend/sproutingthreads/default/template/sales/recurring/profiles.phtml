@@ -26,55 +26,17 @@
 ?>
 <?php 
 $customer = Mage::getSingleton('customer/session')->getCustomer(); 
-	$allprofiles=Mage::getModel('sales/recurring_profile')->getCollection()
-            ->addFieldToFilter('customer_id',  Mage::getSingleton('customer/session')->getId())
-			//->addFieldToFilter('state','active')
-			->addFieldToSelect('*')
-            ->setOrder('profile_id', 'desc');
-			$allprof=$allprofiles->getData(); 
-			
-			if(!empty($_GET['child'])){
-			$profiles=Mage::getModel('sales/recurring_profile')->getCollection()
-            ->addFieldToFilter('customer_id',  Mage::getSingleton('customer/session')->getId())
-			//->addFieldToFilter('state','active')
-			->addFieldToFilter('profile_id',$_GET['child'])
-			->addFieldToSelect('*')
-            ->setOrder('profile_id', 'desc');
-			$prof=$profiles->getData();  
+	
+	
+	$allprofiles=Mage::helper('child')->getChildProfiles(Mage::getSingleton('customer/session')->getId());
+		if(!empty($_GET['child'])){
+			   $profile=Mage::helper('child')->getChildProfile(Mage::getSingleton('customer/session')->getId(),$_GET['child']);  
 			}
 			else
-			{
-				$prof=$allprof;	
+			{  
+				$profile=$allprofiles[0];	
 			}
-			
-			$info=unserialize($prof[0]['order_item_info']);
-			$child=unserialize($info['info_buyRequest']); 
-			$child1=unserialize($info['options']); 
-			$product=$child['product']?$child['product']:$child['product_id'];
-			
-			  $options = Mage::getModel('catalog/product')->load($product)->getProductOptionsCollection();
-			  foreach ($options as $o) 
-			  {  
-				  
-					$firstchilddetails[$o->getData('title')][]=$child['options'][$o->getData('option_id')]; 
-					$values = $o->getValues();
-					$mydata='';
-					foreach($values as $v)
-					  {
-						 $mydata[] = $v->getData();
-											 
-					  }
-					 $firstchilddetails[$o->getData('title')][]=$mydata; 
-				   } 
-			
-			if(isset($_GET['debug']))
-			{
-				echo '<pre>';
-				$info=unserialize($allprof[0]['order_item_info']);
-				$child=unserialize($info['options']);
-				print_r($prof[0]);
-			}
-		  	
+			 
 			
  ?>
  
@@ -90,20 +52,8 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
                         <div class="first_ch"> 
                      <?php 
 					 $i=0;
-					foreach($allprof as $pr){ 
-		$childdetails='';
-		$info=unserialize($pr['order_item_info']);
-		$child=unserialize($info['info_buyRequest']);
-		
-			$unser=(unserialize($info['options'])); 
-			$opt=$unser['options'];
-			foreach($opt as $opf)
-			{
-				if($opf['label']=='Name')
-				{
-					$name=$opf['value'];
-				}
-			}
+					foreach($allprofiles as $pr){ 
+		$name=$pr['Name'][0];
 		 ?>
     <a href="<?php echo $this->getUrl('sales/recurring_profile/') ?>?child=<?php echo $pr['profile_id']; ?>">
     <label for="child1" class="firstlab  <?php echo ((empty($_GET['child'])&&$i==0)||($pr['profile_id']==str_replace('/','',$_GET['child'])))?'active':'' ?>">
@@ -120,14 +70,17 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
                         <div class="column  seven"><p>Your current subscription plan is detailed below in box:
 </p></div>
                         <div class="column five"> 
-                        <?php if($prof[0]['state']=='active'){  ?>
-                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$prof[0]['profile_id'].'/action/suspend/') ?>'; } return false;" class="pause_sub">Suspend Subscription</a>
+                        <?php if($profile['state']=='active'){  ?>
+                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$profile['profile_id'].'/action/suspend/') ?>'; } return false;" class="pause_sub">Suspend Subscription</a>
                         <?php }  ?>
-                       <?php if($prof[0]['state']=='suspended'){ ?>
-                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$prof[0]['profile_id'].'/action/activate/') ?>'; } return false;"  class="pause_sub">Activate Subscription</a>
+                       <?php if($profile['state']=='suspended'){ ?>
+                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$profile['profile_id'].'/action/activate/') ?>'; } return false;"  class="pause_sub">Activate Subscription</a>
                         <?php } ?>
-                         <?php if($prof[0]['state']!='canceled'){ ?>
-                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$prof[0]['profile_id'].'/action/cancel/') ?>'; } return false;"  class="stop_sub">Cancel Subscription</a>
+                         <?php if($profile['state']!='canceled'){ ?>
+                        <a href="#" onClick="if( confirm('Are you sure you want to do this?') ) { window.location.href = '<?php echo $this->getUrl('sales/recurring_profile/updateState/profile/'.$profile['profile_id'].'/action/cancel/') ?>'; } return false;"  class="stop_sub">Cancel Subscription</a>
+                          <?php } ?>
+                          <?php if($profile['state']=='canceled'){ ?>
+                        <a href="#" class="stop_sub">Canceled Subscription</a>
                           <?php } ?>
                         </div>
                         </div>
@@ -148,7 +101,7 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
                         <?php
 						$first=array();
 						$second=array();
-						foreach($firstchilddetails['SubType'][1] as $cats)
+						foreach($profile['SubType'][1] as $cats)
 						{
 							 
 	 
@@ -170,26 +123,13 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
 										{
 											?>
                                              <li><div class="squaredOne">
-                                      <input type="radio" value="<?php echo $f['value'] ?>" id="squaredOne<?php echo $f['value'] ?>" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==$f['value']?'checked':'' ?>>
+                                      <input type="radio" value="<?php echo $f['value'] ?>" id="squaredOne<?php echo $f['value'] ?>" class="nrdcheck" name="check" <?php echo $profile['SubType'][0]==$f['value']?'checked':'' ?>>
                                       <label class="org_bg" for="squaredOne<?php echo $f['value'] ?>"></label>
                                        </div></li>
                                             <?php
 										}
-										?>
-                                        
+										?> 
                                        
-                                        <?php /*?><li><div class="squaredOne">
-                                      <input type="radio" value="109" id="squaredOne2" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==109?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne2"></label>
-                                       </div></li>
-                                        <li><div class="squaredOne">
-                                      <input type="radio" value="110" id="squaredOne3" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==110?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne3"></label>
-                                       </div></li>
-                                        <li class="last"><div class="squaredOne">
-                                      <input type="radio" value="111" id="squaredOne4" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==111?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne4"></label>
-                                       </div></li><?php */?>
                          </ul>
                         </div>
                         <div class="column four sel_sub_bx">
@@ -201,29 +141,14 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
 										{
 											?>
                                              <li><div class="squaredOne">
-                                      <input type="radio" value="<?php echo $s['value'] ?>" id="squaredOne<?php echo $s['value'] ?>" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==$s['value']?'checked':'' ?>>
+                                      <input type="radio" value="<?php echo $s['value'] ?>" id="squaredOne<?php echo $s['value'] ?>" class="nrdcheck" name="check" <?php echo $profile['SubType'][0]==$s['value']?'checked':'' ?>>
                                       <label class="org_bg" for="squaredOne<?php echo $s['value'] ?>"></label>
                                        </div></li>
                                             <?php
 										}
 										?>
                                         
-                                      <?php /*?> <li><div class="squaredOne">
-                                      <input type="radio" value="113" id="squaredOne21" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==113?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne21"></label>
-                                       </div></li>
-                                        <li><div class="squaredOne">
-                                      <input type="radio" value="114" id="squaredOne12" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==114?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne12"></label>
-                                       </div></li>
-                                        <li><div class="squaredOne">
-                                      <input type="radio" value="115" id="squaredOne13" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==115?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne13"></label>
-                                       </div></li>
-                                        <li class="last"><div class="squaredOne">
-                                      <input type="radio" value="116" id="squaredOne24" class="nrdcheck" name="check" <?php echo $firstchilddetails['SubType'][0]==116?'checked':'' ?>>
-                                      <label class="org_bg" for="squaredOne24"></label>
-                                       </div></li><?php */?>
+                                      
                          </ul>
                         </div>        	
                                     
@@ -243,7 +168,7 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
                                         <li>
                                         Monthly
                                         <div class="squaredOne">
-                                      <input type="radio" value="monthly" id="squaredOne31" class="nrdcheck" name="frequency" <?php echo $prof[0]['period_frequency']==1?'checked':'' ?>  >
+                                      <input type="radio" value="monthly" id="squaredOne31" class="nrdcheck" name="frequency" <?php echo $profile['period_frequency']==1?'checked':'' ?>  >
                                       <label class="org_bg" for="squaredOne31"></label>
                                        </div>
                                        
@@ -258,7 +183,7 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
                                       <li>
                                         Seasonal
                                         <div class="squaredOne">
-                                      <input  <?php echo $prof[0]['period_frequency']==3?'checked':'' ?> type="radio" value="seasonal" id="squaredOne32" class="nrdcheck" name="frequency">
+                                      <input  <?php echo $profile['period_frequency']==3?'checked':'' ?> type="radio" value="seasonal" id="squaredOne32" class="nrdcheck" name="frequency">
                                       <label class="org_bg" for="squaredOne32"></label>
                                        </div>
                                        
@@ -273,7 +198,7 @@ $customer = Mage::getSingleton('customer/session')->getCustomer();
                </div>
               
             </div>
-             <input type="hidden" name="profile" value="<?php echo $prof[0]['profile_id'];  ?>" />
+             <input type="hidden" name="profile" value="<?php echo $profile['profile_id'];  ?>" />
  </form>
 
 

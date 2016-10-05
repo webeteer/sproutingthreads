@@ -53,20 +53,11 @@ require($_SERVER['DOCUMENT_ROOT'].'/config-20.php');
 					<li><a href="/faq">faq</a></li>
 					<?php if ($bLoggedIn): ?>
 					<li><a href="/customer/account">myAccount</a></li>
+                    <li><a href="/amrmafront/customer/history/" class="lm-button ls fill">checkout</a></li>
+                    <?php else: ?> 
+							<li><a href="/subscription.html" class="lm-button ls fill">SIGN UP</a></li>
+						  
 					<?php endif; ?>
-					
-					<?php if ($numCart > 0): ?>
-						<!--<li><a href="/checkout/cart" id="cartIcon"></a></li>-->
-						<li><a href="/checkout/cart" class="lm-button ls fill">checkout</a></li>
-					<?php else: ?>
-					
-						<?php if ($this->getIsHomePage()): ?>
-							<li><a href="/subscription.html" class="lm-button ls fill">start now</a></li>
-						<?php else: ?>
-							<li><a href="/subscription.html" class="lm-button ls fill" id="headerNext">Next</a></li>
-						<?php endif; ?>
-					<?php endif; ?>
-					
 					
 					<?php if ($bLoggedIn): ?>
 						<li><a href="/customer/account/logout" class="lm-button-grey ls fill">log out</a></li>

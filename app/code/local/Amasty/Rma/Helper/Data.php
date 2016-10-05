@@ -159,6 +159,8 @@ class Amasty_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         }
         
         $items = Mage::getModel("amrma/item")->getOrderItems($orderId);
+		
+	 
         if ($items->count() == 0) {
             $byOrderItems = false;
         }
